@@ -170,50 +170,146 @@
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
 
+// ─── PAGE DATA ────────────────────────────────────────────────
+const careerPages = {
+  'multiply-labs': {
+    company: 'Multiply Labs',
+    role: 'Advanced Robotics Engineer',
+    dates: '2024 – Present',
+    location: 'San Francisco, CA',
+    tagline: 'Automating the future of cell therapy manufacturing.',
+    heroImage: null, // replace with: 'multiply_labs_hero.jpg'
+    sections: [
+      {
+        heading: 'The Problem We\'re Solving',
+        body: `CAR-T cell therapy is one of the most promising cancer treatments ever developed — a living medicine where a patient's own immune cells are reprogrammed to hunt and destroy tumors. But manufacturing it is painstakingly manual. Every batch requires dozens of precise, sterile handling steps performed by trained technicians in specialized cleanrooms. It's slow, expensive, and prone to variability that can affect patient outcomes.\n\nMultiply Labs is building the robotic infrastructure to automate this process end-to-end — making life-saving therapies faster, cheaper, and more reliably available to the patients who need them.`
+      },
+      {
+        heading: 'My Role: Consumables & Cartridge Design',
+        body: `I focus on the physical interface between the robotic system and the biological process — the consumables and cartridges that make sterile, automated cell manufacturing possible.\n\nDesigning consumables for therapeutic robotics is a uniquely constrained discipline. Every part must be biocompatible, sterilizable, and manufacturable at scale. Fluid paths must be dead-volume-minimized to avoid losing precious patient cells. Connections must be leak-proof under automation forces, yet simple enough for robotic end effectors to handle reliably. Tolerances must be tight enough for process repeatability, but forgiving enough for high-volume injection molding.\n\nI work at the intersection of mechanical design, materials science, and manufacturing engineering to develop cartridges that the robotic arms can load, engage, process through, and dispose of — all without human intervention.`
+      },
+      {
+        heading: 'Design Philosophy',
+        body: `Consumable design for biotech robotics is fundamentally different from industrial tooling. The parts are small, the stakes are high, and the manufacturing volumes range from early clinical (hundreds) to commercial scale (tens of thousands). This means designing for DFM&A from day one — not as an afterthought.\n\nI apply GD&T-driven tolerance stacks to ensure robotic pick-and-place reliability, use Onshape for rapid design iteration with full version control across the team, and prototype aggressively with 3D printing before committing to tooling. Every gram of material, every microliter of dead volume, and every assembly step gets scrutinized.`
+      },
+      {
+        heading: 'Key Partners',
+        body: `Our system integrates with best-in-class partners across the biotech and robotics ecosystem: ThermoFisher for bioprocessing instrumentation, Nvidia Isaac for simulation and robotics AI, AstraZeneca and Legend Biotech for cell therapy manufacturing collaboration. Building hardware that interfaces cleanly with each of these platforms is a core part of what I do.`
+      }
+    ],
+    pressLinks: [
+      { label: 'AstraZeneca Collaboration', href: 'https://www.businesswire.com/news/home/20260127453159/en/Multiply-Labs-Announces-New-Collaboration-to-Automate-Cell-Therapy-Manufacturing-with-Robotics' },
+      { label: 'Nvidia Isaac Partnership', href: 'https://blogs.nvidia.com/blog/multiply-labs-isaac-omniverse/' },
+      { label: 'Team Spotlight', href: 'https://www.linkedin.com/posts/engineeringexcellence-robotics-biomanufacturing-ugcPost-7344144321194901504-s3Ux' },
+    ]
+  },
+  'ocado': {
+    company: 'Ocado Technology',
+    role: 'Mechanical Engineer II',
+    dates: '2022 – 2024',
+    location: 'San Francisco, CA',
+    tagline: 'Building the AI-driven robotic systems powering next-generation e-commerce fulfillment.',
+    heroImage: 'depal.jpg',
+    sections: [
+      {
+        heading: 'The Work',
+        body: `At Ocado Technology I was part of the team developing Ocado's first AI-driven case-handling robotics system — a depalletizing robot designed to autonomously identify, grasp, and place a wide variety of box sizes and weights on a moving conveyor.\n\nI led the design and integration of the camera hardware stack: selecting, benchmarking, and qualifying the depth/RGB sensors that feed the ML perception pipeline. Getting accurate depth data on reflective shrink-wrap and irregular box surfaces is genuinely hard — I developed a systematic KPI testing framework to evaluate sensors across dozens of real-world SKUs, which ultimately enabled the system to exceed 300 units per hour for bulky items.`
+      },
+      {
+        heading: 'Hardware Design',
+        body: `Beyond cameras, I contributed to the mechanical design of the robotic end-effector and arm pedestal — structural components that needed to be stiff enough for positioning accuracy while remaining within payload limits. I managed the hardware build at our San Francisco lab and worked closely with software, QA, and mechatronics teams throughout the product development cycle.\n\nThis experience gave me a complete view of what it takes to take a robotic system from concept through lab build to first deployment — our first installation launched in London in Q4 2024.`
+      }
+    ],
+    pressLinks: []
+  },
+  'neato': {
+    company: 'Neato Robotics',
+    role: 'Jr. Mechanical Engineer',
+    dates: '2020 – 2022',
+    location: 'San Jose, CA',
+    tagline: 'Designing consumer robotics products from concept through injection molded production.',
+    heroImage: 'Nexaro_NR1500.jpg',
+    sections: [
+      {
+        heading: 'Commercial Cleaning Robot',
+        body: `At Neato I was a mechanical design engineer on the company's first commercial (non-consumer) robotic vacuum — a product that ultimately shipped as the Nexaro NR1500 under Vorwerk after Neato dissolved. I designed, prototyped, and tested components including the dustbin, filter assemblies, drivetrains, motor mounts, wire routing, and LiDAR covers across the full DVT/EVT cycle.`
+      },
+      {
+        heading: 'Plastic Part Design & Manufacturing',
+        body: `A major focus of my time at Neato was developing injection-molded plastic components. I used Creo to design parts for manufacturability from the start — working directly with our overseas tooling partners to optimize gate locations, draft angles, and wall thicknesses. I created full GD&T drawing packages, ran tolerance stack analyses, and iterated on prototype tooling to hit functional requirements before production release.\n\nI was the lead designer on Neato's next-generation drivetrain modules and dustbin/filter assemblies — components that shipped in consumer products sold worldwide.`
+      }
+    ],
+    pressLinks: []
+  },
+  'kohler': {
+    company: 'Kohler Company',
+    role: 'Mechanical Engineering Intern',
+    dates: 'Summer 2019',
+    location: 'Kohler, WI',
+    tagline: 'Designing Kohler\'s first back-of-bath spout diverter from concept to prototype.',
+    heroImage: 'Kohler_Bath_Spout.png',
+    sections: [
+      {
+        heading: 'The Project',
+        body: `As a product design engineering intern at Kohler I was tasked with designing an entirely new diverter mechanism for back-of-bath spouts — a first for the company. I benchmarked existing market solutions, identified failure modes and aesthetic limitations, and developed a new design in SolidWorks that addressed all of them.\n\nMy design improved laminar flow aesthetics, reduced leakage through a redesigned o-ring interface, and lowered per-unit manufacturing cost. I prototyped using Kohler's Carbon 3D printing facility and iterated through multiple rounds of functional testing before presenting the final design to the product team.`
+      }
+    ],
+    pressLinks: []
+  }
+};
+
+const aboutCategories = {
+  Hiking:   { photos: ['about_hiking_1.jpg','about_hiking_2.jpg','about_hiking_3.jpg'], desc: 'Exploring trails across California and beyond.' },
+  Skiing:   { photos: ['about_skiing_1.jpg','about_skiing_2.jpg','about_skiing_3.jpg'], desc: 'Chasing powder from Tahoe to the Alps.' },
+  Training: { photos: ['about_training_1.jpg','about_training_2.jpg'], desc: 'Staying sharp physically and mentally.' },
+  Travel:   { photos: ['about_travel_1.jpg','about_travel_2.jpg','about_travel_3.jpg'], desc: 'Finding inspiration everywhere.' },
+  Robotics: { photos: ['about_robotics_1.jpg','about_robotics_2.jpg'], desc: 'The obsession that started it all.' },
+};
+
 // ─── DATA ────────────────────────────────────────────────────
 const portfolioItems = [
     { image:'depal.jpg', title:'Depalletizing Robot', company:'Ocado Technology',
       images:['depal.jpg','depal_2.jpg','depal_3.jpg'],
       shortDescription:'Automated depalletizing robotic system for e-commerce fulfillment',
-      longDescription:"At Ocado Technology, I played a key role in developing Ocado's first AI-driven case-handling robotics system. I led the design and implementation of camera hardware, managed the hardware build at our SF lab, and contributed to designing critical components like the robotic end-effector and arm pedestal. My role involves close collaboration with software, QA, and mechatronics teams, providing a complete understanding of the full product development cycle. Our first deployment is in London in Q4. Now, I am leading the hardware design of our depalletizing robotic system for a traveling tradeshow." },
+      longDescription:"At Ocado Technology, I played a key role in developing Ocado's first AI-driven case-handling robotics system. I led the design and implementation of camera hardware, managed the hardware build at our SF lab, and contributed to designing critical components like the robotic end-effector and arm pedestal. My role involves close collaboration with software, QA, and mechatronics teams. Our first deployment launched in London in Q4 2024." },
     { image:'Camera_PC.png', title:'High-Resolution Camera System', company:'Ocado Technology',
       images:['Camera_PC.png','Camera_PC_2.jpg','Camera_PC_3.jpg','Camera_PC_4.png'],
       shortDescription:'Depth/RGB camera testing for robotic computer vision applications',
-      longDescription:"RGB/Depth cameras are crucial for enabling ML models to segment and measure depth of items. I developed a KPI testing process to evaluate and integrate the best depth/RGB camera available to consumers. After testing and integrating said camera, the improved depth accuracy boosted grasping and pick speed, reaching over 300 UPH for bulky items. This success led to my role as a camera technology consultant for several teams, including Ocado's on-grid robotic pick and emerging technology teams." },
+      longDescription:"RGB/Depth cameras are crucial for enabling ML models to segment and measure depth of items. I developed a KPI testing process to evaluate and integrate the best depth/RGB camera available. Improved depth accuracy boosted grasping and pick speed, reaching over 300 UPH for bulky items. This led to my role as camera technology consultant for several teams including Ocado's on-grid robotic pick and emerging technology teams." },
     { image:'Kindred_Sort_Camera.jpg', title:'Sort Camera Mount', company:'Kindred AI',
       images:['Kindred_Sort_Camera.jpg','Kindred_Sort_Camera_2.jpg','Kindred_Sort_Camera_3.jpg','Kindred_Sort_Camera_4.jpg'],
       shortDescription:'Sheet metal camera mount for Sort robots — sustaining engineering',
-      longDescription:"I designed a robust camera mount for Kindred AI's (now Ocado Technology) Sort robot, engineered to withstand the forces exerted by a robotic arm without compromising the underneath depth camera. Fabricated from durable sheet metal, the mount is securely bolted to the robot's housing, ensuring stability during operation. This camera mount is now integral to the Sort system, which has successfully sorted over 750 million items in active use across retail warehouses." },
+      longDescription:"I designed a robust camera mount for Kindred AI's (now Ocado Technology) Sort robot, engineered to withstand the forces exerted by a robotic arm without compromising the underneath depth camera. Fabricated from durable sheet metal, the mount is securely bolted to the robot's housing. This camera mount is now integral to the Sort system, which has successfully sorted over 750 million items across retail warehouses." },
     { image:'Nexaro_NR1500.jpg', title:'Nexaro NR1500 Cleaning Robot', company:'Neato Robotics',
       images:['Nexaro_NR1500.jpg','Nexaro_2.jpg','Nexaro_3.jpg','Nexaro_4.jpg','Nexaro_7.jpg'],
       shortDescription:"Neato's first autonomous commercial cleaning robot",
-      longDescription:"At Neato, I was a key mechanical design engineer for the design of Neato Robotics' industrial robotic vacuum from concept through the first EVT phase. I designed, prototyped, and tested 3D printed parts for components the robot's dustbin, filter, drivetrains, motors, wire layouts, and LiDAR covers (in red). After Neato dissolved, the project was transferred to Vorwerk and now operates as 'Nexaro'. This was Neato's first commercial robotics project." },
+      longDescription:"At Neato, I was a key mechanical design engineer on the industrial robotic vacuum from concept through the first EVT phase. I designed, prototyped, and tested 3D printed parts for the robot's dustbin, filter, drivetrains, motors, wire layouts, and LiDAR covers. After Neato dissolved, the project was transferred to Vorwerk and now operates as 'Nexaro'." },
     { image:'Mopping_Robot.jpg', title:'Advanced Mopping Robot', company:'Neato Robotics',
       images:['Mopping_Robot.jpg','Mopping_Robot_4.jpg','Mopping_Robot_2.jpg'],
       shortDescription:"Neato's first autonomous mopping robot",
-      longDescription:"At Neato, I redesigned a self-extraction cleaning center to create a more intuitive, accessible system. The original design required manual handling, so my solution introduced a pivoting cover for hands-free filter bag access. This feature, along with a spring-damped mechanism and leak-proof seal, ensured optimal vacuum performance while maintaining robot mapping accuracy. I also integrated a touchscreen interface and accessory storage to boost customer satisfaction." },
+      longDescription:"At Neato, I redesigned a self-extraction cleaning center to create a more intuitive, accessible system. My solution introduced a pivoting cover for hands-free filter bag access, along with a spring-damped mechanism and leak-proof seal. I also integrated a touchscreen interface and accessory storage to boost customer satisfaction." },
     { image:'Neato_Parts.jpg', title:'Custom Injection Molded Parts', company:'Neato Robotics',
       images:['Neato_Parts.jpg','Neato_Filter.jpg','Neato_Drivetrain.jpg'],
       shortDescription:'Custom-designed injection molded parts for Neato robotic vacuums',
-      longDescription:"At Neato, I specialized in plastic part design, developing creative solutions to proven challenges. I used Creo software to design plastic prototypes, 3D printing to ensure proper functionality, and GD&T and Injection molding fundamentals to manufacture the prototype. I collaborated with our overseas manufacturing team to optimize injection molding tool designs, created GD&T drawings, conducted tolerance analyses, and ensured fast, efficient assembly for our robotic applications." },
+      longDescription:"At Neato, I specialized in plastic part design. I used Creo to design prototypes, 3D printing to verify functionality, and GD&T and injection molding fundamentals for manufacturing. I collaborated with our overseas manufacturing team to optimize injection molding tool designs, created GD&T drawings, conducted tolerance analyses, and ensured efficient assembly for robotic applications." },
     { image:'Apple_Design_Challenge.jpg', title:'Apple Design Challenge', company:'Apple',
       images:['Apple_Design_Challenge.jpg','Apple_Design_Challenge_2.jpg','Apple_Design_Challenge_3.jpg'],
       shortDescription:'iPod battery release mechanism for Apple PD design challenge',
-      longDescription:"During my interview with Apple's iPhone Product Design Engineering team, I had the opportunity to showcase my creativity through a project focused on designing a battery release mechanism for the iPod. The challenge was to create a solution that was user-friendly, cost-effective to assemble, durable, safe, and visually appealing. I also developed a Bill of Materials (BOM) and calculated the forces acting on the mechanism." },
+      longDescription:"During my interview with Apple's iPhone Product Design Engineering team, I designed a battery release mechanism for the iPod. The challenge: user-friendly, cost-effective, durable, safe, and visually appealing. I also developed a Bill of Materials (BOM) and calculated the forces acting on the mechanism." },
     { image:'Kohler_Bath_Spout.png', title:'Kohler Bathroom Fixtures', company:'Kohler',
       images:['Kohler_Work.jpg','Kohler_Bath_Spout.png','Kohler_Bath_Spout_2.jpg','Kohler_Pres.jpg','Kohler_Pres_2.jpg'],
       shortDescription:"Innovative bath spout diverter technology for Kohler Co.",
-      longDescription:"As a product design engineering intern at Kohler Company, I designed the company's first back-of-the bath spout diverter technology. I benchmarked existing diverters to gather design ideas, created a 3D model using Solidworks, and iterated through prototypes using Kohler's 3D printing technologies (carbon). My final design improved the functionality of Kohler's bath spout products, marking my first significant contribution in a product design role." },
+      longDescription:"As a product design engineering intern at Kohler, I designed the company's first back-of-the bath spout diverter. I benchmarked existing diverters, created a 3D model in SolidWorks, and iterated through Carbon 3D printing prototypes. My design improved laminar flow aesthetics, reduced leakages with a new o-ring design, and lowered manufacturing costs." },
 ];
 
 const experiences = [
-    { company:'Multiply Labs', title:'Advanced Robotics Engineer', location:'San Francisco, CA', dates:'2024 – Present', isNew:true,
-      description:"Designing consumables & cartridges for next generation therapeutic robotic manufacturing. Part of a world-class robotics team building a bus-sized robotic system for CAR-T cell therapy automation, featuring 4 robotic arms, custom end effectors, and proprietary fluid transfer IP — partnered with ThermoFisher, Nvidia, AstraZeneca, and Legend Biotech." },
-    { company:'Ocado Technology', title:'Mechanical Engineer II', location:'San Francisco, CA', dates:'2022 – 2024',
-      description:"Played a key role in developing Ocado's first AI-driven case-handling robotics system. Led the design and implementation of camera hardware, managed the hardware build at our San Francisco lab, and contributed to designing critical components such as the robotic end-effector and pedestal." },
-    { company:'Neato Robotics', title:'Jr. Mechanical Engineer', location:'San Jose, CA', dates:'2020 – 2022',
-      description:"Led the development of key components for robotic vacuums, including drivetrains and injection-molded parts. Instrumental in designing and producing a vacuum/mop robot, a commercial vacuum robot, and robot accessories." },
-    { company:'Kohler Company', title:'Mechanical Engineering Intern', location:'Kohler, WI', dates:'Summer 2019',
+    { company:'Multiply Labs', title:'Advanced Robotics Engineer', location:'San Francisco, CA', dates:'2024 – Present', isNew:true, pageKey:'multiply-labs',
+      description:"Designing consumables & cartridges for next generation therapeutic robotic manufacturing. Part of a world-class robotics team building an automated system for CAR-T cell therapy, featuring 4 robotic arms, custom end effectors, and proprietary fluid transfer IP — partnered with ThermoFisher, Nvidia, AstraZeneca, and Legend Biotech." },
+    { company:'Ocado Technology', title:'Mechanical Engineer II', location:'San Francisco, CA', dates:'2022 – 2024', pageKey:'ocado',
+      description:"Played a key role in developing Ocado's first AI-driven case-handling robotics system. Led camera hardware design and integration, managed the hardware build at our San Francisco lab, and contributed to critical components including the robotic end-effector and pedestal." },
+    { company:'Neato Robotics', title:'Jr. Mechanical Engineer', location:'San Jose, CA', dates:'2020 – 2022', pageKey:'neato',
+      description:"Led development of key components for robotic vacuums including drivetrains and injection-molded parts. Designed and produced a vacuum/mop robot, a commercial vacuum robot, and robot accessories from concept through production." },
+    { company:'Kohler Company', title:'Mechanical Engineering Intern', location:'Kohler, WI', dates:'Summer 2019', pageKey:'kohler',
       description:"Designed Kohler's first back-of-the-bath spout diverter. Reduced water leakage, improved laminar flow aesthetics, and lowered manufacturing costs through innovative prototyping with Carbon 3D printing." },
 ];
 
@@ -233,7 +329,7 @@ const SectionLabel = ({ children }) => (
     <div style={{fontSize:'0.72rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:10}}>{children}</div>
 );
 
-// ─── MODAL ───────────────────────────────────────────────────
+// ─── PORTFOLIO MODAL ─────────────────────────────────────────
 const Modal = ({ item, onClose }) => {
     const [expanded, setExpanded] = useState(null);
     const handleBg = e => { if (e.target === e.currentTarget) onClose(); };
@@ -268,8 +364,150 @@ const Modal = ({ item, onClose }) => {
     );
 };
 
+// ─── CAREER PAGE ─────────────────────────────────────────────
+const CareerPage = ({ pageKey, onClose }) => {
+    const data = careerPages[pageKey];
+    if (!data) return null;
+    return (
+        <div style={{position:'fixed',inset:0,zIndex:800,background:'var(--cream)',overflowY:'auto'}}>
+            {/* Top bar */}
+            <div style={{position:'sticky',top:0,zIndex:10,background:'rgba(245,240,232,0.95)',backdropFilter:'blur(12px)',borderBottom:'1px solid rgba(0,0,0,0.07)',padding:'0 48px',height:60,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                <button onClick={onClose} style={{display:'flex',alignItems:'center',gap:8,background:'none',border:'none',cursor:'pointer',color:'var(--text-mid)',fontSize:'0.88rem',fontWeight:500,fontFamily:"'DM Sans',sans-serif",padding:0}}>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 3L5 8l5 5"/></svg>
+                    Back
+                </button>
+                <span style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.1rem',color:'var(--navy)'}}>{data.company}</span>
+                <span style={{fontSize:'0.8rem',color:'var(--text-light)',fontWeight:500}}>{data.dates}</span>
+            </div>
+
+            {/* Hero */}
+            <div style={{background:'var(--navy)',padding:'80px 48px 60px',position:'relative',overflow:'hidden'}}>
+                <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse at 60% 40%, rgba(200,169,110,0.1) 0%, transparent 55%)'}}></div>
+                <div style={{maxWidth:860,margin:'0 auto',position:'relative',zIndex:1}}>
+                    <div style={{fontSize:'0.72rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:12}}>{data.company} · {data.location}</div>
+                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2rem,5vw,3.5rem)',color:'white',lineHeight:1.05,marginBottom:20}}>{data.role}</div>
+                    <p style={{fontSize:'1.1rem',color:'rgba(255,255,255,0.55)',fontWeight:300,maxWidth:600}}>{data.tagline}</p>
+                </div>
+            </div>
+
+            {/* Hero image */}
+            {data.heroImage && (
+                <div style={{maxWidth:860,margin:'0 auto',padding:'0 48px'}}>
+                    <img src={data.heroImage} alt={data.company} style={{width:'100%',borderRadius:12,marginTop:40,objectFit:'cover',maxHeight:400,display:'block',boxShadow:'0 12px 48px rgba(0,0,0,0.12)'}} />
+                </div>
+            )}
+
+            {/* Sections */}
+            <div style={{maxWidth:860,margin:'0 auto',padding:'60px 48px'}}>
+                {data.sections.map((sec,i) => (
+                    <div key={i} style={{marginBottom:56}}>
+                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.6rem',color:'var(--navy)',marginBottom:16}}>{sec.heading}</div>
+                        {sec.body.split('\n\n').map((para,j) => (
+                            <p key={j} style={{color:'var(--text-mid)',lineHeight:1.85,fontSize:'0.97rem',marginBottom:16}}>{para}</p>
+                        ))}
+                        {i < data.sections.length - 1 && <div style={{height:1,background:'rgba(0,0,0,0.07)',marginTop:40}}></div>}
+                    </div>
+                ))}
+
+                {data.pressLinks.length > 0 && (
+                    <div style={{marginTop:48,paddingTop:40,borderTop:'1px solid rgba(0,0,0,0.07)'}}>
+                        <div style={{fontSize:'0.72rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:16}}>Press & Links</div>
+                        <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
+                            {data.pressLinks.map(({label,href}) => (
+                                <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+                                    style={{display:'inline-block',background:'var(--navy)',color:'white',padding:'11px 22px',borderRadius:6,fontSize:'0.82rem',fontWeight:500,textDecoration:'none',letterSpacing:'0.04em',transition:'background 0.2s'}}
+                                    onMouseEnter={e=>e.target.style.background='var(--navy-light)'}
+                                    onMouseLeave={e=>e.target.style.background='var(--navy)'}
+                                >{label} ↗</a>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+// ─── ABOUT SECTION ───────────────────────────────────────────
+const AboutSection = () => {
+    const [activeTag, setActiveTag] = useState(null);
+    const tags = Object.keys(aboutCategories);
+    const active = activeTag ? aboutCategories[activeTag] : null;
+    return (
+        <section id="about" style={{padding:'100px 0',background:'var(--cream)'}}>
+            <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px'}}>
+                <div className="two-col" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:80,alignItems:'start'}}>
+                    <FadeUp>
+                        <div>
+                            <SectionLabel>Beyond Engineering</SectionLabel>
+                            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2rem,4vw,2.8rem)',color:'var(--navy)',lineHeight:1.1,marginBottom:24}}>
+                                Life Outside<br/>the Lab
+                            </div>
+                            <p style={{color:'var(--text-mid)',lineHeight:1.85,fontSize:'0.97rem',marginBottom:32}}>
+                                When I'm not designing robotic systems, you'll find me exploring trails, hitting the slopes, or finding new ways to push limits outside the office.
+                            </p>
+                            <div style={{fontSize:'0.78rem',color:'var(--text-light)',marginBottom:12,letterSpacing:'0.06em'}}>Click a category to see photos</div>
+                            <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+                                {tags.map(tag => (
+                                    <button key={tag}
+                                        onClick={() => setActiveTag(activeTag === tag ? null : tag)}
+                                        style={{
+                                            background: activeTag === tag ? 'var(--navy)' : 'var(--warm-gray)',
+                                            color: activeTag === tag ? 'white' : 'var(--navy)',
+                                            padding:'9px 18px', borderRadius:50, fontSize:'0.82rem',
+                                            fontWeight:500, border:'none', cursor:'pointer',
+                                            fontFamily:"'DM Sans',sans-serif",
+                                            transition:'background 0.2s, color 0.2s',
+                                        }}
+                                    >{tag}</button>
+                                ))}
+                            </div>
+
+                            {/* Photo gallery panel */}
+                            {active && (
+                                <div style={{marginTop:28,padding:'20px',background:'var(--warm-gray)',borderRadius:12,animation:'fadeIn 0.3s ease'}}>
+                                    <div style={{fontSize:'0.75rem',color:'var(--text-light)',marginBottom:12,letterSpacing:'0.08em',textTransform:'uppercase'}}>{activeTag}</div>
+                                    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(120px,1fr))',gap:8}}>
+                                        {active.photos.map((photo,i) => (
+                                            <div key={i} style={{aspectRatio:'1',borderRadius:8,background:'#ccc8c0',overflow:'hidden'}}>
+                                                <img src={photo} alt={`${activeTag} ${i+1}`}
+                                                    style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}}
+                                                    onError={e=>{e.target.style.display='none';e.target.parentNode.style.display='flex';e.target.parentNode.style.alignItems='center';e.target.parentNode.style.justifyContent='center';e.target.parentNode.innerHTML='<span style="font-size:0.68rem;color:#999;text-align:center;padding:4px">Add photo</span>';}}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <p style={{color:'var(--text-light)',fontSize:'0.78rem',marginTop:10,fontStyle:'italic'}}>{active.desc}</p>
+                                </div>
+                            )}
+                        </div>
+                    </FadeUp>
+
+                    <FadeUp delay={100}>
+                        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gridTemplateRows:'auto auto',gap:10}}>
+                            <div style={{gridRow:'span 2',height:480,background:'var(--warm-gray)',borderRadius:12,border:'1px dashed rgba(0,0,0,0.12)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',color:'var(--text-light)',fontSize:'0.75rem',letterSpacing:'0.08em',textTransform:'uppercase',gap:8}}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                                Portrait / Lifestyle
+                            </div>
+                            <div style={{height:232,background:'#ddd8d0',borderRadius:12,border:'1px dashed rgba(0,0,0,0.1)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--text-light)',fontSize:'0.72rem',letterSpacing:'0.08em',textTransform:'uppercase'}}>
+                                Activity Photo 1
+                            </div>
+                            <div style={{height:232,background:'#d4cfc6',borderRadius:12,border:'1px dashed rgba(0,0,0,0.1)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--text-light)',fontSize:'0.72rem',letterSpacing:'0.08em',textTransform:'uppercase'}}>
+                                Activity Photo 2
+                            </div>
+                        </div>
+                        <p style={{color:'var(--text-light)',fontSize:'0.72rem',marginTop:10,fontStyle:'italic'}}>
+                            Tip: swap placeholder divs with &lt;img src="your-photo.jpg"/&gt;
+                        </p>
+                    </FadeUp>
+                </div>
+            </div>
+        </section>
+    );
+};
+
 // ─── MULTIPLY LABS SECTION ───────────────────────────────────
-const MultiplyLabsSection = () => (
+const MultiplyLabsSection = ({ onOpenCareer }) => (
     <section id="multiply-labs" style={{background:'var(--navy)',padding:'0 0 100px'}}>
         {/* Separator between hero and this section */}
         <div style={{height:1,background:'linear-gradient(to right, transparent, rgba(200,169,110,0.5), transparent)',marginBottom:80}}></div>
@@ -277,8 +515,11 @@ const MultiplyLabsSection = () => (
             <div className="two-col" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:80,alignItems:'start'}}>
                 <FadeUp>
                     <div>
-                        <div style={{display:'inline-block',background:'rgba(200,169,110,0.15)',color:'var(--accent)',fontSize:'0.72rem',letterSpacing:'0.16em',textTransform:'uppercase',fontWeight:600,padding:'6px 14px',borderRadius:4,border:'1px solid rgba(200,169,110,0.25)',marginBottom:24}}>
-                            Featured · Current Role
+                        <div style={{display:'inline-flex',alignItems:'center',gap:8,marginBottom:24}}>
+                            <div style={{width:8,height:8,borderRadius:'50%',background:'#4ade80',boxShadow:'0 0 8px #4ade80'}}></div>
+                            <div style={{background:'rgba(200,169,110,0.15)',color:'var(--accent)',fontSize:'0.72rem',letterSpacing:'0.16em',textTransform:'uppercase',fontWeight:600,padding:'6px 14px',borderRadius:4,border:'1px solid rgba(200,169,110,0.25)'}}>
+                                Current Role · Multiply Labs
+                            </div>
                         </div>
                         <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(1.9rem,3.5vw,2.8rem)',color:'white',lineHeight:1.1,marginBottom:24}}>
                             Robotic System for<br/>CAR-T Cell Therapy
@@ -306,7 +547,12 @@ const MultiplyLabsSection = () => (
                                 ))}
                             </div>
                         </div>
-                        <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
+                        <div style={{display:'flex',gap:10,flexWrap:'wrap',alignItems:'center'}}>
+                            <button onClick={() => onOpenCareer('multiply-labs')}
+                                style={{display:'inline-flex',alignItems:'center',gap:6,background:'var(--accent)',color:'white',border:'none',padding:'11px 22px',borderRadius:6,fontSize:'0.82rem',fontWeight:500,cursor:'pointer',fontFamily:"'DM Sans',sans-serif",letterSpacing:'0.04em',transition:'background 0.2s'}}
+                                onMouseEnter={e=>e.currentTarget.style.background='var(--accent-dark)'}
+                                onMouseLeave={e=>e.currentTarget.style.background='var(--accent)'}
+                            >Read More ↗</button>
                             {[
                                 ['AstraZeneca Press ↗','https://www.businesswire.com/news/home/20260127453159/en/Multiply-Labs-Announces-New-Collaboration-to-Automate-Cell-Therapy-Manufacturing-with-Robotics'],
                                 ['Nvidia Press ↗','https://blogs.nvidia.com/blog/multiply-labs-isaac-omniverse/'],
@@ -324,7 +570,6 @@ const MultiplyLabsSection = () => (
 
                 <FadeUp delay={140}>
                     <div>
-                        {/* Image placeholders — swap these src values with your actual ML images */}
                         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
                             <div style={{gridColumn:'span 2',height:280,background:'rgba(255,255,255,0.05)',borderRadius:12,border:'1px dashed rgba(255,255,255,0.12)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',color:'rgba(255,255,255,0.25)',fontSize:'0.78rem',letterSpacing:'0.08em',textTransform:'uppercase',gap:8}}>
                                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
@@ -338,10 +583,8 @@ const MultiplyLabsSection = () => (
                             </div>
                         </div>
                         <p style={{color:'rgba(255,255,255,0.25)',fontSize:'0.72rem',marginTop:10,fontStyle:'italic'}}>
-                            Tip: replace placeholders with e.g. multiply_labs_1.jpg, multiply_labs_2.jpg
+                            Tip: replace placeholders with e.g. multiply_labs_1.jpg
                         </p>
-
-                        {/* Humanoid teaser card */}
                         <div style={{marginTop:20,padding:'28px 32px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:12}}>
                             <div style={{color:'var(--accent)',fontSize:'0.7rem',letterSpacing:'0.16em',textTransform:'uppercase',fontWeight:600,marginBottom:8}}>What's Next</div>
                             <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.3rem',color:'white',marginBottom:8}}>Humanoid Loading & Unloading</div>
@@ -356,56 +599,15 @@ const MultiplyLabsSection = () => (
     </section>
 );
 
-// ─── ABOUT SECTION ───────────────────────────────────────────
-const AboutSection = () => (
-    <section id="about" style={{padding:'100px 0',background:'var(--cream)'}}>
-        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px'}}>
-            <div className="two-col" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:80,alignItems:'center'}}>
-                <FadeUp>
-                    <div>
-                        <SectionLabel>Beyond Engineering</SectionLabel>
-                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2rem,4vw,2.8rem)',color:'var(--navy)',lineHeight:1.1,marginBottom:24}}>
-                            Life Outside<br/>the Lab
-                        </div>
-                        <p style={{color:'var(--text-mid)',lineHeight:1.85,fontSize:'0.97rem',marginBottom:32}}>
-                            When I'm not designing robotic systems, you'll find me exploring trails, hitting the slopes, or finding new ways to push limits outside the office.
-                        </p>
-                        <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
-                            {['Hiking','Skiing','Training','Travel','Robotics'].map(tag => (
-                                <span key={tag} style={{background:'var(--warm-gray)',color:'var(--navy)',padding:'8px 18px',borderRadius:50,fontSize:'0.82rem',fontWeight:500}}>
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                </FadeUp>
-
-                <FadeUp delay={100}>
-                    {/* Photo grid — replace placeholder divs with <img src="your-photo.jpg" /> */}
-                    <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gridTemplateRows:'auto auto',gap:10}}>
-                        <div style={{gridRow:'span 2',height:480,background:'var(--warm-gray)',borderRadius:12,border:'1px dashed rgba(0,0,0,0.12)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',color:'var(--text-light)',fontSize:'0.75rem',letterSpacing:'0.08em',textTransform:'uppercase',gap:8}}>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                            Portrait / Lifestyle
-                        </div>
-                        <div style={{height:232,background:'#ddd8d0',borderRadius:12,border:'1px dashed rgba(0,0,0,0.1)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--text-light)',fontSize:'0.72rem',letterSpacing:'0.08em',textTransform:'uppercase'}}>
-                            Activity Photo 1
-                        </div>
-                        <div style={{height:232,background:'#d4cfc6',borderRadius:12,border:'1px dashed rgba(0,0,0,0.1)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--text-light)',fontSize:'0.72rem',letterSpacing:'0.08em',textTransform:'uppercase'}}>
-                            Activity Photo 2
-                        </div>
-                    </div>
-                    <p style={{color:'var(--text-light)',fontSize:'0.72rem',marginTop:10,fontStyle:'italic'}}>
-                        Tip: swap the div placeholders with &lt;img src="your-photo.jpg"/&gt;
-                    </p>
-                </FadeUp>
-            </div>
-        </div>
-    </section>
-);
-
 // ─── MAIN APP ────────────────────────────────────────────────
 const App = () => {
     const [selectedItem, setSelectedItem] = useState(null);
+    const [careerPage, setCareerPage] = useState(null);
+
+    const scrollTo = (id) => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+    };
 
     return (
         <div>
@@ -426,21 +628,21 @@ const App = () => {
                             </span>
                             <div className="dropdown-menu">
                                 <div className="dropdown-menu-inner">
-                                <a href="#multiply-labs" className="dropdown-item featured">✦ Multiply Labs</a>
-                                <a href="#experience" className="dropdown-item">Ocado Technology</a>
-                                <a href="#experience" className="dropdown-item">Neato Robotics</a>
-                                <a href="#experience" className="dropdown-item">Kohler Company</a>
+                                    <button onClick={()=>setCareerPage('multiply-labs')} className="dropdown-item featured" style={{width:'100%',textAlign:'left',background:'rgba(200,169,110,0.06)',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer'}}>✦ Multiply Labs</button>
+                                    <button onClick={()=>setCareerPage('ocado')} className="dropdown-item" style={{width:'100%',textAlign:'left',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer',background:'none'}}>Ocado Technology</button>
+                                    <button onClick={()=>setCareerPage('neato')} className="dropdown-item" style={{width:'100%',textAlign:'left',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer',background:'none'}}>Neato Robotics</button>
+                                    <button onClick={()=>setCareerPage('kohler')} className="dropdown-item" style={{width:'100%',textAlign:'left',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer',background:'none'}}>Kohler Company</button>
                                 </div>
                             </div>
                         </div>
 
-                        <a href="#portfolio" className="nav-link">Portfolio</a>
-                        <a href="#about" className="nav-link">About</a>
-                        <a href="#Resume" className="nav-link">Resume</a>
-                        <a href="#contact" className="nav-link" style={{background:'var(--navy)',color:'white',padding:'8px 20px',borderRadius:6,fontWeight:500,fontSize:'0.85rem',letterSpacing:'0.04em',transition:'background 0.2s'}}
-                            onMouseEnter={e=>e.target.style.background='var(--navy-light)'}
-                            onMouseLeave={e=>e.target.style.background='var(--navy)'}
-                        >Contact</a>
+                        <button onClick={()=>scrollTo('portfolio')} className="nav-link" style={{background:'none',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",padding:'0 0 2px'}}>Portfolio</button>
+                        <button onClick={()=>scrollTo('about')} className="nav-link" style={{background:'none',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",padding:'0 0 2px'}}>About</button>
+                        <button onClick={()=>scrollTo('Resume')} className="nav-link" style={{background:'none',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",padding:'0 0 2px'}}>Resume</button>
+                        <button onClick={()=>scrollTo('contact')} className="nav-link" style={{background:'var(--navy)',color:'white',padding:'8px 20px',borderRadius:6,fontWeight:500,fontSize:'0.85rem',letterSpacing:'0.04em',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",transition:'background 0.2s'}}
+                            onMouseEnter={e=>e.currentTarget.style.background='var(--navy-light)'}
+                            onMouseLeave={e=>e.currentTarget.style.background='var(--navy)'}
+                        >Contact</button>
                     </div>
                 </nav>
             </header>
@@ -449,22 +651,26 @@ const App = () => {
             <section className="hero" style={{paddingTop:62}}>
                 <div className="hero-grid" style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',width:'100%',display:'grid',gridTemplateColumns:'1fr 1fr',gap:60,alignItems:'center'}}>
                     <div>
-                        <div style={{fontSize:'0.72rem',letterSpacing:'0.22em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:18}}>Advanced Robotics Engineer · San Francisco</div>
+                        <div style={{fontSize:'1rem',letterSpacing:'0.12em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:18}}>Advanced Robotics Engineer · San Francisco</div>
                         <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(3.2rem,7vw,5.5rem)',color:'white',lineHeight:1.02,marginBottom:20}}>
                             William<br/>Nuveen
                         </div>
-                        <div style={{fontSize:'1.05rem',color:'rgba(255,255,255,0.5)',fontWeight:300,letterSpacing:'0.02em',marginBottom:0}}>
+                        <div style={{fontSize:'1.05rem',color:'rgba(255,255,255,0.5)',fontWeight:300,letterSpacing:'0.02em'}}>
                             Robotics · Product Design · Automation
                         </div>
                         <div style={{display:'flex',gap:12,marginTop:36,flexWrap:'wrap'}}>
-                            <a href="#portfolio" onClick={e=>{e.preventDefault();document.getElementById('portfolio-section').scrollIntoView({behavior:'smooth'});}} style={{display:'inline-block',background:'var(--accent)',color:'white',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',textDecoration:'none',transition:'background 0.2s,transform 0.15s'}}
+                            <button
+                                onClick={() => scrollTo('portfolio')}
+                                style={{display:'inline-block',background:'var(--accent)',color:'white',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",transition:'background 0.2s,transform 0.15s'}}
                                 onMouseEnter={e=>{e.currentTarget.style.background='var(--accent-dark)';e.currentTarget.style.transform='translateY(-1px)';}}
                                 onMouseLeave={e=>{e.currentTarget.style.background='var(--accent)';e.currentTarget.style.transform='translateY(0)';}}
-                            >View Portfolio</a>
-                            <a href="#multiply-labs" style={{display:'inline-block',background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.8)',border:'1px solid rgba(255,255,255,0.15)',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',textDecoration:'none',transition:'background 0.2s'}}
-                                onMouseEnter={e=>e.target.style.background='rgba(255,255,255,0.14)'}
-                                onMouseLeave={e=>e.target.style.background='rgba(255,255,255,0.08)'}
-                            >Current Work ↓</a>
+                            >View Portfolio</button>
+                            <button
+                                onClick={() => scrollTo('multiply-labs')}
+                                style={{display:'inline-block',background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.8)',border:'1px solid rgba(255,255,255,0.15)',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",transition:'background 0.2s'}}
+                                onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.14)'}
+                                onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,0.08)'}
+                            >Current Work ↓</button>
                         </div>
                     </div>
                     <div className="hero-photo-wrap" style={{display:'flex',justifyContent:'flex-end'}}>
@@ -475,11 +681,11 @@ const App = () => {
             </section>
 
             {/* ─── MULTIPLY LABS ─── */}
-            <MultiplyLabsSection />
+            <MultiplyLabsSection onOpenCareer={setCareerPage} />
 
             {/* ─── PORTFOLIO ─── */}
             <section id="portfolio" style={{padding:'100px 0',background:'var(--cream)'}}>
-                <div id="portfolio-section" style={{maxWidth:1200,margin:'0 auto',padding:'0 48px'}}>
+                <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px'}}>
                     <FadeUp>
                         <div style={{marginBottom:52}}>
                             <SectionLabel>Design Portfolio</SectionLabel>
@@ -521,13 +727,20 @@ const App = () => {
                             <FadeUp key={i} delay={i*70}>
                                 <div className="timeline-item">
                                     <div className="timeline-dot" style={job.isNew?{background:'var(--accent)',borderColor:'var(--accent)'}:{}}></div>
-                                    <div style={{fontSize:'0.72rem',letterSpacing:'0.14em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:4}}>{job.company}</div>
-                                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.5rem',color:'var(--navy)',marginBottom:6}}>{job.title}</div>
-                                    <div style={{fontSize:'0.8rem',color:'var(--text-light)',marginBottom:12}}>{job.location} · {job.dates}</div>
-                                    <div style={{fontSize:'0.94rem',color:'var(--text-mid)',lineHeight:1.75,maxWidth:560}}>{job.description}</div>
-                                    {job.isNew && (
-                                        <span style={{display:'inline-block',marginTop:10,background:'rgba(200,169,110,0.12)',color:'var(--accent-dark)',border:'1px solid rgba(200,169,110,0.3)',padding:'3px 10px',borderRadius:4,fontSize:'0.7rem',letterSpacing:'0.1em',textTransform:'uppercase',fontWeight:600}}>Current</span>
-                                    )}
+                                    <div style={{fontSize:'0.78rem',letterSpacing:'0.14em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:6}}>{job.company}</div>
+                                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.8rem',color:'var(--navy)',marginBottom:8,lineHeight:1.15}}>{job.title}</div>
+                                    <div style={{fontSize:'0.82rem',color:'var(--text-light)',marginBottom:14}}>{job.location} · {job.dates}</div>
+                                    <div style={{fontSize:'0.94rem',color:'var(--text-mid)',lineHeight:1.8,maxWidth:560}}>{job.description}</div>
+                                    <div style={{marginTop:14,display:'flex',gap:8,flexWrap:'wrap',alignItems:'center'}}>
+                                        {job.isNew && (
+                                            <span style={{display:'inline-block',background:'rgba(200,169,110,0.12)',color:'var(--accent-dark)',border:'1px solid rgba(200,169,110,0.3)',padding:'3px 10px',borderRadius:4,fontSize:'0.7rem',letterSpacing:'0.1em',textTransform:'uppercase',fontWeight:600}}>Current</span>
+                                        )}
+                                        <button onClick={()=>setCareerPage(job.pageKey)}
+                                            style={{background:'none',border:'1px solid rgba(0,0,0,0.15)',borderRadius:4,padding:'3px 12px',fontSize:'0.75rem',color:'var(--text-mid)',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",fontWeight:500,letterSpacing:'0.04em',transition:'all 0.15s'}}
+                                            onMouseEnter={e=>{e.currentTarget.style.background='var(--navy)';e.currentTarget.style.color='white';e.currentTarget.style.borderColor='var(--navy)';}}
+                                            onMouseLeave={e=>{e.currentTarget.style.background='none';e.currentTarget.style.color='var(--text-mid)';e.currentTarget.style.borderColor='rgba(0,0,0,0.15)';}}
+                                        >Read More ↗</button>
+                                    </div>
                                 </div>
                             </FadeUp>
                         ))}
@@ -543,8 +756,7 @@ const App = () => {
                         <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(1.8rem,3.5vw,2.5rem)',color:'white',marginBottom:44}}>Key Skills</div>
                         <div style={{display:'flex',flexWrap:'wrap',gap:10,justifyContent:'center'}}>
                             {['Product Design & Development','Mass Manufacturing','Automation & Robotics','Electromechanical Systems','GD&T & Tolerancing','DFM&A','SolidWorks / Onshape','System Integration'].map(s => (
-                                <div key={s} className="skill-pill"
-                                    style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.07)',border:'1px solid rgba(255,255,255,0.11)',borderRadius:50,padding:'10px 22px',fontSize:'0.875rem',fontWeight:500,color:'rgba(255,255,255,0.78)'}}>
+                                <div key={s} style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.07)',border:'1px solid rgba(255,255,255,0.11)',borderRadius:50,padding:'10px 22px',fontSize:'0.875rem',fontWeight:500,color:'rgba(255,255,255,0.78)'}}>
                                     <div style={{width:6,height:6,borderRadius:'50%',background:'var(--accent)',flexShrink:0}}></div>
                                     {s}
                                 </div>
@@ -567,9 +779,9 @@ const App = () => {
                     <FadeUp delay={100}>
                         <div>
                             <SectionLabel>Resume</SectionLabel>
-                            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(1.8rem,3.5vw,2.5rem)',color:'var(--navy)',lineHeight:1.1,marginBottom:20}}>Achievements on Paper</div>
+                            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2.5rem,5vw,3.8rem)',color:'var(--navy)',lineHeight:1.05,marginBottom:20}}>Résumé</div>
                             <p style={{color:'var(--text-mid)',lineHeight:1.8,fontSize:'0.97rem',marginBottom:32}}>
-                                As a mechanical design engineer, I specialize in AI-driven robotics, electro-mechanical design, and cost-efficient manufacturing. With a passion for innovation, I create cutting-edge solutions that turn concepts into reality.
+                                As an advanced robotics engineer, I specialize in consumable design for therapeutic robotics, AI-driven robotic systems, and cost-efficient mass manufacturing. With a passion for innovation, I create solutions that turn concepts into deployable, scalable hardware.
                             </p>
                             <a href="William Nuveen's Resume (Oct. 24).pdf" target="_blank" rel="noopener noreferrer"
                                 style={{display:'inline-block',background:'var(--accent)',color:'white',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',textDecoration:'none',transition:'background 0.2s'}}
@@ -616,6 +828,7 @@ const App = () => {
             </footer>
 
             {selectedItem && <Modal item={selectedItem} onClose={() => setSelectedItem(null)} />}
+            {careerPage && <CareerPage pageKey={careerPage} onClose={() => setCareerPage(null)} />}
         </div>
     );
 };
