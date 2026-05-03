@@ -121,7 +121,7 @@
         .portfolio-card:hover .card-sub { opacity: 1; transform: translateY(0); }
 
         /* TIMELINE */
-        .timeline-item { position: relative; padding-left: 36px; padding-bottom: 72px; }
+        .timeline-item { position: relative; padding-left: 44px; padding-bottom: 88px; }
         .timeline-item:last-child { padding-bottom: 0; }
         .timeline-item::before {
             content: ''; position: absolute; left: 7px; top: 14px;
@@ -130,8 +130,8 @@
         }
         .timeline-item:last-child::before { display: none; }
         .timeline-dot {
-            position: absolute; left: 0; top: 8px; width: 16px; height: 16px;
-            border-radius: 50%; border: 2px solid var(--accent); background: var(--cream); transition: background 0.2s;
+            position: absolute; left: 0; top: 10px; width: 16px; height: 16px;
+            border-radius: 50%; border: 2px solid var(--accent); background: var(--warm-gray); transition: background 0.2s;
         }
 
         /* SKILLS */
@@ -368,40 +368,58 @@ const Modal = ({ item, onClose }) => {
 const CareerPage = ({ pageKey, onClose }) => {
     const data = careerPages[pageKey];
     if (!data) return null;
+
+    // Photo slots per company — swap src values with your actual images
+    const photoSlots = {
+        'multiply-labs': ['multiply_labs_1.jpg','multiply_labs_2.jpg','multiply_labs_3.jpg'],
+        'ocado':         ['depal.jpg','Camera_PC.png','depal_2.jpg'],
+        'neato':         ['Nexaro_NR1500.jpg','Mopping_Robot.jpg','Neato_Parts.jpg'],
+        'kohler':        ['Kohler_Work.jpg','Kohler_Bath_Spout.png','Kohler_Pres.jpg'],
+    };
+    const photos = photoSlots[pageKey] || [];
+
     return (
         <div style={{position:'fixed',inset:0,zIndex:800,background:'var(--cream)',overflowY:'auto'}}>
             {/* Top bar */}
             <div style={{position:'sticky',top:0,zIndex:10,background:'rgba(245,240,232,0.95)',backdropFilter:'blur(12px)',borderBottom:'1px solid rgba(0,0,0,0.07)',padding:'0 48px',height:60,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                <button onClick={onClose} style={{display:'flex',alignItems:'center',gap:8,background:'none',border:'none',cursor:'pointer',color:'var(--text-mid)',fontSize:'0.88rem',fontWeight:500,fontFamily:"'DM Sans',sans-serif",padding:0}}>
+                <button onClick={onClose} style={{display:'flex',alignItems:'center',gap:8,background:'none',border:'none',cursor:'pointer',color:'var(--text-mid)',fontSize:'0.9rem',fontWeight:500,fontFamily:"'DM Sans',sans-serif",padding:0}}>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 3L5 8l5 5"/></svg>
                     Back
                 </button>
-                <span style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.1rem',color:'var(--navy)'}}>{data.company}</span>
-                <span style={{fontSize:'0.8rem',color:'var(--text-light)',fontWeight:500}}>{data.dates}</span>
+                <span style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.3rem',color:'var(--navy)'}}>{data.company}</span>
+                <span style={{fontSize:'0.9rem',color:'var(--text-light)',fontWeight:500}}>{data.dates}</span>
             </div>
 
             {/* Hero */}
             <div style={{background:'var(--navy)',padding:'80px 48px 60px',position:'relative',overflow:'hidden'}}>
                 <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse at 60% 40%, rgba(200,169,110,0.1) 0%, transparent 55%)'}}></div>
                 <div style={{maxWidth:860,margin:'0 auto',position:'relative',zIndex:1}}>
-                    <div style={{fontSize:'0.72rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:12}}>{data.company} · {data.location}</div>
+                    <div style={{fontSize:'1rem',letterSpacing:'0.16em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:8}}>{data.company}</div>
+                    <div style={{fontSize:'0.85rem',color:'rgba(255,255,255,0.4)',marginBottom:16,letterSpacing:'0.04em'}}>{data.location} · {data.dates}</div>
                     <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2rem,5vw,3.5rem)',color:'white',lineHeight:1.05,marginBottom:20}}>{data.role}</div>
                     <p style={{fontSize:'1.1rem',color:'rgba(255,255,255,0.55)',fontWeight:300,maxWidth:600}}>{data.tagline}</p>
                 </div>
             </div>
 
-            {/* Hero image */}
-            {data.heroImage && (
-                <div style={{maxWidth:860,margin:'0 auto',padding:'0 48px'}}>
-                    <img src={data.heroImage} alt={data.company} style={{width:'100%',borderRadius:12,marginTop:40,objectFit:'cover',maxHeight:400,display:'block',boxShadow:'0 12px 48px rgba(0,0,0,0.12)'}} />
+            {/* 3-photo grid */}
+            <div style={{maxWidth:860,margin:'0 auto',padding:'40px 48px 0'}}>
+                <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12}}>
+                    {photos.map((src,i) => (
+                        <div key={i} style={{borderRadius:10,overflow:'hidden',aspectRatio:'4/3',background:'var(--warm-gray)'}}>
+                            <img src={src} alt={`${data.company} ${i+1}`}
+                                style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}}
+                                onError={e=>{e.target.style.display='none';e.target.parentNode.style.display='flex';e.target.parentNode.style.alignItems='center';e.target.parentNode.style.justifyContent='center';e.target.parentNode.innerHTML=`<span style="font-size:0.75rem;color:#aaa;text-align:center;padding:12px">Add photo<br/><span style="font-size:0.65rem;opacity:0.6">${src}</span></span>`;}}
+                            />
+                        </div>
+                    ))}
                 </div>
-            )}
+            </div>
 
             {/* Sections */}
-            <div style={{maxWidth:860,margin:'0 auto',padding:'60px 48px'}}>
+            <div style={{maxWidth:860,margin:'0 auto',padding:'48px 48px 80px'}}>
                 {data.sections.map((sec,i) => (
                     <div key={i} style={{marginBottom:56}}>
-                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.6rem',color:'var(--navy)',marginBottom:16}}>{sec.heading}</div>
+                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.7rem',color:'var(--navy)',marginBottom:16}}>{sec.heading}</div>
                         {sec.body.split('\n\n').map((para,j) => (
                             <p key={j} style={{color:'var(--text-mid)',lineHeight:1.85,fontSize:'0.97rem',marginBottom:16}}>{para}</p>
                         ))}
@@ -411,7 +429,7 @@ const CareerPage = ({ pageKey, onClose }) => {
 
                 {data.pressLinks.length > 0 && (
                     <div style={{marginTop:48,paddingTop:40,borderTop:'1px solid rgba(0,0,0,0.07)'}}>
-                        <div style={{fontSize:'0.72rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:16}}>Press & Links</div>
+                        <div style={{fontSize:'0.78rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:16}}>Press & Links</div>
                         <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
                             {data.pressLinks.map(({label,href}) => (
                                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
@@ -548,11 +566,11 @@ const MultiplyLabsSection = ({ onOpenCareer }) => (
                             </div>
                         </div>
                         <div style={{display:'flex',gap:10,flexWrap:'wrap',alignItems:'center'}}>
-                            <button onClick={() => onOpenCareer('multiply-labs')}
-                                style={{display:'inline-flex',alignItems:'center',gap:6,background:'var(--accent)',color:'white',border:'none',padding:'11px 22px',borderRadius:6,fontSize:'0.82rem',fontWeight:500,cursor:'pointer',fontFamily:"'DM Sans',sans-serif",letterSpacing:'0.04em',transition:'background 0.2s'}}
-                                onMouseEnter={e=>e.currentTarget.style.background='var(--accent-dark)'}
-                                onMouseLeave={e=>e.currentTarget.style.background='var(--accent)'}
-                            >Read More ↗</button>
+                            <a href="https://www.multiplylabs.com/" target="_blank" rel="noopener noreferrer"
+                                style={{display:'inline-flex',alignItems:'center',gap:6,background:'var(--accent)',color:'white',padding:'11px 22px',borderRadius:6,fontSize:'0.82rem',fontWeight:500,textDecoration:'none',fontFamily:"'DM Sans',sans-serif",letterSpacing:'0.04em',transition:'background 0.2s'}}
+                                onMouseEnter={e=>e.target.style.background='var(--accent-dark)'}
+                                onMouseLeave={e=>e.target.style.background='var(--accent)'}
+                            >Read More ↗</a>
                             {[
                                 ['AstraZeneca Press ↗','https://www.businesswire.com/news/home/20260127453159/en/Multiply-Labs-Announces-New-Collaboration-to-Automate-Cell-Therapy-Manufacturing-with-Robotics'],
                                 ['Nvidia Press ↗','https://blogs.nvidia.com/blog/multiply-labs-isaac-omniverse/'],
@@ -585,13 +603,6 @@ const MultiplyLabsSection = ({ onOpenCareer }) => (
                         <p style={{color:'rgba(255,255,255,0.25)',fontSize:'0.72rem',marginTop:10,fontStyle:'italic'}}>
                             Tip: replace placeholders with e.g. multiply_labs_1.jpg
                         </p>
-                        <div style={{marginTop:20,padding:'28px 32px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:12}}>
-                            <div style={{color:'var(--accent)',fontSize:'0.7rem',letterSpacing:'0.16em',textTransform:'uppercase',fontWeight:600,marginBottom:8}}>What's Next</div>
-                            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.3rem',color:'white',marginBottom:8}}>Humanoid Loading & Unloading</div>
-                            <p style={{color:'rgba(255,255,255,0.45)',fontSize:'0.85rem',lineHeight:1.6,margin:0}}>
-                                Exploring humanoid robotics and Gen AI for consumable handling — making the sterile robotic cell fully autonomous end-to-end.
-                            </p>
-                        </div>
                     </div>
                 </FadeUp>
             </div>
@@ -660,13 +671,13 @@ const App = () => {
                         </div>
                         <div style={{display:'flex',gap:12,marginTop:36,flexWrap:'wrap'}}>
                             <button
-                                onClick={() => scrollTo('portfolio')}
+                                onClick={() => { const el = document.getElementById('portfolio'); if(el) el.scrollIntoView({behavior:'smooth'}); }}
                                 style={{display:'inline-block',background:'var(--accent)',color:'white',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",transition:'background 0.2s,transform 0.15s'}}
                                 onMouseEnter={e=>{e.currentTarget.style.background='var(--accent-dark)';e.currentTarget.style.transform='translateY(-1px)';}}
                                 onMouseLeave={e=>{e.currentTarget.style.background='var(--accent)';e.currentTarget.style.transform='translateY(0)';}}
                             >View Portfolio</button>
                             <button
-                                onClick={() => scrollTo('multiply-labs')}
+                                onClick={() => { const el = document.getElementById('multiply-labs'); if(el) el.scrollIntoView({behavior:'smooth'}); }}
                                 style={{display:'inline-block',background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.8)',border:'1px solid rgba(255,255,255,0.15)',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",transition:'background 0.2s'}}
                                 onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.14)'}
                                 onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,0.08)'}
@@ -689,7 +700,7 @@ const App = () => {
                     <FadeUp>
                         <div style={{marginBottom:52}}>
                             <SectionLabel>Design Portfolio</SectionLabel>
-                            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2rem,4vw,2.8rem)',color:'var(--navy)',lineHeight:1.1}}>Mechanical Design Projects</div>
+                            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2.5rem,5vw,3.8rem)',color:'var(--navy)',lineHeight:1.1}}>Mechanical Design Projects</div>
                             <p style={{color:'var(--text-light)',marginTop:12,fontSize:'0.85rem'}}>Click any project to learn more</p>
                         </div>
                     </FadeUp>
@@ -727,11 +738,11 @@ const App = () => {
                             <FadeUp key={i} delay={i*70}>
                                 <div className="timeline-item">
                                     <div className="timeline-dot" style={job.isNew?{background:'var(--accent)',borderColor:'var(--accent)'}:{}}></div>
-                                    <div style={{fontSize:'0.78rem',letterSpacing:'0.14em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:6}}>{job.company}</div>
-                                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.8rem',color:'var(--navy)',marginBottom:8,lineHeight:1.15}}>{job.title}</div>
-                                    <div style={{fontSize:'0.82rem',color:'var(--text-light)',marginBottom:14}}>{job.location} · {job.dates}</div>
+                                    <div style={{fontSize:'0.9rem',letterSpacing:'0.14em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:8}}>{job.company}</div>
+                                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'2.1rem',color:'var(--navy)',marginBottom:10,lineHeight:1.15}}>{job.title}</div>
+                                    <div style={{fontSize:'0.95rem',color:'var(--text-light)',marginBottom:16}}>{job.location} · {job.dates}</div>
                                     <div style={{fontSize:'0.94rem',color:'var(--text-mid)',lineHeight:1.8,maxWidth:560}}>{job.description}</div>
-                                    <div style={{marginTop:14,display:'flex',gap:8,flexWrap:'wrap',alignItems:'center'}}>
+                                    <div style={{marginTop:20,display:'flex',gap:8,flexWrap:'wrap',alignItems:'center'}}>
                                         {job.isNew && (
                                             <span style={{display:'inline-block',background:'rgba(200,169,110,0.12)',color:'var(--accent-dark)',border:'1px solid rgba(200,169,110,0.3)',padding:'3px 10px',borderRadius:4,fontSize:'0.7rem',letterSpacing:'0.1em',textTransform:'uppercase',fontWeight:600}}>Current</span>
                                         )}
@@ -756,8 +767,8 @@ const App = () => {
                         <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(1.8rem,3.5vw,2.5rem)',color:'white',marginBottom:44}}>Key Skills</div>
                         <div style={{display:'flex',flexWrap:'wrap',gap:10,justifyContent:'center'}}>
                             {['Product Design & Development','Mass Manufacturing','Automation & Robotics','Electromechanical Systems','GD&T & Tolerancing','DFM&A','SolidWorks / Onshape','System Integration'].map(s => (
-                                <div key={s} style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.07)',border:'1px solid rgba(255,255,255,0.11)',borderRadius:50,padding:'10px 22px',fontSize:'0.875rem',fontWeight:500,color:'rgba(255,255,255,0.78)'}}>
-                                    <div style={{width:6,height:6,borderRadius:'50%',background:'var(--accent)',flexShrink:0}}></div>
+                                <div key={s} style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.07)',border:'1px solid rgba(255,255,255,0.11)',borderRadius:50,padding:'12px 26px',fontSize:'1.05rem',fontWeight:500,color:'rgba(255,255,255,0.85)'}}>
+                                    <div style={{width:7,height:7,borderRadius:'50%',background:'var(--accent)',flexShrink:0}}></div>
                                     {s}
                                 </div>
                             ))}
@@ -778,7 +789,6 @@ const App = () => {
                     </FadeUp>
                     <FadeUp delay={100}>
                         <div>
-                            <SectionLabel>Resume</SectionLabel>
                             <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2.5rem,5vw,3.8rem)',color:'var(--navy)',lineHeight:1.05,marginBottom:20}}>Résumé</div>
                             <p style={{color:'var(--text-mid)',lineHeight:1.8,fontSize:'0.97rem',marginBottom:32}}>
                                 As an advanced robotics engineer, I specialize in consumable design for therapeutic robotics, AI-driven robotic systems, and cost-efficient mass manufacturing. With a passion for innovation, I create solutions that turn concepts into deployable, scalable hardware.
