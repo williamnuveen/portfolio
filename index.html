@@ -8,387 +8,602 @@
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
     <style>
-        html {
-            scroll-behavior: smooth;
+        :root {
+            --navy: #1a2332;
+            --navy-light: #243044;
+            --cream: #f5f0e8;
+            --warm-gray: #e8e3db;
+            --accent: #c8a96e;
+            --accent-dark: #a8893e;
+            --text-dark: #1a1a1a;
+            --text-mid: #4a4a4a;
+            --text-light: #8a8a8a;
         }
-        .group:hover .group-hover\:opacity-100 {
-            opacity: 1;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); }
+
+        /* NAV */
+        .nav-link {
+            font-size: 0.9rem; font-weight: 500; letter-spacing: 0.03em;
+            color: var(--text-mid); text-decoration: none; transition: color 0.2s;
+            position: relative; padding-bottom: 2px;
         }
-        .some-class {
-            max-height: 90vh;
+        .nav-link:hover { color: var(--navy); }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -2px; left: 0;
+            width: 0; height: 1px; background: var(--accent); transition: width 0.3s;
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        /* DROPDOWN */
+        .dropdown { position: relative; }
+        .dropdown-trigger {
+            display: flex; align-items: center; gap: 5px;
+            cursor: default; font-size: 0.9rem; font-weight: 500;
+            color: var(--text-mid); letter-spacing: 0.03em; position: relative; padding-bottom: 2px;
+        }
+        .dropdown-trigger::after {
+            content: ''; position: absolute; bottom: -2px; left: 0;
+            width: 0; height: 1px; background: var(--accent); transition: width 0.3s;
+        }
+        .dropdown:hover .dropdown-trigger { color: var(--navy); }
+        .dropdown:hover .dropdown-trigger::after { width: 100%; }
+        .chevron { width: 11px; height: 11px; transition: transform 0.25s; opacity: 0.45; flex-shrink: 0; }
+        .dropdown:hover .chevron { transform: rotate(180deg); }
+        .dropdown-menu {
+            position: absolute; top: calc(100% + 14px); left: 50%;
+            transform: translateX(-50%) translateY(-6px);
+            background: white; border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 10px; box-shadow: 0 16px 48px rgba(0,0,0,0.13);
+            min-width: 190px; opacity: 0; pointer-events: none;
+            transition: opacity 0.2s, transform 0.2s; z-index: 200; overflow: hidden;
+        }
+        .dropdown:hover .dropdown-menu {
+            opacity: 1; pointer-events: all; transform: translateX(-50%) translateY(0);
+        }
+        .dropdown-item {
+            display: block; padding: 12px 20px; font-size: 0.875rem;
+            color: var(--text-mid); text-decoration: none;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: background 0.15s, color 0.15s; font-weight: 500;
+        }
+        .dropdown-item:last-child { border-bottom: none; }
+        .dropdown-item:hover { background: var(--cream); color: var(--navy); }
+        .dropdown-item.featured { color: var(--accent-dark); background: rgba(200,169,110,0.06); }
+        .dropdown-item.featured:hover { background: rgba(200,169,110,0.12); }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh; background: var(--navy);
+            display: flex; align-items: center; position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 75% 40%, rgba(200,169,110,0.1) 0%, transparent 55%);
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 80px;
+            background: linear-gradient(to bottom, transparent, var(--navy) 60%);
+        }
+
+        /* PORTFOLIO CARD */
+        .portfolio-card {
+            position: relative; border-radius: 12px; overflow: hidden;
+            cursor: pointer; aspect-ratio: 4/3; background: var(--navy-light);
+        }
+        .portfolio-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s, opacity 0.3s; }
+        .portfolio-card:hover img { transform: scale(1.06); opacity: 0.55; }
+        .card-overlay {
+            position: absolute; inset: 0; display: flex; flex-direction: column;
+            justify-content: flex-end; padding: 22px;
+            background: linear-gradient(to top, rgba(15,25,45,0.95) 0%, rgba(15,25,45,0.3) 50%, transparent 100%);
+        }
+        .card-company { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+        .card-title { font-family: 'DM Serif Display', serif; color: white; font-size: 1.1rem; line-height: 1.3; margin-bottom: 6px; }
+        .card-sub {
+            color: rgba(255,255,255,0.65); font-size: 0.78rem; font-weight: 400;
+            opacity: 0; transform: translateY(5px); transition: opacity 0.3s, transform 0.3s;
+        }
+        .portfolio-card:hover .card-sub { opacity: 1; transform: translateY(0); }
+
+        /* TIMELINE */
+        .timeline-item { position: relative; padding-left: 36px; padding-bottom: 52px; }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: 7px; top: 14px;
+            width: 1px; height: calc(100% - 14px);
+            background: linear-gradient(to bottom, rgba(200,169,110,0.5), rgba(200,169,110,0.05));
+        }
+        .timeline-item:last-child::before { display: none; }
+        .timeline-dot {
+            position: absolute; left: 0; top: 8px; width: 16px; height: 16px;
+            border-radius: 50%; border: 2px solid var(--accent); background: var(--cream); transition: background 0.2s;
+        }
+
+        /* SKILLS */
+        .skill-pill {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 50px; padding: 10px 20px; font-size: 0.875rem;
+            font-weight: 500; color: rgba(255,255,255,0.8);
+        }
+
+        /* FADE UP */
+        .fade-up { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(10,15,25,0.75);
+            backdrop-filter: blur(6px); z-index: 1000;
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-inner {
+            background: white; border-radius: 16px; max-width: 860px;
+            width: 100%; max-height: 90vh; overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            .hero-grid { grid-template-columns: 1fr !important; }
+            .hero-grid .hero-photo-wrap { display: none; }
+            .two-col { grid-template-columns: 1fr !important; }
+            .hide-mobile { display: none !important; }
         }
     </style>
 </head>
 <body>
-    <div id="root"></div>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
 
-    <script type="text/babel">
-        const { useState } = React;
-    
-        const portfolioItems = [
-            { 
-                image: 'depal.jpg', 
-                title: 'Depalletizing Robot',
-                images: ['depal.jpg', 'depal_2.jpg', 'depal_3.jpg'],
-                shortDescription: 'Automated depalletizing robotic system for e-commerce fulfillment @ Ocado Technology',
-                longDescription: 'At Ocado Technology, I played a key role in developing Ocados first AI-driven case-handling robotics system. I led the design and implementation of camera hardware, managed the hardware build at our SF lab, and contributed to designing critical components like the robotic end-effector and arm pedestal. My role involves close collaboration with software, QA, and mechatronics teams, providing a complete understanding of the full product development cycle. Our first deployment is in London in Q4. Now, I am leading the hardware design of our depalletizing robotic system for a traveling tradeshow.'
-            },
-            { 
-                image: 'Camera_PC.png', 
-                title: 'High-Resolution Camera System',
-                images: ['Camera_PC.png', 'Camera_PC_2.jpg', 'Camera_PC_3.jpg', 'Camera_PC_4.png'],
-                shortDescription: 'Depth/RGB camera testing project for robotic computer vision applications @ Ocado Technology',
-                longDescription: 'RGB/Depth cameras are crucial for enabling ML models to segment and measure depth of items. I developed a KPI testing process to evaluate and integrate the best depth/RGB camera available to consumers. After testing and integrating said camera, the improved depth accuracy boosted grasping and pick speed, reaching over 300 UPH for bulky items. This success led to my role as a camera technology consultant for several teams, including Ocados on-grid robotic pick and emerging technology teams. I have also been the lead on everything cameras for our new depalletizing product.'
-            },
-            {
-                image: 'Kindred_Sort_Camera.jpg',
-                title: 'Sort Camera Mount for Kindred AI',
-                images: ['Kindred_Sort_Camera.jpg', 'Kindred_Sort_Camera_2.jpg', 'Kindred_Sort_Camera_3.jpg', 'Kindred_Sort_Camera_4.jpg'],
-                shortDescription: 'Sheet Metal Camera Mount for Sort robots @ Kindred AI - sustaining engineering',
-                longDescription: 'I designed a robust camera mount for Kindred AIs (now Ocado Technology) Sort robot, engineered to withstand the forces exerted by a robotic arm without compromising the underneath depth camera. Fabricated from durable sheet metal, the mount is securely bolted to the robots housing, ensuring stability during operation. This camera mount is now integral to the Sort system, which has successfully sorted over 750 million items in active use across retail warehouses.'
-            },
-            { 
-                image: 'Nexaro_NR1500.jpg', 
-                title: 'Nexaro NR1500 Cleaning Robot',
-                images: ['Nexaro_NR1500.jpg', 'Nexaro_2.jpg', 'Nexaro_3.jpg', 'Nexaro_4.jpg', 'Nexaro_7.jpg'],
-                shortDescription: 'Neatos first autonomous commercial cleaning robot',
-                longDescription: 'At Neato, I was a key mechanical design engineer for the design of Neato Robotics industrial robotic vacuum from concept through the first EVT phase. I designed, prototyped, and tested 3D printed parts for components the robots dustbin, filter, drivetrains, motors, wire layouts, and LiDAR covers (in red). After Neato dissolved, the project was transferred to Vorwerk and now operates as "Nexaro". This was Neatos first commercial robotics project. I leared all about product design, prototyping and testing. '
-            },
-            { 
-                image: 'Mopping_Robot.jpg', 
-                title: 'Advanced Mopping Robot',
-                images: ['Mopping_Robot.jpg', 'Mopping_Robot_3.heic', 'Mopping_Robot_4.jpg', 'Mopping_Robot_2.jpg'],
-                shortDescription: 'Neatos first autonomous mopping robot',
-                longDescription: 'At Neato, I redesigned a self-extraction cleaning center to create a more intuitive, accessible system. The original design required manual handling, so my solution introduced a pivoting cover for hands-free filter bag access. This feature, along with a spring-damped mechanism and leak-proof seal, ensured optimal vacuum performance while maintaining robot mapping accuracy. I also integrated a touchscreen interface and accessory storage to boost customer satisfaction.'
-            },
-            { 
-                image: 'Neato_Parts.jpg', 
-                title: 'Neato Robotics Custom Parts',
-                images: ['Neato_Parts.jpg', 'Neato_Filter.jpg', 'Neato_Drivetrain.jpg'],
-                shortDescription: 'Custom-designed injection molded parts for Neato robotic vacuums',
-                longDescription: 'At Neato, I specialized in plastic part design, developing creative solutions to proven challenges. I used Creo software to design plastic prototypes, 3D printing to ensure proper functionality, and GD&T and Injection molding fundamentals to manufacture the prototype. I collaborated with our overseas manufacturing team to optimize injection molding tool designs, created GD&T drawings, conducted tolerance analyses, and ensured fast, efficient assembly for our robotic applications. As examples, I was the lead in designing Neatos next generation drive-trains and dustbins with filters. These products were sold worldwide before Neato dissolved.'
-            },
-            { 
-                image: 'Apple_Design_Challenge.jpg', 
-                title: 'Apple Design Challenge Project',
-                images: ['Apple_Design_Challenge.jpg', 'Apple_Design_Challenge_2.jpg', 'Apple_Design_Challenge_3.jpg'],
-                shortDescription: 'iPod battery release mechanism design for Apple PD design challenge',
-                longDescription: 'During my interview with Apples iPhone Product Design Engineering team, I had the opportunity to showcase my creativity through a project focused on designing a battery release mechanism for the iPod. The challenge was to create a solution that was user-friendly, cost-effective to assemble, durable, safe, and visually appealing. Additionally, I was responsible for developing a Bill of Materials (BOM) and calculating the forces acting on the mechanism. This project allowed me to demonstrate my skills in product design, problem-solving, and engineering.'
-            },
-            { 
-                image: 'Kohler_Bath_Spout.png', 
-                title: 'Kohler Bathroom Fixtures',
-                images: ['Kohler_Work.jpg', 'Kohler_Bath_Spout.png', 'Kohler_Bath_Spout_2.jpg', 'Kohler_Pres.jpg', 'Kohler_Pres_2.jpg'],
-                shortDescription: 'Innovative bath spout technology designed for Kohler Co.',
-                longDescription: 'As a product design engineering intern at Kohler Company, I designed the companys first back-of-the bath spout diverter technology. I benchmarked existing diverters to gather design ideas, created a 3D model using Solidworks, and iterated through prototypes using Kohlers 3D printing technologies (carbon). My final design improved the functionality of Kohlers bath spout products, marking my first significant contribution in a product design role. I increased the water flow aesthetics (laminar flow), decreased leakages by implementing a new o-ring design, and lowered part manufacturing costs.'
-            },
-        ];
-    
-        const PortfolioModal = ({ item, onClose }) => {
-    const [expandedImage, setExpandedImage] = useState(null);
+// ─── DATA ────────────────────────────────────────────────────
+const portfolioItems = [
+    { image:'depal.jpg', title:'Depalletizing Robot', company:'Ocado Technology',
+      images:['depal.jpg','depal_2.jpg','depal_3.jpg'],
+      shortDescription:'Automated depalletizing robotic system for e-commerce fulfillment',
+      longDescription:"At Ocado Technology, I played a key role in developing Ocado's first AI-driven case-handling robotics system. I led the design and implementation of camera hardware, managed the hardware build at our SF lab, and contributed to designing critical components like the robotic end-effector and arm pedestal. My role involves close collaboration with software, QA, and mechatronics teams, providing a complete understanding of the full product development cycle. Our first deployment is in London in Q4. Now, I am leading the hardware design of our depalletizing robotic system for a traveling tradeshow." },
+    { image:'Camera_PC.png', title:'High-Resolution Camera System', company:'Ocado Technology',
+      images:['Camera_PC.png','Camera_PC_2.jpg','Camera_PC_3.jpg','Camera_PC_4.png'],
+      shortDescription:'Depth/RGB camera testing for robotic computer vision applications',
+      longDescription:"RGB/Depth cameras are crucial for enabling ML models to segment and measure depth of items. I developed a KPI testing process to evaluate and integrate the best depth/RGB camera available to consumers. After testing and integrating said camera, the improved depth accuracy boosted grasping and pick speed, reaching over 300 UPH for bulky items. This success led to my role as a camera technology consultant for several teams, including Ocado's on-grid robotic pick and emerging technology teams." },
+    { image:'Kindred_Sort_Camera.jpg', title:'Sort Camera Mount', company:'Kindred AI',
+      images:['Kindred_Sort_Camera.jpg','Kindred_Sort_Camera_2.jpg','Kindred_Sort_Camera_3.jpg','Kindred_Sort_Camera_4.jpg'],
+      shortDescription:'Sheet metal camera mount for Sort robots — sustaining engineering',
+      longDescription:"I designed a robust camera mount for Kindred AI's (now Ocado Technology) Sort robot, engineered to withstand the forces exerted by a robotic arm without compromising the underneath depth camera. Fabricated from durable sheet metal, the mount is securely bolted to the robot's housing, ensuring stability during operation. This camera mount is now integral to the Sort system, which has successfully sorted over 750 million items in active use across retail warehouses." },
+    { image:'Nexaro_NR1500.jpg', title:'Nexaro NR1500 Cleaning Robot', company:'Neato Robotics',
+      images:['Nexaro_NR1500.jpg','Nexaro_2.jpg','Nexaro_3.jpg','Nexaro_4.jpg','Nexaro_7.jpg'],
+      shortDescription:"Neato's first autonomous commercial cleaning robot",
+      longDescription:"At Neato, I was a key mechanical design engineer for the design of Neato Robotics' industrial robotic vacuum from concept through the first EVT phase. I designed, prototyped, and tested 3D printed parts for components the robot's dustbin, filter, drivetrains, motors, wire layouts, and LiDAR covers (in red). After Neato dissolved, the project was transferred to Vorwerk and now operates as 'Nexaro'. This was Neato's first commercial robotics project." },
+    { image:'Mopping_Robot.jpg', title:'Advanced Mopping Robot', company:'Neato Robotics',
+      images:['Mopping_Robot.jpg','Mopping_Robot_4.jpg','Mopping_Robot_2.jpg'],
+      shortDescription:"Neato's first autonomous mopping robot",
+      longDescription:"At Neato, I redesigned a self-extraction cleaning center to create a more intuitive, accessible system. The original design required manual handling, so my solution introduced a pivoting cover for hands-free filter bag access. This feature, along with a spring-damped mechanism and leak-proof seal, ensured optimal vacuum performance while maintaining robot mapping accuracy. I also integrated a touchscreen interface and accessory storage to boost customer satisfaction." },
+    { image:'Neato_Parts.jpg', title:'Custom Injection Molded Parts', company:'Neato Robotics',
+      images:['Neato_Parts.jpg','Neato_Filter.jpg','Neato_Drivetrain.jpg'],
+      shortDescription:'Custom-designed injection molded parts for Neato robotic vacuums',
+      longDescription:"At Neato, I specialized in plastic part design, developing creative solutions to proven challenges. I used Creo software to design plastic prototypes, 3D printing to ensure proper functionality, and GD&T and Injection molding fundamentals to manufacture the prototype. I collaborated with our overseas manufacturing team to optimize injection molding tool designs, created GD&T drawings, conducted tolerance analyses, and ensured fast, efficient assembly for our robotic applications." },
+    { image:'Apple_Design_Challenge.jpg', title:'Apple Design Challenge', company:'Apple',
+      images:['Apple_Design_Challenge.jpg','Apple_Design_Challenge_2.jpg','Apple_Design_Challenge_3.jpg'],
+      shortDescription:'iPod battery release mechanism for Apple PD design challenge',
+      longDescription:"During my interview with Apple's iPhone Product Design Engineering team, I had the opportunity to showcase my creativity through a project focused on designing a battery release mechanism for the iPod. The challenge was to create a solution that was user-friendly, cost-effective to assemble, durable, safe, and visually appealing. I also developed a Bill of Materials (BOM) and calculated the forces acting on the mechanism." },
+    { image:'Kohler_Bath_Spout.png', title:'Kohler Bathroom Fixtures', company:'Kohler',
+      images:['Kohler_Work.jpg','Kohler_Bath_Spout.png','Kohler_Bath_Spout_2.jpg','Kohler_Pres.jpg','Kohler_Pres_2.jpg'],
+      shortDescription:"Innovative bath spout diverter technology for Kohler Co.",
+      longDescription:"As a product design engineering intern at Kohler Company, I designed the company's first back-of-the bath spout diverter technology. I benchmarked existing diverters to gather design ideas, created a 3D model using Solidworks, and iterated through prototypes using Kohler's 3D printing technologies (carbon). My final design improved the functionality of Kohler's bath spout products, marking my first significant contribution in a product design role." },
+];
 
-    const handleOutsideClick = (e) => {
-        if (e.target === e.currentTarget) {
-            onClose();
-        }
-    };
+const experiences = [
+    { company:'Multiply Labs', title:'Lead Mechanical Engineer', location:'San Francisco, CA', dates:'2024 – Present', isNew:true,
+      description:"Leading hardware design and delivery of a bus-sized robotic system for CAR-T cell therapy automation. Overseeing mechanical design, safety, and electromechanical subsystems across a world-class hardware team. System features 4 robotic arms, custom end effectors, and proprietary fluid transfer IP — partnered with Universal Robots and ThermoFisher." },
+    { company:'Ocado Technology', title:'Mechanical Engineer II', location:'San Francisco, CA', dates:'2022 – 2024',
+      description:"Played a key role in developing Ocado's first AI-driven case-handling robotics system. Led the design and implementation of camera hardware, managed the hardware build at our San Francisco lab, and contributed to designing critical components such as the robotic end-effector and pedestal." },
+    { company:'Neato Robotics', title:'Jr. Mechanical Engineer', location:'San Jose, CA', dates:'2020 – 2022',
+      description:"Led the development of key components for robotic vacuums, including drivetrains and injection-molded parts. Instrumental in designing and producing a vacuum/mop robot, a commercial vacuum robot, and robot accessories." },
+    { company:'Kohler Company', title:'Mechanical Engineering Intern', location:'Kohler, WI', dates:'Summer 2019',
+      description:"Designed Kohler's first back-of-the-bath spout diverter. Reduced water leakage, improved laminar flow aesthetics, and lowered manufacturing costs through innovative prototyping with Carbon 3D printing." },
+];
 
-    const handleImageClick = (image) => {
-        setExpandedImage(image);
-    };
+// ─── HELPERS ─────────────────────────────────────────────────
+const FadeUp = ({ children, delay = 0 }) => {
+    const ref = useRef(null);
+    useEffect(() => {
+        const el = ref.current; if (!el) return;
+        const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add('visible'); obs.disconnect(); } }, { threshold: 0.08 });
+        obs.observe(el);
+        return () => obs.disconnect();
+    }, []);
+    return <div ref={ref} className="fade-up" style={{ transitionDelay:`${delay}ms` }}>{children}</div>;
+};
 
-    const closeExpandedImage = (e) => {
-       if (e.target === e.currentTarget || e.target.tagName === 'BUTTON') {
-                setExpandedImage(null);
-        }
-    };
+const SectionLabel = ({ children }) => (
+    <div style={{fontSize:'0.72rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:10}}>{children}</div>
+);
 
+// ─── MODAL ───────────────────────────────────────────────────
+const Modal = ({ item, onClose }) => {
+    const [expanded, setExpanded] = useState(null);
+    const handleBg = e => { if (e.target === e.currentTarget) onClose(); };
     return (
-        <div 
-            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4"
-            onClick={handleOutsideClick}
-        >
-            <div className="bg-white rounded-lg w-full max-w-6xl max-h-[90vh] overflow-y-auto">
-                <div className="p-8">
-                    <h3 className="text-3xl font-bold mb-4">{item.title}</h3>
-                    <p className="text-gray-700 mb-6 text-lg">{item.longDescription}</p>
-
-                    {/* Image grid */}
-                    <div className="flex flex-wrap justify-center gap-6 mb-8 after:content-[''] after:flex-auto">
-                        {item.images.map((image, index) => (
-                            <div 
-                                key={index} 
-                                className="w-full sm:w-4/5 md:w-2/3 lg:w-[calc(50%-0.75rem)] xl:w-[calc(33.333%-1rem)] aspect-video overflow-hidden rounded-lg shadow-lg cursor-pointer"
-                                onClick={() => handleImageClick(image)}
-                            >
-                                <img 
-                                    src={image} 
-                                    alt={`Portfolio Image ${index + 1}`} 
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                        ))}
-                        {/* Add empty flex items to ensure centering */}
-                        {[...Array(3 - (item.images.length % 3 || 3))].map((_, index) => (
-                            <div key={`empty-${index}`} className="w-full sm:w-4/5 md:w-2/3 lg:w-[calc(50%-0.75rem)] xl:w-[calc(33.333%-1rem)]" />
+        <div className="modal-overlay" onClick={handleBg}>
+            <div className="modal-inner">
+                <div style={{background:'var(--navy)',padding:'40px 44px 32px',borderRadius:'16px 16px 0 0'}}>
+                    <div style={{fontSize:'0.72rem',letterSpacing:'0.15em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:8}}>{item.company}</div>
+                    <h2 style={{fontFamily:"'DM Serif Display',serif",fontSize:'2rem',color:'white'}}>{item.title}</h2>
+                </div>
+                <div style={{padding:'36px 44px'}}>
+                    <p style={{color:'var(--text-mid)',lineHeight:1.8,fontSize:'0.97rem'}}>{item.longDescription}</p>
+                    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))',gap:10,marginTop:28}}>
+                        {item.images.map((img,i) => (
+                            <img key={i} src={img} alt={`${item.title} ${i+1}`}
+                                style={{width:'100%',aspectRatio:'4/3',objectFit:'cover',borderRadius:8,cursor:'pointer',transition:'transform 0.2s,opacity 0.2s'}}
+                                onClick={() => setExpanded(img)}
+                                onMouseEnter={e=>{e.target.style.transform='scale(1.02)';e.target.style.opacity='0.88';}}
+                                onMouseLeave={e=>{e.target.style.transform='scale(1)';e.target.style.opacity='1';}}
+                            />
                         ))}
                     </div>
-                    <button 
-                        onClick={onClose} 
-                        className="bg-blue-500 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 transition duration-300"
-                    >
-                        Close
-                    </button>
+                    <button onClick={onClose} style={{marginTop:32,background:'var(--navy)',color:'white',border:'none',padding:'12px 28px',borderRadius:6,fontFamily:"'DM Sans',sans-serif",fontSize:'0.88rem',fontWeight:500,cursor:'pointer',letterSpacing:'0.04em'}}>Close</button>
                 </div>
             </div>
-
-            {/* Expanded Image Overlay */}
-            {expandedImage && (
-                <div 
-                    className="fixed inset-0 bg-black bg-opacity-90 flex justify-center items-center z-60"
-                    onClick={closeExpandedImage}
-                >
-                    <div className="relative w-[130%] h-[130%] max-w-3xl max-h-[80vh] flex justify-center items-center">
-                        <div className="relative bg-white p-4 rounded-lg w-full h-full flex justify-center items-center">
-                            <img 
-                                src={expandedImage} 
-                                alt="Expanded Portfolio Image" 
-                                className="max-w-full max-h-full object-contain"
-                            />
-                            <button 
-                                onClick={closeExpandedImage}
-                                className="absolute top-2 right-2 text-black text-3xl bg-white rounded-full w-8 h-8 flex items-center justify-center"
-                            >
-                                &times;
-                            </button>
-                        </div>
-                    </div>
+            {expanded && (
+                <div className="modal-overlay" style={{zIndex:1100}} onClick={()=>setExpanded(null)}>
+                    <img src={expanded} alt="expanded" style={{maxWidth:'88vw',maxHeight:'88vh',borderRadius:10,objectFit:'contain',boxShadow:'0 32px 80px rgba(0,0,0,0.6)'}} />
                 </div>
             )}
         </div>
     );
 };
 
-    
-        const PortfolioWebsite = () => {
-            const [selectedItem, setSelectedItem] = useState(null);
-    
-            return (
-                <div className="font-sans">
-                    {/* Header */}
-                    <header className="bg-white shadow-sm fixed w-full z-50">
-                        <nav className="container mx-auto px-20 py-3 flex justify-between items-center">
-                            <div className="text-3xl font-bold text-blue-500">WN</div>
-                            <div className="space-x-4">
-                                <a href="#" className="text-xl text-gray-600 hover:text-gray-800">Home</a>
-                                <a href="#Resume" className="text-xl text-gray-600 hover:text-gray-800">Resume</a>
-                                <a href="#portfolio" className="text-xl text-gray-600 hover:text-gray-800">Portfolio</a>
-                                <a href="#experience" className="text-xl text-gray-600 hover:text-gray-800">Experience</a>
-                                <a href="#contact" className="text-xl text-gray-600 hover:text-gray-800">Contact</a>
-                            </div>
-                        </nav>
-                    </header>
-    
-                    {/* Hero Section */}
-                    <section className="pt-32 pb-20 px-40 bg-gray-100">
-                        <div className="container mx-auto flex flex-col md:flex-row items-center">
-                            <div className="md:w-1/2 mb-8 md:mb-0">
-                                <div className="text-gray-500 mb-2 text-4xl">Hello,</div>
-                                <h1 className="text-5xl font-bold text-gray-800 mb-4">I'm William Nuveen</h1>
-                                <p className="text-3xl text-gray-600 mb-10"> Mechanical Engineer | Design Enthusiast</p>
-                                <a href="#portfolio" className="bg-blue-600 text-white text-xl px-6 py-2 rounded-full hover:bg-blue-400 transition duration-300 inline-block">My Projects:</a>
-                            </div>
-                            <div className="md:w-1/2">
-                                <img src="WilliamNuveenPortrait.jpg" alt="William Nuveen Portrait" className="rounded-lg shadow-lg w-full max-w-md mx-auto" />
+// ─── MULTIPLY LABS SECTION ───────────────────────────────────
+const MultiplyLabsSection = () => (
+    <section id="multiply-labs" style={{background:'var(--navy)',padding:'100px 0'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px'}}>
+            <div className="two-col" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:80,alignItems:'start'}}>
+                <FadeUp>
+                    <div>
+                        <div style={{display:'inline-block',background:'rgba(200,169,110,0.15)',color:'var(--accent)',fontSize:'0.72rem',letterSpacing:'0.16em',textTransform:'uppercase',fontWeight:600,padding:'6px 14px',borderRadius:4,border:'1px solid rgba(200,169,110,0.25)',marginBottom:24}}>
+                            Featured · Current Role
+                        </div>
+                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(1.9rem,3.5vw,2.8rem)',color:'white',lineHeight:1.1,marginBottom:24}}>
+                            Robotic System for<br/>CAR-T Cell Therapy
+                        </div>
+                        <p style={{color:'rgba(255,255,255,0.6)',lineHeight:1.85,fontSize:'0.97rem',marginBottom:14}}>
+                            CAR-T cell therapy is a breakthrough cancer treatment where a patient's own T-cells are genetically engineered to recognize and kill cancer cells. Today it's a highly manual, contamination-prone process — we're automating it end-to-end.
+                        </p>
+                        <p style={{color:'rgba(255,255,255,0.6)',lineHeight:1.85,fontSize:'0.97rem',marginBottom:40}}>
+                            I lead the hardware team, overseeing mechanical design, safety systems, and electromechanical integration of a bus-sized robotic cell with 4 robotic arms, custom end effectors, and proprietary fluid transfer IP.
+                        </p>
+                        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'6px 24px',marginBottom:40}}>
+                            {[
+                                ['4','Robotic Arms'], ['2+','Pharma Partners'],
+                                ['FDA','Approved Therapies'], ['UR + TS','Key Partnerships'],
+                            ].map(([n,l]) => (
+                                <div key={l} style={{borderLeft:'2px solid var(--accent)',paddingLeft:14,paddingBottom:20}}>
+                                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'2rem',color:'white'}}>{n}</div>
+                                    <div style={{fontSize:'0.76rem',color:'rgba(255,255,255,0.45)',textTransform:'uppercase',letterSpacing:'0.1em'}}>{l}</div>
                                 </div>
+                            ))}
                         </div>
-                    </section>
-
-
-                    {/* Resume Section */}
-                    <section id="Resume" className="py-20">
-                        <div className="container mx-auto px-20 flex flex-col md:flex-row items-center">
-                            <div className="md:w-1/3 mb-8 md:mb-0">
-                                <img 
-                                    src="resume-preview.png" 
-                                    alt="William Nuveen's Resume Preview" 
-                                    className="rounded-lg shadow-lg w-full max-w-sm mx-auto"
-                                />
-                            </div>
-                            <div className="md:w-2/3 md:pl-12">
-                                <h2 className="text-3xl font-bold text-gray-800 mb-4">Achievements on paper</h2>
-                                <p className="text-xl text-gray-600 mb-6">
-                                    As a mechanical design engineer, I specialize in AI-driven robotics, electro-mechanical design, and cost-efficient manufacturing. With a passion for innovation, I create cutting-edge solutions that turn concepts into reality.
-                                </p>
-                                <a 
-                                    href="William Nuveen's Resume (Oct. 24).pdf" 
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="bg-blue-600 text-white text-xl px-6 py-2 rounded-full hover:bg-blue-400 transition duration-300 inline-block"
-                                >
-                                    View Resume:
-                                </a>
-                            </div>
+                        <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
+                            {[
+                                ['Forbes Press ↗','https://www.forbes.com/sites/jenniferkitepowell/2025/08/31/universal-robots-partners-with-multiply-labs-in-cell-and-gene-therapy/'],
+                                ['ThermoFisher Press ↗','https://multiplylabs.com/2025/09/30/thermo-dynacellect-announcement/'],
+                                ['Team Spotlight ↗','https://www.linkedin.com/posts/multiply-labs_gtc-biotech-robotics-ugcPost-7386836015782621185-RXgm'],
+                            ].map(([label,href]) => (
+                                <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+                                    style={{display:'inline-block',background:'rgba(255,255,255,0.07)',color:'rgba(255,255,255,0.75)',border:'1px solid rgba(255,255,255,0.14)',padding:'10px 18px',borderRadius:6,fontSize:'0.8rem',fontWeight:500,textDecoration:'none',letterSpacing:'0.04em',transition:'background 0.2s'}}
+                                    onMouseEnter={e=>e.target.style.background='rgba(255,255,255,0.12)'}
+                                    onMouseLeave={e=>e.target.style.background='rgba(255,255,255,0.07)'}
+                                >{label}</a>
+                            ))}
                         </div>
-                    </section>
-    
-                    {/* Portfolio Section */}
-                    <section id="portfolio" className="py-20 bg-gray-100">
-                        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                            <h2 className="text-3xl font-bold text-gray-800 mb-12">Mechanical Design Portfolio:</h2>
-                            <p className="text-center text-2xl text-gray-700 font-semibold mb-8 italic">*Click on the images to learn more*</p>
-                            <div className="flex flex-wrap justify-center gap-8">
-                                {portfolioItems.map((item, index) => (
-                                    <div 
-                                        key={index} 
-                                        className="bg-gray-200 h-64 rounded-lg overflow-hidden relative group cursor-pointer"
-                                        onClick={() => setSelectedItem(item)}
-                                    >
-                                        <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
-                                        <div className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                            <p className="text-white text-center px-4">{item.shortDescription}</p>
-                                        </div>
-                                    </div>
-                                ))}
+                    </div>
+                </FadeUp>
+
+                <FadeUp delay={140}>
+                    <div>
+                        {/* Image placeholders — swap these src values with your actual ML images */}
+                        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+                            <div style={{gridColumn:'span 2',height:280,background:'rgba(255,255,255,0.05)',borderRadius:12,border:'1px dashed rgba(255,255,255,0.12)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',color:'rgba(255,255,255,0.25)',fontSize:'0.78rem',letterSpacing:'0.08em',textTransform:'uppercase',gap:8}}>
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                                Replace with your Multiply Labs hero image
+                            </div>
+                            <div style={{height:160,background:'rgba(255,255,255,0.05)',borderRadius:10,border:'1px dashed rgba(255,255,255,0.1)',display:'flex',alignItems:'center',justifyContent:'center',color:'rgba(255,255,255,0.2)',fontSize:'0.7rem',letterSpacing:'0.06em',textTransform:'uppercase'}}>
+                                Robotic System
+                            </div>
+                            <div style={{height:160,background:'rgba(255,255,255,0.05)',borderRadius:10,border:'1px dashed rgba(255,255,255,0.1)',display:'flex',alignItems:'center',justifyContent:'center',color:'rgba(255,255,255,0.2)',fontSize:'0.7rem',letterSpacing:'0.06em',textTransform:'uppercase'}}>
+                                Team / Lab
                             </div>
                         </div>
-                    </section>
-    
-                    {/* Job History */}
-                    <section id="experience" className="py-20">
-                        <div className="container mx-auto px-20">
-                            <h2 className="text-3xl font-bold text-gray-800 mb-8">Experiences:</h2>
-                            <div className="space-y-6">
-                                {[
-                                    {
-                                        title: 'Mechanical Engineer II',
-                                        company: 'Ocado Technology',
-                                        Location: 'San Francisco, CA',
-                                        dates: '2022 - Present',
-                                        description: 'As a mechanical engineer at Ocado Technology, I play a key role in developing Ocados first AI-driven case-handling robotics system. I led the design and implementation of camera hardware, managed the hardware build at our San Francisco lab, and contributed to designing critical components such as the robotic end-effector and pedestal.'
-                                    },
-                                    {
-                                        title: 'Jr. Mechanical Engineer',
-                                        company: 'Neato Robotics',
-                                        Location: 'San Jose, CA',
-                                        dates: '2020 - 2022',
-                                        description: 'As a mechanical engineer at Neato Robotics, I led the development of key components for robotic vacuums, including drivetrains and injection-molded parts. I was instrumental in designing and producing a vacuum/mop robot, a commercial vacuum robot, and robot accessories'
-                                    },
-                                    {
-                                        title: 'Mechanical Engineering Intern',
-                                        company: 'Kohler Company',
-                                        Location: 'Kohler, WI',
-                                        dates: 'Summer 2019',
-                                        description: 'As a product design engineering intern, I designed Kohler’s first back-of-the-bath spout diverter. By reducing water leakage, improving laminar flow aesthetics, and lowering manufacturing costs, I contributed to Kohlers commitment to innovative and sustainable bathroom solutions.'
-                                    }
-                                ].map((job, index) => (
-                                    <div key={index} className="bg-white p-6 rounded-lg shadow">
-                                        <h3 className="text-xl font-semibold mb-2">{job.title}</h3>
-                                        <p className="text-gray-600">{job.company} • {job.dates}</p>
-                                        <p className="text-gray-600 mt-2">{job.description}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>
+                        <p style={{color:'rgba(255,255,255,0.25)',fontSize:'0.72rem',marginTop:10,fontStyle:'italic'}}>
+                            Tip: replace placeholders with e.g. multiply_labs_1.jpg, multiply_labs_2.jpg
+                        </p>
 
-                    {/* Key Skills Section */}
-                    <section className="relative py-32 overflow-hidden min-h-screen flex items-center">
-                        {/* Video Background */}
-                        <video 
-                            autoPlay 
-                            loop 
-                            muted 
-                            className="absolute top-0 left-0 w-full h-full object-cover z-0"
-                        >
-                            <source src="Ocado.mp4" type="video/mp4" />
-                            Your browser does not support the video tag.
-                        </video>
-
-                        {/* Overlay to ensure text is readable */}
-                        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-10"></div>
-
-                        {/* Content */}
-                        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-20">
-                            <h2 className="text-5xl font-bold text-white mb-16 text-center">Key Skills</h2>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 text-center">
-                                {['Product Design & Development', 'Manufacturing Methods', 'Automation & Robotics', 'Camera Technologies'].map((skill, index) => (
-                                    <div key={index} className="bg-white bg-opacity-20 p-6 rounded-lg backdrop-filter backdrop-blur-lg flex items-center justify-center h-40">
-                                        <h3 className="text-2xl font-semibold mb-4 text-white text-center">{skill}</h3>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </section>   
-
-                    {/* Summary Section */}
-                    <section className="py-20 bg-gray-100">
-                        <div className="container mx-auto px-20">
-                            <h2 className="text-5xl font-bold text-gray-800 mb-6 text-center">Career Summary</h2>
-                            <p className="text-xl text-gray-600 mb-10 text-center max-w-3xl mx-auto">
-                                Thank you for taking the time to explore my portfolio. Whether you're a recruiter, fellow engineer, friend, or simply stumbled upon it by chance, I hope you find my projects both interesting and enjoyable.
-                            </p>
-                            <div className="flex justify-center space-x-12 mb-10">
-                                <a href="https://www.youtube.com/watch?v=ssZ_8cqfBlE" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-                                    <img src="Ocado_Technology.jpg" alt="Company 1" className="w-48 h-48 object-contain"/>
-                                </a>
-                                <a href="https://www.youtube.com/watch?v=riMhfXZfiEU&t=1s" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-                                    <img src="Neato_Robotics.jpg" alt="Company 2" className="w-48 h-48 object-contain"/>
-                                </a>    
-                                <a href="https://www.kohlercompany.com/our-brands/kitchen-bath/" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-                                    <img src="kohler-logo.png" alt="Company 3" className="w-48 h-48 object-contain"/>
-                                </a>
-                            </div>
-                            <p className="text-semibold text-2xl text-gray-700 text-center">
-                                Click to watch a video about my companies
+                        {/* Humanoid teaser card */}
+                        <div style={{marginTop:20,padding:'28px 32px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:12}}>
+                            <div style={{color:'var(--accent)',fontSize:'0.7rem',letterSpacing:'0.16em',textTransform:'uppercase',fontWeight:600,marginBottom:8}}>What's Next</div>
+                            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.3rem',color:'white',marginBottom:8}}>Humanoid Loading & Unloading</div>
+                            <p style={{color:'rgba(255,255,255,0.45)',fontSize:'0.85rem',lineHeight:1.6,margin:0}}>
+                                Exploring humanoid robotics and Gen AI for consumable handling — making the sterile robotic cell fully autonomous end-to-end.
                             </p>
                         </div>
-                 </section>
+                    </div>
+                </FadeUp>
+            </div>
+        </div>
+    </section>
+);
 
-                    {/* Contact Section */}
-                    <section id="contact" className="py-20 bg-blue-600 text-white">
-                        <div className="container mx-auto px-20 text-center">
-                            <h2 className="text-4xl font-bold mb-4">Contact Me</h2>
-                            <p className="text-2xl font-bold mb-8">Let's discuss how I can contribute to your engineering team.</p>
-                            <div className="text-xl flex justify-center space-x-4">
-                                <p>San Francisco, CA</p>
-                                <p>|</p>    
-                                <p>wnuveen3@gmail.com</p>
-                            </div>
-                            {/* Updated "Get In Touch" button */}
-                            <a 
-                                href="mailto:wnuveen3@gmail.com" 
-                                className="mt-8 bg-white text-blue-800 px-6 py-2 rounded-full hover:bg-gray-100 transition duration-300 inline-block"
-                            >
-                                Get In Touch
-                            </a>
+// ─── ABOUT SECTION ───────────────────────────────────────────
+const AboutSection = () => (
+    <section id="about" style={{padding:'100px 0',background:'var(--cream)'}}>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px'}}>
+            <div className="two-col" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:80,alignItems:'center'}}>
+                <FadeUp>
+                    <div>
+                        <SectionLabel>Beyond Engineering</SectionLabel>
+                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2rem,4vw,2.8rem)',color:'var(--navy)',lineHeight:1.1,marginBottom:24}}>
+                            Life Outside<br/>the Lab
                         </div>
-                    </section>
-    
-                    {/* Footer */}
-                    <footer className="bg-gray-800 text-white py-8">
-                        <div className="container mx-auto px-20 flex flex-col items-center">
-                            <p className="mb-4">&copy; 2024 William Nuveen. All Rights Reserved.</p>
-                            <a href="https://www.linkedin.com/in/williamnuveen/" 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="hover:text-blue-500 transition duration-300"
-                                aria-label="LinkedIn">
-                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        <p style={{color:'var(--text-mid)',lineHeight:1.85,fontSize:'0.97rem',marginBottom:14}}>
+                            When I'm not designing robotic systems, you'll find me exploring trails, chasing adrenaline at the racetrack, or finding new ways to push limits outside the office.
+                        </p>
+                        <p style={{color:'var(--text-mid)',lineHeight:1.85,fontSize:'0.97rem',marginBottom:32}}>
+                            I believe the same curiosity and drive that fuels good engineering makes for a richer life. Whether it's a weekend hike or a technical design challenge, I'm always looking for the best possible solution.
+                        </p>
+                        <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+                            {['Hiking','Racing','Photography','Travel','Robotics'].map(tag => (
+                                <span key={tag} style={{background:'var(--warm-gray)',color:'var(--navy)',padding:'8px 18px',borderRadius:50,fontSize:'0.82rem',fontWeight:500}}>
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </FadeUp>
+
+                <FadeUp delay={100}>
+                    {/* Photo grid — replace placeholder divs with <img src="your-photo.jpg" /> */}
+                    <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gridTemplateRows:'auto auto',gap:10}}>
+                        <div style={{gridRow:'span 2',height:480,background:'var(--warm-gray)',borderRadius:12,border:'1px dashed rgba(0,0,0,0.12)',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',color:'var(--text-light)',fontSize:'0.75rem',letterSpacing:'0.08em',textTransform:'uppercase',gap:8}}>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                            Portrait / Lifestyle
+                        </div>
+                        <div style={{height:232,background:'#ddd8d0',borderRadius:12,border:'1px dashed rgba(0,0,0,0.1)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--text-light)',fontSize:'0.72rem',letterSpacing:'0.08em',textTransform:'uppercase'}}>
+                            Activity Photo 1
+                        </div>
+                        <div style={{height:232,background:'#d4cfc6',borderRadius:12,border:'1px dashed rgba(0,0,0,0.1)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--text-light)',fontSize:'0.72rem',letterSpacing:'0.08em',textTransform:'uppercase'}}>
+                            Activity Photo 2
+                        </div>
+                    </div>
+                    <p style={{color:'var(--text-light)',fontSize:'0.72rem',marginTop:10,fontStyle:'italic'}}>
+                        Tip: swap the div placeholders with &lt;img src="your-photo.jpg"/&gt;
+                    </p>
+                </FadeUp>
+            </div>
+        </div>
+    </section>
+);
+
+// ─── MAIN APP ────────────────────────────────────────────────
+const App = () => {
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    return (
+        <div>
+            {/* ─── NAV ─── */}
+            <header style={{position:'fixed',top:0,left:0,right:0,zIndex:500,background:'rgba(245,240,232,0.93)',backdropFilter:'blur(14px)',borderBottom:'1px solid rgba(0,0,0,0.07)'}}>
+                <nav style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',height:62,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                    <a href="#" style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.5rem',color:'var(--navy)',textDecoration:'none'}}>WN</a>
+                    <div style={{display:'flex',alignItems:'center',gap:28}}>
+                        <a href="#" className="nav-link">Home</a>
+
+                        {/* Career Dropdown */}
+                        <div className="dropdown">
+                            <span className="dropdown-trigger">
+                                Career
+                                <svg className="chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M2 4l4 4 4-4"/>
                                 </svg>
-                            </a>
+                            </span>
+                            <div className="dropdown-menu">
+                                <a href="#multiply-labs" className="dropdown-item featured">✦ Multiply Labs</a>
+                                <a href="#experience" className="dropdown-item">Ocado Technology</a>
+                                <a href="#experience" className="dropdown-item">Neato Robotics</a>
+                                <a href="#experience" className="dropdown-item">Kohler Company</a>
+                            </div>
                         </div>
-                    </footer>
-    
-                    {/* Render modal if an item is selected */}
-                    {selectedItem && (
-                        <PortfolioModal item={selectedItem} onClose={() => setSelectedItem(null)} />
-                    )}
+
+                        <a href="#portfolio" className="nav-link">Portfolio</a>
+                        <a href="#about" className="nav-link">About</a>
+                        <a href="#Resume" className="nav-link">Resume</a>
+                        <a href="#contact" className="nav-link" style={{background:'var(--navy)',color:'white',padding:'8px 20px',borderRadius:6,fontWeight:500,fontSize:'0.85rem',letterSpacing:'0.04em',transition:'background 0.2s'}}
+                            onMouseEnter={e=>e.target.style.background='var(--navy-light)'}
+                            onMouseLeave={e=>e.target.style.background='var(--navy)'}
+                        >Contact</a>
+                    </div>
+                </nav>
+            </header>
+
+            {/* ─── HERO ─── */}
+            <section className="hero" style={{paddingTop:62}}>
+                <div className="hero-grid" style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',width:'100%',display:'grid',gridTemplateColumns:'1fr 1fr',gap:60,alignItems:'center'}}>
+                    <div>
+                        <div style={{fontSize:'0.72rem',letterSpacing:'0.22em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:18}}>Mechanical Engineer · San Francisco</div>
+                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(3.2rem,7vw,5.5rem)',color:'white',lineHeight:1.02,marginBottom:20}}>
+                            William<br/>Nuveen
+                        </div>
+                        <div style={{fontSize:'1.05rem',color:'rgba(255,255,255,0.5)',fontWeight:300,letterSpacing:'0.02em',marginBottom:0}}>
+                            Robotics · Product Design · Automation
+                        </div>
+                        <div style={{display:'flex',gap:12,marginTop:36,flexWrap:'wrap'}}>
+                            <a href="#portfolio" style={{display:'inline-block',background:'var(--accent)',color:'white',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',textDecoration:'none',transition:'background 0.2s,transform 0.15s'}}
+                                onMouseEnter={e=>{e.target.style.background='var(--accent-dark)';e.target.style.transform='translateY(-1px)';}}
+                                onMouseLeave={e=>{e.target.style.background='var(--accent)';e.target.style.transform='translateY(0)';}}
+                            >View Portfolio</a>
+                            <a href="#multiply-labs" style={{display:'inline-block',background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.8)',border:'1px solid rgba(255,255,255,0.15)',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',textDecoration:'none',transition:'background 0.2s'}}
+                                onMouseEnter={e=>e.target.style.background='rgba(255,255,255,0.14)'}
+                                onMouseLeave={e=>e.target.style.background='rgba(255,255,255,0.08)'}
+                            >Current Work ↓</a>
+                        </div>
+                    </div>
+                    <div className="hero-photo-wrap" style={{display:'flex',justifyContent:'flex-end'}}>
+                        <img src="WilliamNuveenPortrait.jpg" alt="William Nuveen"
+                            style={{width:'100%',maxWidth:400,aspectRatio:'3/4',objectFit:'cover',borderRadius:16,boxShadow:'0 40px 100px rgba(0,0,0,0.5)'}} />
+                    </div>
                 </div>
-            );
-        };
-    
-        ReactDOM.render(<PortfolioWebsite />, document.getElementById('root'));
-    </script>
+            </section>
+
+            {/* ─── MULTIPLY LABS ─── */}
+            <MultiplyLabsSection />
+
+            {/* ─── PORTFOLIO ─── */}
+            <section id="portfolio" style={{padding:'100px 0',background:'var(--cream)'}}>
+                <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px'}}>
+                    <FadeUp>
+                        <div style={{marginBottom:52}}>
+                            <SectionLabel>Design Portfolio</SectionLabel>
+                            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2rem,4vw,2.8rem)',color:'var(--navy)',lineHeight:1.1}}>Mechanical Design Projects</div>
+                            <p style={{color:'var(--text-light)',marginTop:12,fontSize:'0.85rem'}}>Click any project to learn more</p>
+                        </div>
+                    </FadeUp>
+                    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(290px,1fr))',gap:18}}>
+                        {portfolioItems.map((item,i) => (
+                            <FadeUp key={i} delay={i*55}>
+                                <div className="portfolio-card" onClick={() => setSelectedItem(item)}>
+                                    <img src={item.image} alt={item.title} />
+                                    <div className="card-overlay">
+                                        <div className="card-company">{item.company}</div>
+                                        <div className="card-title">{item.title}</div>
+                                        <div className="card-sub">{item.shortDescription}</div>
+                                    </div>
+                                </div>
+                            </FadeUp>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ─── EXPERIENCE ─── */}
+            <section id="experience" style={{padding:'100px 0',background:'var(--warm-gray)'}}>
+                <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',display:'grid',gridTemplateColumns:'1fr 2fr',gap:80}} className="two-col">
+                    <FadeUp>
+                        <div style={{position:'sticky',top:90}}>
+                            <SectionLabel>Work History</SectionLabel>
+                            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2rem,4vw,2.8rem)',color:'var(--navy)',lineHeight:1.1,marginBottom:20}}>Experience</div>
+                            <p style={{color:'var(--text-mid)',lineHeight:1.8,fontSize:'0.95rem'}}>
+                                From consumer robotics to cutting-edge biotech automation, I've built systems that ship and scale.
+                            </p>
+                        </div>
+                    </FadeUp>
+                    <div>
+                        {experiences.map((job,i) => (
+                            <FadeUp key={i} delay={i*70}>
+                                <div className="timeline-item">
+                                    <div className="timeline-dot" style={job.isNew?{background:'var(--accent)',borderColor:'var(--accent)'}:{}}></div>
+                                    <div style={{fontSize:'0.72rem',letterSpacing:'0.14em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:4}}>{job.company}</div>
+                                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.5rem',color:'var(--navy)',marginBottom:6}}>{job.title}</div>
+                                    <div style={{fontSize:'0.8rem',color:'var(--text-light)',marginBottom:12}}>{job.location} · {job.dates}</div>
+                                    <div style={{fontSize:'0.94rem',color:'var(--text-mid)',lineHeight:1.75,maxWidth:560}}>{job.description}</div>
+                                    {job.isNew && (
+                                        <span style={{display:'inline-block',marginTop:10,background:'rgba(200,169,110,0.12)',color:'var(--accent-dark)',border:'1px solid rgba(200,169,110,0.3)',padding:'3px 10px',borderRadius:4,fontSize:'0.7rem',letterSpacing:'0.1em',textTransform:'uppercase',fontWeight:600}}>Current</span>
+                                    )}
+                                </div>
+                            </FadeUp>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ─── SKILLS ─── */}
+            <section style={{padding:'80px 0',background:'var(--navy)'}}>
+                <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',textAlign:'center'}}>
+                    <FadeUp>
+                        <SectionLabel>Capabilities</SectionLabel>
+                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(1.8rem,3.5vw,2.5rem)',color:'white',marginBottom:44}}>Key Skills</div>
+                        <div style={{display:'flex',flexWrap:'wrap',gap:10,justifyContent:'center'}}>
+                            {['Product Design & Development','Manufacturing Methods','Automation & Robotics','Camera Technologies','Electromechanical Systems','GD&T & Tolerancing','SolidWorks / Creo','System Integration'].map(s => (
+                                <div key={s} className="skill-pill"
+                                    style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.07)',border:'1px solid rgba(255,255,255,0.11)',borderRadius:50,padding:'10px 22px',fontSize:'0.875rem',fontWeight:500,color:'rgba(255,255,255,0.78)'}}>
+                                    <div style={{width:6,height:6,borderRadius:'50%',background:'var(--accent)',flexShrink:0}}></div>
+                                    {s}
+                                </div>
+                            ))}
+                        </div>
+                    </FadeUp>
+                </div>
+            </section>
+
+            {/* ─── ABOUT / PHOTOS ─── */}
+            <AboutSection />
+
+            {/* ─── RESUME ─── */}
+            <section id="Resume" style={{padding:'100px 0',background:'var(--warm-gray)'}}>
+                <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',display:'grid',gridTemplateColumns:'1fr 1fr',gap:80,alignItems:'center'}} className="two-col">
+                    <FadeUp>
+                        <img src="resume-preview.png" alt="Resume Preview"
+                            style={{width:'100%',maxWidth:380,borderRadius:12,boxShadow:'0 24px 64px rgba(0,0,0,0.14)',display:'block',margin:'0 auto'}} />
+                    </FadeUp>
+                    <FadeUp delay={100}>
+                        <div>
+                            <SectionLabel>Resume</SectionLabel>
+                            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(1.8rem,3.5vw,2.5rem)',color:'var(--navy)',lineHeight:1.1,marginBottom:20}}>Achievements on Paper</div>
+                            <p style={{color:'var(--text-mid)',lineHeight:1.8,fontSize:'0.97rem',marginBottom:32}}>
+                                As a mechanical design engineer, I specialize in AI-driven robotics, electro-mechanical design, and cost-efficient manufacturing. With a passion for innovation, I create cutting-edge solutions that turn concepts into reality.
+                            </p>
+                            <a href="William Nuveen's Resume (Oct. 24).pdf" target="_blank" rel="noopener noreferrer"
+                                style={{display:'inline-block',background:'var(--accent)',color:'white',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',textDecoration:'none',transition:'background 0.2s'}}
+                                onMouseEnter={e=>e.target.style.background='var(--accent-dark)'}
+                                onMouseLeave={e=>e.target.style.background='var(--accent)'}
+                            >View Resume →</a>
+                        </div>
+                    </FadeUp>
+                </div>
+            </section>
+
+            {/* ─── CONTACT ─── */}
+            <section id="contact" style={{background:'var(--navy)',padding:'100px 0'}}>
+                <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',textAlign:'center'}}>
+                    <FadeUp>
+                        <SectionLabel>Get In Touch</SectionLabel>
+                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2.5rem,5vw,4rem)',color:'white',lineHeight:1.05,marginBottom:24}}>
+                            Let's Build<br/><span style={{fontStyle:'italic'}}>Something Great</span>
+                        </div>
+                        <p style={{color:'rgba(255,255,255,0.45)',fontSize:'0.97rem',marginBottom:44}}>
+                            San Francisco, CA &nbsp;·&nbsp; wnuveen3@gmail.com
+                        </p>
+                        <a href="mailto:wnuveen3@gmail.com"
+                            style={{display:'inline-block',background:'var(--accent)',color:'white',padding:'14px 38px',borderRadius:6,fontWeight:500,fontSize:'0.9rem',letterSpacing:'0.06em',textDecoration:'none',transition:'background 0.2s,transform 0.15s'}}
+                            onMouseEnter={e=>{e.target.style.background='var(--accent-dark)';e.target.style.transform='translateY(-1px)';}}
+                            onMouseLeave={e=>{e.target.style.background='var(--accent)';e.target.style.transform='translateY(0)';}}
+                        >Say Hello →</a>
+                    </FadeUp>
+                </div>
+            </section>
+
+            {/* ─── FOOTER ─── */}
+            <footer style={{background:'#111820',padding:'28px 48px',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <p style={{color:'rgba(255,255,255,0.28)',fontSize:'0.8rem'}}>© 2025 William Nuveen. All Rights Reserved.</p>
+                <a href="https://www.linkedin.com/in/williamnuveen/" target="_blank" rel="noopener noreferrer"
+                    style={{color:'rgba(255,255,255,0.35)',transition:'color 0.2s'}}
+                    onMouseEnter={e=>e.target.style.color='rgba(255,255,255,0.7)'}
+                    onMouseLeave={e=>e.target.style.color='rgba(255,255,255,0.35)'}
+                    aria-label="LinkedIn">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                </a>
+            </footer>
+
+            {selectedItem && <Modal item={selectedItem} onClose={() => setSelectedItem(null)} />}
+        </div>
+    );
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+</body>
+</html>
