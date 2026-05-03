@@ -261,7 +261,7 @@ const careerPages = {
 const aboutCategories = {
   Hiking:   { photos: ['Hiking_2.JPG','Hiking_3.JPG','Hiking_4.JPG'], desc: 'Exploring trails across California and beyond.' },
   Skiing:   { photos: ['Skiing_1.jpg'], desc: 'Chasing powder from Tahoe to the Alps.' },
-  Travel:   { photos: ['Travel_1.jpg','Travel_2.jpg','Travel_3.jpg'], desc: 'Finding inspiration everywhere.' },
+  Travel:   { photos: ['Travel_3.jpg'], desc: 'Finding inspiration everywhere.' },
   Robotics: { photos: ['Robotics_1.PNG','Robotics_2.jpeg','Robotics_3.PNG'], desc: 'The obsession that started it all.' },
 };
 
@@ -367,11 +367,12 @@ const Modal = ({ item, onClose }) => {
 const CareerPage = ({ pageKey, onClose }) => {
     const data = careerPages[pageKey];
     if (!data) return null;
+    const [lbPhoto, setLbPhoto] = useState(null);
 
     // Photo slots per company — swap src values with your actual images
     const photoSlots = {
         'multiply-labs': ['Multiply_Labs_1.jpg','Multiply_Labs_2.jpg','Multiply_Labs_3.jpg'],
-        'ocado':         ['depal.jpg','Camera_PC.png','depal_2.jpg'],
+        'ocado':         ['depal.jpg','Camera_PC_2.jpg','Camera_PC_3.jpg'],
         'neato':         ['Nexaro_NR1500.jpg','Mopping_Robot.jpg','Neato_Parts.jpg'],
         'kohler':        ['Kohler_Work.jpg','Kohler_Bath_Spout.png','Kohler_Pres.jpg'],
     };
@@ -400,29 +401,27 @@ const CareerPage = ({ pageKey, onClose }) => {
                 </div>
             </div>
 
-            {/* 3-photo grid */}
-            <div style={{maxWidth:860,margin:'0 auto',padding:'40px 48px 0'}}>
-                <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12}}>
-                    {photos.map((src,i) => (
-                        <div key={i} style={{borderRadius:10,overflow:'hidden',aspectRatio:'4/3',background:'var(--warm-gray)'}}>
-                            <img src={src} alt={`${data.company} ${i+1}`}
-                                style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}}
-                                onError={e=>{e.target.style.display='none';e.target.parentNode.style.display='flex';e.target.parentNode.style.alignItems='center';e.target.parentNode.style.justifyContent='center';e.target.parentNode.innerHTML=`<span style="font-size:0.75rem;color:#aaa;text-align:center;padding:12px">Add photo<br/><span style="font-size:0.65rem;opacity:0.6">${src}</span></span>`;}}
-                            />
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* Sections */}
+            {/* Sections with interleaved photos */}
             <div style={{maxWidth:860,margin:'0 auto',padding:'48px 48px 80px'}}>
                 {data.sections.map((sec,i) => (
-                    <div key={i} style={{marginBottom:56}}>
+                    <div key={i} style={{marginBottom:64}}>
                         <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.7rem',color:'var(--navy)',marginBottom:16}}>{sec.heading}</div>
                         {sec.body.split('\n\n').map((para,j) => (
                             <p key={j} style={{color:'var(--text-mid)',lineHeight:1.85,fontSize:'0.97rem',marginBottom:16}}>{para}</p>
                         ))}
-                        {i < data.sections.length - 1 && <div style={{height:1,background:'rgba(0,0,0,0.07)',marginTop:40}}></div>}
+                        {/* Interleave a photo after each section if available */}
+                        {photos[i] && (
+                            <div style={{marginTop:28,borderRadius:14,overflow:'hidden',cursor:'pointer'}}
+                                onClick={() => setLbPhoto(photos[i])}>
+                                <img src={photos[i]} alt={`${data.company} ${i+1}`}
+                                    style={{width:'100%',maxHeight:420,objectFit:'cover',display:'block',transition:'transform 0.4s'}}
+                                    onMouseEnter={e=>e.target.style.transform='scale(1.02)'}
+                                    onMouseLeave={e=>e.target.style.transform='scale(1)'}
+                                    onError={e=>{e.target.parentNode.style.display='none';}}
+                                />
+                            </div>
+                        )}
+                        {i < data.sections.length - 1 && <div style={{height:1,background:'rgba(0,0,0,0.07)',marginTop:48}}></div>}
                     </div>
                 ))}
 
@@ -441,6 +440,21 @@ const CareerPage = ({ pageKey, onClose }) => {
                     </div>
                 )}
             </div>
+
+            {/* Lightbox */}
+            {lbPhoto && (
+                <div onClick={() => setLbPhoto(null)}
+                    style={{position:'fixed',inset:0,background:'rgba(10,15,25,0.88)',backdropFilter:'blur(6px)',zIndex:1300,display:'flex',alignItems:'center',justifyContent:'center',padding:24,cursor:'zoom-out'}}>
+                    <img src={lbPhoto} alt="expanded"
+                        style={{maxWidth:'90vw',maxHeight:'90vh',borderRadius:12,objectFit:'contain',boxShadow:'0 32px 80px rgba(0,0,0,0.7)',cursor:'default'}}
+                        onClick={e=>e.stopPropagation()}
+                    />
+                    <button onClick={() => setLbPhoto(null)}
+                        style={{position:'absolute',top:24,right:24,background:'rgba(255,255,255,0.1)',border:'1px solid rgba(255,255,255,0.2)',borderRadius:'50%',width:40,height:40,color:'white',fontSize:'1.2rem',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'sans-serif'}}>
+                        ×
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
@@ -448,6 +462,7 @@ const CareerPage = ({ pageKey, onClose }) => {
 // ─── ABOUT SECTION ───────────────────────────────────────────
 const AboutSection = () => {
     const [activeTag, setActiveTag] = useState(null);
+    const [lightbox, setLightbox] = useState(null);
     const tags = Object.keys(aboutCategories);
     const active = activeTag ? aboutCategories[activeTag] : null;
     return (
@@ -482,19 +497,23 @@ const AboutSection = () => {
 
                             {/* Photo gallery panel */}
                             {active && (
-                                <div style={{marginTop:28,padding:'20px',background:'var(--warm-gray)',borderRadius:12,animation:'fadeIn 0.3s ease'}}>
-                                    <div style={{fontSize:'0.75rem',color:'var(--text-light)',marginBottom:12,letterSpacing:'0.08em',textTransform:'uppercase'}}>{activeTag}</div>
-                                    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(120px,1fr))',gap:8}}>
+                                <div style={{marginTop:28,padding:'20px',background:'var(--warm-gray)',borderRadius:12}}>
+                                    <div style={{fontSize:'0.75rem',color:'var(--text-light)',marginBottom:14,letterSpacing:'0.08em',textTransform:'uppercase'}}>{activeTag}</div>
+                                    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))',gap:10}}>
                                         {active.photos.map((photo,i) => (
-                                            <div key={i} style={{aspectRatio:'1',borderRadius:8,background:'#ccc8c0',overflow:'hidden'}}>
+                                            <div key={i} style={{aspectRatio:'4/3',borderRadius:10,background:'#ccc8c0',overflow:'hidden',cursor:'pointer',transition:'transform 0.2s,opacity 0.2s'}}
+                                                onClick={() => setLightbox(photo)}
+                                                onMouseEnter={e=>{e.currentTarget.style.transform='scale(1.03)';e.currentTarget.style.opacity='0.9';}}
+                                                onMouseLeave={e=>{e.currentTarget.style.transform='scale(1)';e.currentTarget.style.opacity='1';}}
+                                            >
                                                 <img src={photo} alt={`${activeTag} ${i+1}`}
-                                                    style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}}
+                                                    style={{width:'100%',height:'100%',objectFit:'cover',display:'block',pointerEvents:'none'}}
                                                     onError={e=>{e.target.style.display='none';e.target.parentNode.style.display='flex';e.target.parentNode.style.alignItems='center';e.target.parentNode.style.justifyContent='center';e.target.parentNode.innerHTML='<span style="font-size:0.68rem;color:#999;text-align:center;padding:4px">Add photo</span>';}}
                                                 />
                                             </div>
                                         ))}
                                     </div>
-                                    <p style={{color:'var(--text-light)',fontSize:'0.78rem',marginTop:10,fontStyle:'italic'}}>{active.desc}</p>
+                                    <p style={{color:'var(--text-light)',fontSize:'0.78rem',marginTop:12,fontStyle:'italic'}}>{active.desc}</p>
                                 </div>
                             )}
                         </div>
@@ -502,22 +521,43 @@ const AboutSection = () => {
 
                     <FadeUp delay={100}>
                         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gridTemplateRows:'auto auto',gap:10}}>
-                            <div style={{gridRow:'span 2',height:480,borderRadius:12,overflow:'hidden'}}>
-                                <img src="Skiing_1.jpg" alt="Skiing" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} />
+                            <div style={{gridRow:'span 2',height:480,borderRadius:12,overflow:'hidden',cursor:'pointer'}} onClick={() => setLightbox('Skiing_1.jpg')}>
+                                <img src="Skiing_1.jpg" alt="Skiing" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',transition:'transform 0.3s'}}
+                                    onMouseEnter={e=>e.target.style.transform='scale(1.04)'}
+                                    onMouseLeave={e=>e.target.style.transform='scale(1)'}
+                                />
                             </div>
-                            <div style={{height:232,borderRadius:12,overflow:'hidden'}}>
-                                <img src="Hiking_1.JPG" alt="Hiking" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} />
+                            <div style={{height:232,borderRadius:12,overflow:'hidden',cursor:'pointer'}} onClick={() => setLightbox('Hiking_1.JPG')}>
+                                <img src="Hiking_1.JPG" alt="Hiking" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',transition:'transform 0.3s'}}
+                                    onMouseEnter={e=>e.target.style.transform='scale(1.04)'}
+                                    onMouseLeave={e=>e.target.style.transform='scale(1)'}
+                                />
                             </div>
-                            <div style={{height:232,background:'#d4cfc6',borderRadius:12,border:'1px dashed rgba(0,0,0,0.1)',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--text-light)',fontSize:'0.72rem',letterSpacing:'0.08em',textTransform:'uppercase'}}>
-                                Activity Photo 2
+                            <div style={{height:232,borderRadius:12,overflow:'hidden',cursor:'pointer'}} onClick={() => setLightbox('Robotics_4.jpg')}>
+                                <img src="Robotics_4.jpg" alt="Robotics" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',transition:'transform 0.3s'}}
+                                    onMouseEnter={e=>e.target.style.transform='scale(1.04)'}
+                                    onMouseLeave={e=>e.target.style.transform='scale(1)'}
+                                />
                             </div>
                         </div>
-                        <p style={{color:'var(--text-light)',fontSize:'0.72rem',marginTop:10,fontStyle:'italic'}}>
-                            Tip: swap placeholder divs with &lt;img src="your-photo.jpg"/&gt;
-                        </p>
                     </FadeUp>
                 </div>
             </div>
+
+            {/* Lightbox */}
+            {lightbox && (
+                <div onClick={() => setLightbox(null)}
+                    style={{position:'fixed',inset:0,background:'rgba(10,15,25,0.88)',backdropFilter:'blur(6px)',zIndex:1200,display:'flex',alignItems:'center',justifyContent:'center',padding:24,cursor:'zoom-out'}}>
+                    <img src={lightbox} alt="expanded"
+                        style={{maxWidth:'90vw',maxHeight:'90vh',borderRadius:12,objectFit:'contain',boxShadow:'0 32px 80px rgba(0,0,0,0.7)',cursor:'default'}}
+                        onClick={e=>e.stopPropagation()}
+                    />
+                    <button onClick={() => setLightbox(null)}
+                        style={{position:'absolute',top:24,right:24,background:'rgba(255,255,255,0.1)',border:'1px solid rgba(255,255,255,0.2)',borderRadius:'50%',width:40,height:40,color:'white',fontSize:'1.2rem',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'sans-serif'}}>
+                        ×
+                    </button>
+                </div>
+            )}
         </section>
     );
 };
