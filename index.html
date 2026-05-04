@@ -368,6 +368,9 @@ const CareerPage = ({ pageKey, onClose }) => {
     const data = careerPages[pageKey];
     if (!data) return null;
     const [lbPhoto, setLbPhoto] = useState(null);
+    const [currentKey, setCurrentKey] = useState(pageKey);
+    const currentData = careerPages[currentKey] || data;
+    const setCareerPageFromNav = (key) => { setCurrentKey(key); window.scrollTo(0,0); };
 
     // Photo slots per company — swap src values with your actual images
     const photoSlots = {
@@ -376,34 +379,58 @@ const CareerPage = ({ pageKey, onClose }) => {
         'neato':         ['Nexaro_NR1500.jpg','Mopping_Robot.jpg','Neato_Parts.jpg'],
         'kohler':        ['Kohler_Work.jpg','Kohler_Bath_Spout.png','Kohler_Pres.jpg'],
     };
-    const photos = photoSlots[pageKey] || [];
+    const photos = photoSlots[currentKey] || [];
 
     return (
         <div style={{position:'fixed',inset:0,zIndex:800,background:'var(--cream)',overflowY:'auto'}}>
-            {/* Top bar */}
-            <div style={{position:'sticky',top:0,zIndex:10,background:'rgba(245,240,232,0.95)',backdropFilter:'blur(12px)',borderBottom:'1px solid rgba(0,0,0,0.07)',padding:'0 48px',height:60,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                <button onClick={onClose} style={{display:'flex',alignItems:'center',gap:8,background:'none',border:'none',cursor:'pointer',color:'var(--text-mid)',fontSize:'0.9rem',fontWeight:500,fontFamily:"'DM Sans',sans-serif",padding:0}}>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 3L5 8l5 5"/></svg>
-                    Back
-                </button>
-                <span style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.3rem',color:'var(--navy)'}}>{data.company}</span>
-                <span style={{fontSize:'0.9rem',color:'var(--text-light)',fontWeight:500}}>{data.dates}</span>
+            {/* Full nav — same as main page, with Back button added */}
+            <div style={{position:'sticky',top:0,zIndex:10,background:'rgba(245,240,232,0.93)',backdropFilter:'blur(14px)',borderBottom:'1px solid rgba(0,0,0,0.07)'}}>
+                <nav style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',height:62,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                    <a href="#" style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.5rem',color:'var(--navy)',textDecoration:'none'}}>WN</a>
+                    <div style={{display:'flex',alignItems:'center',gap:28}}>
+                        <button onClick={onClose} style={{display:'flex',alignItems:'center',gap:6,background:'none',border:'none',cursor:'pointer',color:'var(--text-mid)',fontSize:'0.9rem',fontWeight:500,fontFamily:"'DM Sans',sans-serif",padding:0,letterSpacing:'0.03em'}}>
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 3L5 8l5 5"/></svg>
+                            Back
+                        </button>
+                        <div className="dropdown">
+                            <span className="dropdown-trigger">
+                                Career
+                                <svg className="chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 4l4 4 4-4"/></svg>
+                            </span>
+                            <div className="dropdown-menu">
+                                <div className="dropdown-menu-inner">
+                                    <button onClick={()=>setCareerPageFromNav('multiply-labs')} className="dropdown-item featured" style={{width:'100%',textAlign:'left',background:'rgba(200,169,110,0.06)',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer'}}>✦ Multiply Labs</button>
+                                    <button onClick={()=>setCareerPageFromNav('ocado')} className="dropdown-item" style={{width:'100%',textAlign:'left',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer',background:'none'}}>Ocado Technology</button>
+                                    <button onClick={()=>setCareerPageFromNav('neato')} className="dropdown-item" style={{width:'100%',textAlign:'left',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer',background:'none'}}>Neato Robotics</button>
+                                    <button onClick={()=>setCareerPageFromNav('kohler')} className="dropdown-item" style={{width:'100%',textAlign:'left',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer',background:'none'}}>Kohler Company</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button onClick={onClose} className="nav-link" style={{background:'none',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",padding:'0 0 2px'}}>Portfolio</button>
+                        <button onClick={onClose} className="nav-link" style={{background:'none',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",padding:'0 0 2px'}}>About</button>
+                        <button onClick={onClose} className="nav-link" style={{background:'none',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",padding:'0 0 2px'}}>Resume</button>
+                        <button onClick={onClose} className="nav-link" style={{background:'var(--navy)',color:'white',padding:'8px 20px',borderRadius:6,fontWeight:500,fontSize:'0.85rem',letterSpacing:'0.04em',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif"}}
+                            onMouseEnter={e=>e.currentTarget.style.background='var(--navy-light)'}
+                            onMouseLeave={e=>e.currentTarget.style.background='var(--navy)'}
+                        >Contact</button>
+                    </div>
+                </nav>
             </div>
 
             {/* Hero */}
             <div style={{background:'var(--navy)',padding:'80px 48px 60px',position:'relative',overflow:'hidden'}}>
                 <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse at 60% 40%, rgba(200,169,110,0.1) 0%, transparent 55%)'}}></div>
                 <div style={{maxWidth:860,margin:'0 auto',position:'relative',zIndex:1}}>
-                    <div style={{fontSize:'1rem',letterSpacing:'0.16em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:8}}>{data.company}</div>
-                    <div style={{fontSize:'0.85rem',color:'rgba(255,255,255,0.4)',marginBottom:16,letterSpacing:'0.04em'}}>{data.location} · {data.dates}</div>
-                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2rem,5vw,3.5rem)',color:'white',lineHeight:1.05,marginBottom:20}}>{data.role}</div>
-                    <p style={{fontSize:'1.1rem',color:'rgba(255,255,255,0.55)',fontWeight:300,maxWidth:600}}>{data.tagline}</p>
+                    <div style={{fontSize:'1rem',letterSpacing:'0.16em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:8}}>{currentData.company}</div>
+                    <div style={{fontSize:'0.85rem',color:'rgba(255,255,255,0.4)',marginBottom:16,letterSpacing:'0.04em'}}>{currentData.location} · {currentData.dates}</div>
+                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2rem,5vw,3.5rem)',color:'white',lineHeight:1.05,marginBottom:20}}>{currentData.role}</div>
+                    <p style={{fontSize:'1.1rem',color:'rgba(255,255,255,0.55)',fontWeight:300,maxWidth:600}}>{currentData.tagline}</p>
                 </div>
             </div>
 
             {/* Sections with interleaved photos */}
             <div style={{maxWidth:860,margin:'0 auto',padding:'48px 48px 80px'}}>
-                {data.sections.map((sec,i) => (
+                {currentData.sections.map((sec,i) => (
                     <div key={i} style={{marginBottom:64}}>
                         <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.7rem',color:'var(--navy)',marginBottom:16}}>{sec.heading}</div>
                         {sec.body.split('\n\n').map((para,j) => (
@@ -425,11 +452,11 @@ const CareerPage = ({ pageKey, onClose }) => {
                     </div>
                 ))}
 
-                {data.pressLinks.length > 0 && (
+                {currentData.pressLinks.length > 0 && (
                     <div style={{marginTop:48,paddingTop:40,borderTop:'1px solid rgba(0,0,0,0.07)'}}>
                         <div style={{fontSize:'0.78rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:16}}>Press & Links</div>
                         <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
-                            {data.pressLinks.map(({label,href}) => (
+                            {currentData.pressLinks.map(({label,href}) => (
                                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                                     style={{display:'inline-block',background:'var(--navy)',color:'white',padding:'11px 22px',borderRadius:6,fontSize:'0.82rem',fontWeight:500,textDecoration:'none',letterSpacing:'0.04em',transition:'background 0.2s'}}
                                     onMouseEnter={e=>e.target.style.background='var(--navy-light)'}
