@@ -121,7 +121,7 @@
         .portfolio-card:hover .card-sub { opacity: 1; transform: translateY(0); }
 
         /* TIMELINE */
-        .timeline-item { position: relative; padding-left: 44px; padding-bottom: 88px; }
+        .timeline-item { position: relative; padding-left: 44px; padding-bottom: 140px; }
         .timeline-item:last-child { padding-bottom: 0; }
         .timeline-item::before {
             content: ''; position: absolute; left: 7px; top: 14px;
@@ -371,7 +371,7 @@ const CareerPage = ({ pageKey, onClose }) => {
 
     // Photo slots per company — swap src values with your actual images
     const photoSlots = {
-        'multiply-labs': ['Multiply_Labs_2.jpg','Multiply_Labs_1.jpg','Multiply_Labs_3.jpg'],
+        'multiply-labs': ['Multiply_Labs_1.jpg','Multiply_Labs_2.jpg','Multiply_Labs_3.jpg'],
         'ocado':         ['depal.jpg','Camera_PC_2.jpg','Camera_PC_3.jpg'],
         'neato':         ['Nexaro_NR1500.jpg','Mopping_Robot.jpg','Neato_Parts.jpg'],
         'kohler':        ['Kohler_Work.jpg','Kohler_Bath_Spout.png','Kohler_Pres.jpg'],
@@ -497,9 +497,9 @@ const AboutSection = () => {
 
                             {/* Photo gallery panel */}
                             {active && (
-                                <div style={{marginTop:28,padding:'20px',background:'var(--warm-gray)',borderRadius:12}}>
-                                    <div style={{fontSize:'0.75rem',color:'var(--text-light)',marginBottom:14,letterSpacing:'0.08em',textTransform:'uppercase'}}>{activeTag}</div>
-                                    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))',gap:10}}>
+                                <div style={{marginTop:28,padding:'24px',background:'var(--warm-gray)',borderRadius:14}}>
+                                    <div style={{fontSize:'0.75rem',color:'var(--text-light)',marginBottom:16,letterSpacing:'0.08em',textTransform:'uppercase'}}>{activeTag}</div>
+                                    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(200px,1fr))',gap:12}}>
                                         {active.photos.map((photo,i) => (
                                             <div key={i} style={{aspectRatio:'4/3',borderRadius:10,background:'#ccc8c0',overflow:'hidden',cursor:'pointer',transition:'transform 0.2s,opacity 0.2s'}}
                                                 onClick={() => setLightbox(photo)}
@@ -513,7 +513,7 @@ const AboutSection = () => {
                                             </div>
                                         ))}
                                     </div>
-                                    <p style={{color:'var(--text-light)',fontSize:'0.78rem',marginTop:12,fontStyle:'italic'}}>{active.desc}</p>
+                                    <p style={{color:'var(--text-light)',fontSize:'0.82rem',marginTop:14,fontStyle:'italic'}}>{active.desc}</p>
                                 </div>
                             )}
                         </div>
@@ -563,7 +563,11 @@ const AboutSection = () => {
 };
 
 // ─── MULTIPLY LABS SECTION ───────────────────────────────────
-const MultiplyLabsSection = ({ onOpenCareer }) => (
+const MultiplyLabsSection = ({ onOpenCareer }) => {
+    const [mlLightbox, setMlLightbox] = useState(null);
+    // expose setter so inline onClick handlers can reach it
+    window.__mlLightbox = setMlLightbox;
+    return (
     <section id="multiply-labs" style={{background:'var(--navy)',padding:'0 0 100px'}}>
         {/* Separator between hero and this section */}
         <div style={{height:1,background:'linear-gradient(to right, transparent, rgba(200,169,110,0.5), transparent)',marginBottom:80}}></div>
@@ -578,7 +582,7 @@ const MultiplyLabsSection = ({ onOpenCareer }) => (
                             </div>
                         </div>
                         <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(1.9rem,3.5vw,2.8rem)',color:'white',lineHeight:1.1,marginBottom:24}}>
-                            Robotic System for<br/>CAR-T Cell Therapy
+                            Robotic System for<br/>Manufacturing Biologics
                         </div>
                         <p style={{color:'rgba(255,255,255,0.6)',lineHeight:1.85,fontSize:'0.97rem',marginBottom:14}}>
                             CAR-T cell therapy is a breakthrough cancer treatment where a patient's own T-cells are genetically engineered to recognize and kill cancer cells. Today it's a highly manual, contamination-prone process — we're automating it end-to-end.
@@ -606,11 +610,12 @@ const MultiplyLabsSection = ({ onOpenCareer }) => (
                         <div style={{display:'flex',gap:10,flexWrap:'wrap',alignItems:'center'}}>
                             <a href="https://www.multiplylabs.com/" target="_blank" rel="noopener noreferrer"
                                 style={{display:'inline-flex',alignItems:'center',gap:6,background:'var(--accent)',color:'white',padding:'11px 22px',borderRadius:6,fontSize:'0.82rem',fontWeight:500,textDecoration:'none',fontFamily:"'DM Sans',sans-serif",letterSpacing:'0.04em',transition:'background 0.2s'}}
-                                onMouseEnter={e=>e.target.style.background='var(--accent-dark)'}
-                                onMouseLeave={e=>e.target.style.background='var(--accent)'}
+                                onMouseEnter={e=>e.currentTarget.style.background='var(--accent-dark)'}
+                                onMouseLeave={e=>e.currentTarget.style.background='var(--accent)'}
                             >Read More ↗</a>
                             {[
                                 ['AstraZeneca Press ↗','https://www.businesswire.com/news/home/20260127453159/en/Multiply-Labs-Announces-New-Collaboration-to-Automate-Cell-Therapy-Manufacturing-with-Robotics'],
+                                ['Legend Biotech Press ↗','https://www.businesswire.com/news/home/20240924666477/en/Multiply-Labs-Announces-a-Collaboration-on-Automating-Cell-Therapy-Manufacturing-with-Legend-Biotech'],
                                 ['Nvidia Press ↗','https://blogs.nvidia.com/blog/multiply-labs-isaac-omniverse/'],
                                 ['Team Spotlight ↗','https://www.linkedin.com/posts/engineeringexcellence-robotics-biomanufacturing-ugcPost-7344144321194901504-s3Ux'],
                             ].map(([label,href]) => (
@@ -627,25 +632,47 @@ const MultiplyLabsSection = ({ onOpenCareer }) => (
                 <FadeUp delay={140}>
                     <div>
                         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
-                            <div style={{gridColumn:'span 2',height:280,borderRadius:12,overflow:'hidden'}}>
-                                <img src="Multiply_Labs_4.jpg" alt="Multiply Labs" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} />
+                            <div style={{gridColumn:'span 2',height:280,borderRadius:12,overflow:'hidden',cursor:'pointer'}} onClick={()=>setMlLightbox('Multiply_Labs_4.jpg')}>
+                                <img src="Multiply_Labs_4.jpg" alt="Multiply Labs" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',transition:'transform 0.4s'}}
+                                    onMouseEnter={e=>e.target.style.transform='scale(1.03)'}
+                                    onMouseLeave={e=>e.target.style.transform='scale(1)'}
+                                />
                             </div>
-                            <div style={{height:160,borderRadius:10,overflow:'hidden'}}>
-                                <img src="Multiply_Labs_1.jpg" alt="Multiply Labs Robotic System" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} />
+                            <div style={{height:160,borderRadius:10,overflow:'hidden',cursor:'pointer'}} onClick={()=>setMlLightbox('Multiply_Labs_1.jpg')}>
+                                <img src="Multiply_Labs_1.jpg" alt="Multiply Labs Robotic System" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',transition:'transform 0.4s'}}
+                                    onMouseEnter={e=>e.target.style.transform='scale(1.03)'}
+                                    onMouseLeave={e=>e.target.style.transform='scale(1)'}
+                                />
                             </div>
-                            <div style={{height:160,borderRadius:10,overflow:'hidden'}}>
-                                <img src="Multiply_Labs_Team_1.jpg" alt="Multiply Labs Team" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} />
+                            <div style={{height:160,borderRadius:10,overflow:'hidden',cursor:'pointer'}} onClick={()=>setMlLightbox('Multiply_Labs_Team_1.jpg')}>
+                                <img src="Multiply_Labs_Team_1.jpg" alt="Multiply Labs Team" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',transition:'transform 0.4s'}}
+                                    onMouseEnter={e=>e.target.style.transform='scale(1.03)'}
+                                    onMouseLeave={e=>e.target.style.transform='scale(1)'}
+                                />
                             </div>
                         </div>
-                        <p style={{color:'rgba(255,255,255,0.25)',fontSize:'0.72rem',marginTop:10,fontStyle:'italic'}}>
-                            Tip: replace placeholders with e.g. multiply_labs_1.jpg
-                        </p>
                     </div>
                 </FadeUp>
             </div>
         </div>
+
+        {/* ML Lightbox */}
+        {mlLightbox && (
+            <div onClick={()=>setMlLightbox(null)}
+                style={{position:'fixed',inset:0,background:'rgba(10,15,25,0.88)',backdropFilter:'blur(6px)',zIndex:1200,display:'flex',alignItems:'center',justifyContent:'center',padding:24,cursor:'zoom-out'}}>
+                <img src={mlLightbox} alt="expanded"
+                    style={{maxWidth:'90vw',maxHeight:'90vh',borderRadius:12,objectFit:'contain',boxShadow:'0 32px 80px rgba(0,0,0,0.7)',cursor:'default'}}
+                    onClick={e=>e.stopPropagation()}
+                />
+                <button onClick={()=>setMlLightbox(null)}
+                    style={{position:'absolute',top:24,right:24,background:'rgba(255,255,255,0.1)',border:'1px solid rgba(255,255,255,0.2)',borderRadius:'50%',width:40,height:40,color:'white',fontSize:'1.2rem',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                    ×
+                </button>
+            </div>
+        )}
     </section>
-);
+    );
+};
 
 // ─── MAIN APP ────────────────────────────────────────────────
 const App = () => {
@@ -708,13 +735,13 @@ const App = () => {
                         </div>
                         <div style={{display:'flex',gap:12,marginTop:36,flexWrap:'wrap'}}>
                             <button
-                                onClick={() => { const el = document.getElementById('portfolio'); if(el) el.scrollIntoView({behavior:'smooth'}); }}
+                                onClick={() => { const el = document.getElementById('portfolio'); if(el) window.scrollTo({top: el.offsetTop - 62, behavior:'smooth'}); }}
                                 style={{display:'inline-block',background:'var(--accent)',color:'white',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",transition:'background 0.2s,transform 0.15s'}}
                                 onMouseEnter={e=>{e.currentTarget.style.background='var(--accent-dark)';e.currentTarget.style.transform='translateY(-1px)';}}
                                 onMouseLeave={e=>{e.currentTarget.style.background='var(--accent)';e.currentTarget.style.transform='translateY(0)';}}
                             >View Portfolio</button>
                             <button
-                                onClick={() => { const el = document.getElementById('multiply-labs'); if(el) el.scrollIntoView({behavior:'smooth'}); }}
+                                onClick={() => { const el = document.getElementById('multiply-labs'); if(el) window.scrollTo({top: el.offsetTop - 62, behavior:'smooth'}); }}
                                 style={{display:'inline-block',background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.8)',border:'1px solid rgba(255,255,255,0.15)',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",transition:'background 0.2s'}}
                                 onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.14)'}
                                 onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,0.08)'}
@@ -775,7 +802,7 @@ const App = () => {
                             <FadeUp key={i} delay={i*70}>
                                 <div className="timeline-item">
                                     <div className="timeline-dot" style={job.isNew?{background:'var(--accent)',borderColor:'var(--accent)'}:{}}></div>
-                                    <div style={{fontSize:'0.9rem',letterSpacing:'0.14em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:8}}>{job.company}</div>
+                                    <div style={{fontSize:'1.1rem',letterSpacing:'0.14em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:8}}>{job.company}</div>
                                     <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'2.1rem',color:'var(--navy)',marginBottom:10,lineHeight:1.15}}>{job.title}</div>
                                     <div style={{fontSize:'0.95rem',color:'var(--text-light)',marginBottom:16}}>{job.location} · {job.dates}</div>
                                     <div style={{fontSize:'0.94rem',color:'var(--text-mid)',lineHeight:1.8,maxWidth:560}}>{job.description}</div>
@@ -848,8 +875,11 @@ const App = () => {
                         <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2.5rem,5vw,4rem)',color:'white',lineHeight:1.05,marginBottom:24}}>
                             Let's Build<br/><span style={{fontStyle:'italic'}}>Something Great</span>
                         </div>
-                        <p style={{color:'rgba(255,255,255,0.45)',fontSize:'0.97rem',marginBottom:44}}>
+                        <p style={{color:'rgba(255,255,255,0.45)',fontSize:'0.97rem',marginBottom:16,maxWidth:520,margin:'0 auto 16px'}}>
                             San Francisco, CA &nbsp;·&nbsp; wnuveen3@gmail.com
+                        </p>
+                        <p style={{color:'rgba(255,255,255,0.35)',fontSize:'0.9rem',marginBottom:44,maxWidth:520,margin:'0 auto 44px'}}>
+                            Open to consulting on product design, consumables engineering, and robotics hardware — get in touch to discuss your project.
                         </p>
                         <a href="mailto:wnuveen3@gmail.com"
                             style={{display:'inline-block',background:'var(--accent)',color:'white',padding:'14px 38px',borderRadius:6,fontWeight:500,fontSize:'0.9rem',letterSpacing:'0.06em',textDecoration:'none',transition:'background 0.2s,transform 0.15s'}}
@@ -862,7 +892,7 @@ const App = () => {
 
             {/* ─── FOOTER ─── */}
             <footer style={{background:'#111820',padding:'28px 48px',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-                <p style={{color:'rgba(255,255,255,0.28)',fontSize:'0.8rem'}}>© 2025 William Nuveen. All Rights Reserved.</p>
+                <p style={{color:'rgba(255,255,255,0.28)',fontSize:'0.8rem'}}>© 2026 William Nuveen. All Rights Reserved.</p>
                 <a href="https://www.linkedin.com/in/williamnuveen/" target="_blank" rel="noopener noreferrer"
                     style={{color:'rgba(255,255,255,0.35)',transition:'color 0.2s'}}
                     onMouseEnter={e=>e.target.style.color='rgba(255,255,255,0.7)'}
