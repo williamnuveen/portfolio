@@ -23,7 +23,7 @@
             --text-light: #8a8a8a;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; scroll-padding-top: 62px; }
         body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); }
 
         /* NAV */
@@ -94,10 +94,12 @@
         .hero::before {
             content: ''; position: absolute; inset: 0;
             background: radial-gradient(ellipse at 75% 40%, rgba(200,169,110,0.1) 0%, transparent 55%);
+            pointer-events: none;
         }
         .hero::after {
             content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 80px;
             background: linear-gradient(to bottom, transparent, var(--navy) 60%);
+            pointer-events: none;
         }
 
         /* PORTFOLIO CARD */
@@ -260,8 +262,8 @@ const careerPages = {
 
 const aboutCategories = {
   Hiking:   { photos: ['Hiking_2.JPG','Hiking_3.JPG','Hiking_4.JPG'], desc: 'Exploring trails across California and beyond.' },
-  Skiing:   { photos: ['Skiing_1.jpg','Skiing_2.JPG','Skiing_3.jpg','Skiing_4.JPG'], desc: 'Chasing powder from Tahoe to the Alps.' },
-  Travel:   { photos: ['Travel_1.jpg','Travel_2.jpg','Travel_3.jpg','Travel_4.jpg','Travel_5.jpg'], desc: 'Finding inspiration everywhere.' },
+  Skiing:   { photos: ['Skiing_1.jpg'], desc: 'Chasing powder from Tahoe to the Alps.' },
+  Travel:   { photos: ['Travel_3.jpg'], desc: 'Finding inspiration everywhere.' },
   Robotics: { photos: ['Robotics_1.PNG','Robotics_2.jpeg','Robotics_3.PNG'], desc: 'The obsession that started it all.' },
 };
 
@@ -761,18 +763,16 @@ const App = () => {
                             Robotics · Product Design · Automation
                         </div>
                         <div style={{display:'flex',gap:12,marginTop:36,flexWrap:'wrap'}}>
-                            <button
-                                onClick={() => { const el = document.getElementById('portfolio'); if(el) window.scrollTo({top: el.offsetTop - 62, behavior:'smooth'}); }}
-                                style={{display:'inline-block',background:'var(--accent)',color:'white',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",transition:'background 0.2s,transform 0.15s'}}
+                            <a href="#portfolio"
+                                style={{display:'inline-block',background:'var(--accent)',color:'white',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',textDecoration:'none',transition:'background 0.2s,transform 0.15s'}}
                                 onMouseEnter={e=>{e.currentTarget.style.background='var(--accent-dark)';e.currentTarget.style.transform='translateY(-1px)';}}
                                 onMouseLeave={e=>{e.currentTarget.style.background='var(--accent)';e.currentTarget.style.transform='translateY(0)';}}
-                            >View Portfolio</button>
-                            <button
-                                onClick={() => { const el = document.getElementById('multiply-labs'); if(el) window.scrollTo({top: el.offsetTop - 62, behavior:'smooth'}); }}
-                                style={{display:'inline-block',background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.8)',border:'1px solid rgba(255,255,255,0.15)',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",transition:'background 0.2s'}}
+                            >View Portfolio</a>
+                            <a href="#multiply-labs"
+                                style={{display:'inline-block',background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.8)',border:'1px solid rgba(255,255,255,0.15)',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',textDecoration:'none',transition:'background 0.2s'}}
                                 onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.14)'}
                                 onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,0.08)'}
-                            >Current Work ↓</button>
+                            >Current Work ↓</a>
                         </div>
                     </div>
                     <div className="hero-photo-wrap" style={{display:'flex',justifyContent:'flex-end'}}>
