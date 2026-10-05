@@ -1,184 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>William Nuveen – Robotics Engineer</title>
-<meta name="description" content="William Nuveen — Advanced Robotics Engineer in San Francisco. Consumables, cartridges and robotics hardware for cell therapy manufacturing.">
-<meta property="og:title" content="William Nuveen – Robotics Engineer">
-<meta property="og:description" content="Robotics, product design and automation — from consumer robots to CAR-T manufacturing.">
-<meta property="og:image" content="https://williamnuveen.github.io/portfolio/WilliamNuveenPortrait.jpg">
-<meta property="og:type" content="website">
-<meta name="theme-color" content="#1a2332">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚙️</text></svg>">
-<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --navy:#1a2332;--navy-light:#243044;--cream:#f5f0e8;--warm-gray:#e8e3db;
-  --accent:#c8a96e;--accent-dark:#a8893e;
-  --text-dark:#1a1a1a;--text-mid:#4a4a4a;--text-light:#6b6b6b;
-  --serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:62px}
-body{font-family:var(--sans);background:var(--cream);color:var(--text-dark)}
-img{display:block}
-button{font-family:var(--sans)}
-:focus-visible{outline:2px solid var(--accent-dark);outline-offset:3px}
-.wrap{max-width:1200px;margin:0 auto;padding:0 48px}
-.serif{font-family:var(--serif)}
-.label{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-dark);font-weight:600;margin-bottom:10px}
-.on-dark .label,.label.on-dark{color:var(--accent)}
-.h2{font-family:var(--serif);font-size:clamp(2rem,4vw,2.8rem);color:var(--navy);line-height:1.1}
-.body{color:var(--text-mid);line-height:1.8;font-size:.97rem}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>William Nuveen - Portfolio</title>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #1a2332;
+            --navy-light: #243044;
+            --cream: #f5f0e8;
+            --warm-gray: #e8e3db;
+            --accent: #c8a96e;
+            --accent-dark: #a8893e;
+            --text-dark: #1a1a1a;
+            --text-mid: #4a4a4a;
+            --text-light: #8a8a8a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; scroll-padding-top: 62px; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text-dark); }
 
-/* buttons: navy text on gold for contrast */
-.btn{display:inline-block;padding:13px 30px;border-radius:6px;font-weight:500;font-size:.88rem;letter-spacing:.05em;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .2s,transform .15s}
-.btn-gold{background:var(--accent);color:var(--navy)}
-.btn-gold:hover{background:#d6ba82;transform:translateY(-1px)}
-.btn-ghost{background:rgba(255,255,255,.08);color:rgba(255,255,255,.85);border-color:rgba(255,255,255,.18)}
-.btn-ghost:hover{background:rgba(255,255,255,.15)}
-.btn-dark{background:var(--navy);color:#fff}
-.btn-dark:hover{background:var(--navy-light)}
-.btn-sm{padding:10px 18px;font-size:.8rem}
+        /* NAV */
+        .nav-link {
+            font-size: 0.9rem; font-weight: 500; letter-spacing: 0.03em;
+            color: var(--text-mid); text-decoration: none; transition: color 0.2s;
+            position: relative; padding-bottom: 2px;
+        }
+        .nav-link:hover { color: var(--navy); }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -2px; left: 0;
+            width: 0; height: 1px; background: var(--accent); transition: width 0.3s;
+        }
+        .nav-link:hover::after { width: 100%; }
 
-/* NAV */
-.site-header{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(245,240,232,.93);backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,.07)}
-.career .site-header{position:sticky}
-.nav{max-width:1200px;margin:0 auto;padding:0 48px;height:62px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-family:var(--serif);font-size:1.5rem;color:var(--navy);text-decoration:none}
-.nav-links{display:flex;align-items:center;gap:28px}
-.nav-link,.dropdown-trigger{font-size:.9rem;font-weight:500;letter-spacing:.03em;color:var(--text-mid);text-decoration:none;background:none;border:none;cursor:pointer;position:relative;padding:0 0 2px;transition:color .2s}
-.nav-link::after,.dropdown-trigger::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent-dark);transition:width .3s}
-.nav-link:hover,.dropdown:hover .dropdown-trigger{color:var(--navy)}
-.nav-link:hover::after,.dropdown:hover .dropdown-trigger::after{width:100%}
-.nav-cta{background:var(--navy);color:#fff;padding:8px 20px;border-radius:6px;font-size:.85rem}
-.nav-cta:hover{background:var(--navy-light);color:#fff}
-.nav-cta::after{display:none}
-.dropdown{position:relative}
-.dropdown-trigger{display:flex;align-items:center;gap:5px}
-.chevron{width:11px;height:11px;opacity:.5;transition:transform .25s}
-.dropdown:hover .chevron,.dropdown.open .chevron{transform:rotate(180deg)}
-.dropdown-menu{position:absolute;top:100%;left:50%;transform:translateX(-50%);padding-top:14px;min-width:190px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:200}
-.dropdown:hover .dropdown-menu,.dropdown.open .dropdown-menu,.dropdown:focus-within .dropdown-menu{opacity:1;pointer-events:all}
-.dropdown-menu-inner{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;box-shadow:0 16px 48px rgba(0,0,0,.13);overflow:hidden}
-.dropdown-item{display:block;width:100%;text-align:left;padding:12px 20px;font-size:.875rem;font-weight:500;color:var(--text-mid);background:none;border:none;border-bottom:1px solid rgba(0,0,0,.05);cursor:pointer}
-.dropdown-item:last-child{border-bottom:none}
-.dropdown-item:hover{background:var(--cream);color:var(--navy)}
-.dropdown-item.featured{color:var(--accent-dark);background:rgba(200,169,110,.07)}
+        /* DROPDOWN */
+        .dropdown { position: relative; }
+        .dropdown-trigger {
+            display: flex; align-items: center; gap: 5px;
+            cursor: default; font-size: 0.9rem; font-weight: 500;
+            color: var(--text-mid); letter-spacing: 0.03em; position: relative; padding-bottom: 2px;
+        }
+        .dropdown-trigger::after {
+            content: ''; position: absolute; bottom: -2px; left: 0;
+            width: 0; height: 1px; background: var(--accent); transition: width 0.3s;
+        }
+        .dropdown:hover .dropdown-trigger { color: var(--navy); }
+        .dropdown:hover .dropdown-trigger::after { width: 100%; }
+        .chevron { width: 11px; height: 11px; transition: transform 0.25s; opacity: 0.45; flex-shrink: 0; }
+        .dropdown:hover .chevron { transform: rotate(180deg); }
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 50%;
+            transform: translateX(-50%);
+            padding-top: 14px;
+            background: transparent;
+            min-width: 190px; opacity: 0; pointer-events: none;
+            transition: opacity 0.2s; z-index: 200;
+        }
+        .dropdown-menu-inner {
+            background: white; border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 10px; box-shadow: 0 16px 48px rgba(0,0,0,0.13);
+            overflow: hidden;
+            transform: translateY(-4px);
+            transition: transform 0.2s;
+        }
+        .dropdown:hover .dropdown-menu {
+            opacity: 1; pointer-events: all;
+        }
+        .dropdown:hover .dropdown-menu-inner {
+            transform: translateY(0);
+        }
+        .dropdown-item {
+            display: block; padding: 12px 20px; font-size: 0.875rem;
+            color: var(--text-mid); text-decoration: none;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: background 0.15s, color 0.15s; font-weight: 500;
+        }
+        .dropdown-item:last-child { border-bottom: none; }
+        .dropdown-item:hover { background: var(--cream); color: var(--navy); }
+        .dropdown-item.featured { color: var(--accent-dark); background: rgba(200,169,110,0.06); }
+        .dropdown-item.featured:hover { background: rgba(200,169,110,0.12); }
 
-/* HERO */
-.hero{min-height:100vh;background:var(--navy);display:flex;align-items:center;position:relative;overflow:hidden;padding-top:62px}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 75% 40%,rgba(200,169,110,.1),transparent 55%);pointer-events:none}
-.hero-grid{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative}
-.hero-kicker{font-size:1rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:18px}
-.hero-name{font-family:var(--serif);font-size:clamp(3.2rem,7vw,5.5rem);color:#fff;line-height:1.02;margin-bottom:20px}
-.hero-sub{font-size:1.05rem;color:rgba(255,255,255,.6);font-weight:300}
-.hero-photo{width:100%;max-width:400px;aspect-ratio:3/4;object-fit:cover;border-radius:16px;box-shadow:0 40px 100px rgba(0,0,0,.5);margin-left:auto}
+        /* HERO */
+        .hero {
+            min-height: 100vh; background: var(--navy);
+            display: flex; align-items: center; position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 75% 40%, rgba(200,169,110,0.1) 0%, transparent 55%);
+            pointer-events: none;
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 80px;
+            background: linear-gradient(to bottom, transparent, var(--navy) 60%);
+            pointer-events: none;
+        }
 
-/* STATS */
-.stats{background:var(--navy-light);border-top:1px solid rgba(200,169,110,.25)}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:40px 48px}
-.stat-num{font-family:var(--serif);font-size:2.4rem;color:var(--accent);line-height:1}
-.stat-txt{font-size:.85rem;color:rgba(255,255,255,.6);margin-top:8px;line-height:1.5}
+        /* PORTFOLIO CARD */
+        .portfolio-card {
+            position: relative; border-radius: 12px; overflow: hidden;
+            cursor: pointer; aspect-ratio: 4/3; background: var(--navy-light);
+        }
+        .portfolio-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s, opacity 0.3s; }
+        .portfolio-card:hover img { transform: scale(1.06); opacity: 0.55; }
+        .card-overlay {
+            position: absolute; inset: 0; display: flex; flex-direction: column;
+            justify-content: flex-end; padding: 22px;
+            background: linear-gradient(to top, rgba(15,25,45,0.95) 0%, rgba(15,25,45,0.3) 50%, transparent 100%);
+        }
+        .card-company { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+        .card-title { font-family: 'DM Serif Display', serif; color: white; font-size: 1.1rem; line-height: 1.3; margin-bottom: 6px; }
+        .card-sub {
+            color: rgba(255,255,255,0.65); font-size: 0.78rem; font-weight: 400;
+            opacity: 0; transform: translateY(5px); transition: opacity 0.3s, transform 0.3s;
+        }
+        .portfolio-card:hover .card-sub { opacity: 1; transform: translateY(0); }
 
-/* MULTIPLY LABS */
-.ml{background:var(--navy);padding:80px 0 100px}
-.live{display:inline-flex;align-items:center;gap:10px;margin-bottom:24px;background:rgba(200,169,110,.15);color:var(--accent);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;padding:6px 14px;border-radius:4px;border:1px solid rgba(200,169,110,.25)}
-.live i{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80}
-.partners{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 40px}
-.partner{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:16px 18px}
-.partner b{display:block;font-family:var(--serif);font-weight:400;font-size:1.15rem;color:#fff;margin-bottom:4px}
-.partner span{font-size:.78rem;color:rgba(255,255,255,.5)}
-.links{display:flex;gap:10px;flex-wrap:wrap}
-.pill-link{background:rgba(255,255,255,.07);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.16);padding:10px 18px;border-radius:6px;font-size:.8rem;font-weight:500;text-decoration:none}
-.pill-link:hover{background:rgba(255,255,255,.14)}
-.collage{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        /* TIMELINE */
+        .timeline-item { position: relative; padding-left: 44px; padding-bottom: 140px; }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: 7px; top: 14px;
+            width: 1px; height: calc(100% - 14px);
+            background: linear-gradient(to bottom, rgba(200,169,110,0.5), rgba(200,169,110,0.05));
+        }
+        .timeline-item:last-child::before { display: none; }
+        .timeline-dot {
+            position: absolute; left: 0; top: 10px; width: 16px; height: 16px;
+            border-radius: 50%; border: 2px solid var(--accent); background: var(--warm-gray); transition: background 0.2s;
+        }
 
-/* PHOTO TILE (clickable image) */
-.tile{border:none;padding:0;background:var(--navy-light);border-radius:12px;overflow:hidden;cursor:zoom-in;display:block;width:100%}
-.tile img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
-.tile:hover img{transform:scale(1.04)}
+        /* SKILLS */
+        .skill-pill {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 50px; padding: 10px 20px; font-size: 0.875rem;
+            font-weight: 500; color: rgba(255,255,255,0.8);
+        }
 
-/* PORTFOLIO */
-.section{padding:100px 0}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
-.portfolio-card{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;aspect-ratio:4/3;background:var(--navy-light);border:none;padding:0;text-align:left;width:100%}
-.portfolio-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s,opacity .3s}
-.portfolio-card:hover img{transform:scale(1.06);opacity:.55}
-.card-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;background:linear-gradient(to top,rgba(15,25,45,.95),rgba(15,25,45,.3) 50%,transparent)}
-.card-company{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:4px}
-.card-title{font-family:var(--serif);color:#fff;font-size:1.1rem;line-height:1.3;margin-bottom:6px}
-.card-sub{color:rgba(255,255,255,.75);font-size:.78rem;opacity:0;transform:translateY(5px);transition:opacity .3s,transform .3s}
-.portfolio-card:hover .card-sub,.portfolio-card:focus-visible .card-sub{opacity:1;transform:none}
-@media (hover:none){.card-sub{opacity:1;transform:none}.portfolio-card img{opacity:.7}}
+        /* FADE UP */
+        .fade-up { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
 
-/* TIMELINE */
-.timeline-item{position:relative;padding-left:44px;padding-bottom:100px}
-.timeline-item:last-child{padding-bottom:0}
-.timeline-item::before{content:'';position:absolute;left:7px;top:14px;width:1px;height:calc(100% - 14px);background:linear-gradient(to bottom,rgba(168,137,62,.6),rgba(168,137,62,.05))}
-.timeline-item:last-child::before{display:none}
-.timeline-dot{position:absolute;left:0;top:10px;width:16px;height:16px;border-radius:50%;border:2px solid var(--accent-dark);background:var(--warm-gray)}
-.timeline-dot.now{background:var(--accent)}
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(10,15,25,0.75);
+            backdrop-filter: blur(6px); z-index: 1000;
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-inner {
+            background: white; border-radius: 16px; max-width: 860px;
+            width: 100%; max-height: 90vh; overflow-y: auto;
+        }
 
-/* SKILLS */
-.skills{background:var(--navy);padding:80px 0;text-align:center}
-.skill-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:50px;padding:12px 26px;font-size:1.02rem;font-weight:500;color:rgba(255,255,255,.88)}
-.skill-pill i{width:7px;height:7px;border-radius:50%;background:var(--accent)}
-
-/* ABOUT */
-.chip{background:var(--warm-gray);color:var(--navy);padding:9px 18px;border-radius:50px;font-size:.82rem;font-weight:500;border:none;cursor:pointer;transition:background .2s,color .2s}
-.chip[aria-pressed=true]{background:var(--navy);color:#fff}
-.gallery{margin-top:28px;padding:24px;background:var(--warm-gray);border-radius:14px}
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-
-/* OVERLAYS */
-.modal-overlay{position:fixed;inset:0;background:rgba(10,15,25,.78);backdrop-filter:blur(6px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
-.modal-inner{background:#fff;border-radius:16px;max-width:860px;width:100%;max-height:90vh;overflow-y:auto}
-.lb-close{position:absolute;top:24px;right:24px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:1.2rem;cursor:pointer}
-.career{position:fixed;inset:0;z-index:800;background:var(--cream);overflow-y:auto}
-
-.fade-up{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
-.fade-up.visible{opacity:1;transform:none}
-
-footer{background:#111820;padding:28px 48px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
-footer p,footer a{color:rgba(255,255,255,.5);font-size:.8rem;text-decoration:none}
-footer a:hover{color:#fff}
-
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .fade-up{opacity:1;transform:none;transition:none}
-  *{transition-duration:.01ms!important}
-}
-@media (max-width:900px){
-  .wrap,.nav{padding:0 20px}
-  .two-col,.hero-grid{grid-template-columns:1fr;gap:40px}
-  .hero-photo{display:none}
-  .stats-grid{grid-template-columns:1fr 1fr;padding:32px 20px}
-  .nav-links{gap:16px}
-  .hide-sm{display:none}
-  .section,.ml{padding:64px 0}
-  .timeline-item{padding-bottom:56px}
-  .sticky-col{position:static!important}
-}
-@media (max-width:560px){
-  .nav-links .nav-link:not(.nav-cta){font-size:.82rem}
-  .partners{grid-template-columns:1fr}
-}
-</style>
+        @media (max-width: 768px) {
+            .hero-grid { grid-template-columns: 1fr !important; }
+            .hero-grid .hero-photo-wrap { display: none; }
+            .two-col { grid-template-columns: 1fr !important; }
+            .hide-mobile { display: none !important; }
+        }
+    </style>
 </head>
 <body>
 <div id="root"></div>
-
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
 
-// ─── CONTENT (formerly data.js) ───
 // ─── PAGE DATA ────────────────────────────────────────────────
 const careerPages = {
   'multiply-labs': {
@@ -321,412 +314,627 @@ const experiences = [
       description:"Designed Kohler's first back-of-the-bath spout diverter. Reduced water leakage, improved laminar flow aesthetics, and lowered manufacturing costs through innovative prototyping with Carbon 3D printing." },
 ];
 
-
-const SKILLS = ['Product Design & Development','Mass Manufacturing','Automation & Robotics','Electromechanical Systems','GD&T & Tolerancing','DFM&A','SolidWorks / Onshape','System Integration'];
-const STATS = [
-  ['300+','units per hour on bulky items with the Ocado depalletizing system'],
-  ['750M+','items sorted by the Kindred Sort robot using my camera mount'],
-  ['4','robotic arms in the Multiply Labs CAR-T manufacturing system'],
-  ['Q4 2024','first Ocado depalletizer deployment, London'],
-];
-const PRESS = [
-  ['AstraZeneca','https://www.businesswire.com/news/home/20260127453159/en/Multiply-Labs-Announces-New-Collaboration-to-Automate-Cell-Therapy-Manufacturing-with-Robotics'],
-  ['Legend Biotech','https://www.businesswire.com/news/home/20240924666477/en/Multiply-Labs-Announces-a-Collaboration-on-Automating-Cell-Therapy-Manufacturing-with-Legend-Biotech'],
-  ['Nvidia','https://blogs.nvidia.com/blog/multiply-labs-isaac-omniverse/'],
-  ['Team Spotlight','https://www.linkedin.com/posts/engineeringexcellence-robotics-biomanufacturing-ugcPost-7344144321194901504-s3Ux'],
-];
-const PHOTO_SLOTS = {
-  'multiply-labs':['Multiply_Labs_1.jpg','Multiply_Labs_2.jpg','Multiply_Labs_3.jpg'],
-  'ocado':['depal.jpg','Camera_PC_2.jpg','Camera_PC_3.jpg'],
-  'neato':['Nexaro_NR1500.jpg','Mopping_Robot.jpg','Neato_Parts.jpg'],
-  'kohler':['Kohler_Work.jpg','Kohler_Bath_Spout.png','Kohler_Pres.jpg'],
-};
-
-// ─── HELPERS ───────────────────────────────────────────────
+// ─── HELPERS ─────────────────────────────────────────────────
 const FadeUp = ({ children, delay = 0 }) => {
-  const ref = useRef(null);
-  useEffect(() => {
-    const el = ref.current; if (!el) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add('visible'); obs.disconnect(); } }, { threshold: .08 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-  return <div ref={ref} className="fade-up" style={{ transitionDelay: `${delay}ms` }}>{children}</div>;
+    const ref = useRef(null);
+    useEffect(() => {
+        const el = ref.current; if (!el) return;
+        const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add('visible'); obs.disconnect(); } }, { threshold: 0.08 });
+        obs.observe(el);
+        return () => obs.disconnect();
+    }, []);
+    return <div ref={ref} className="fade-up" style={{ transitionDelay:`${delay}ms` }}>{children}</div>;
 };
 
-const Img = ({ src, alt, eager, ...rest }) =>
-  <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" {...rest} />;
+const SectionLabel = ({ children }) => (
+    <div style={{fontSize:'0.72rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:10}}>{children}</div>
+);
 
-// Escape to close + page scroll lock while an overlay is open
-const useOverlay = (onClose) => {
-  useEffect(() => {
-    if (!onClose) return;
-    const onKey = e => { if (e.key === 'Escape') onClose(); };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [onClose]);
-  useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = prev; };
-  }, []);
-};
-
-const Lightbox = ({ src, onClose }) => {
-  useOverlay(onClose);
-  return (
-    <div className="modal-overlay" role="dialog" aria-modal="true" aria-label="Image viewer"
-         style={{ zIndex: 1300, cursor: 'zoom-out' }} onClick={onClose}>
-      <Img src={src} alt="" eager onClick={e => e.stopPropagation()}
-           style={{ maxWidth: '90vw', maxHeight: '90vh', borderRadius: 12, objectFit: 'contain', boxShadow: '0 32px 80px rgba(0,0,0,.7)' }} />
-      <button className="lb-close" onClick={onClose} aria-label="Close image">×</button>
-    </div>
-  );
-};
-
-// Clickable photo that hides itself if the file is missing
-const Photo = ({ src, alt, onOpen, style }) => {
-  const [bad, setBad] = useState(false);
-  if (bad) return null;
-  return (
-    <button className="tile" style={style} onClick={() => onOpen(src)} aria-label={`Enlarge: ${alt}`}>
-      <Img src={src} alt={alt} onError={() => setBad(true)} />
-    </button>
-  );
-};
-
-// ─── NAV (shared by home + career pages) ───────────────────
-const Nav = ({ onBack, onCareer, goTo }) => {
-  const [open, setOpen] = useState(false);
-  return (
-    <header className="site-header">
-      <nav className="nav" aria-label="Main">
-        <a href="#" className="logo" onClick={e => { if (onBack) { e.preventDefault(); onBack(); } }}>WN</a>
-        <div className="nav-links">
-          {onBack
-            ? <button className="nav-link" onClick={onBack}>← Back</button>
-            : <a href="#" className="nav-link hide-sm">Home</a>}
-          <div className={'dropdown' + (open ? ' open' : '')} onMouseLeave={() => setOpen(false)}>
-            <button className="dropdown-trigger" aria-haspopup="true" aria-expanded={open} onClick={() => setOpen(o => !o)}>
-              Career
-              <svg className="chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>
-            </button>
-            <div className="dropdown-menu"><div className="dropdown-menu-inner">
-              {Object.entries(careerPages).map(([key, c], i) => (
-                <button key={key} className={'dropdown-item' + (i === 0 ? ' featured' : '')}
-                        onClick={() => { setOpen(false); onCareer(key); }}>
-                  {i === 0 ? '✦ ' : ''}{c.company}
-                </button>
-              ))}
-            </div></div>
-          </div>
-          <button className="nav-link" onClick={() => goTo('portfolio')}>Portfolio</button>
-          <button className="nav-link hide-sm" onClick={() => goTo('about')}>About</button>
-          <button className="nav-link hide-sm" onClick={() => goTo('resume')}>Resume</button>
-          <button className="nav-link nav-cta" onClick={() => goTo('contact')}>Contact</button>
-        </div>
-      </nav>
-    </header>
-  );
-};
-
-// ─── PORTFOLIO MODAL ───────────────────────────────────────
+// ─── PORTFOLIO MODAL ─────────────────────────────────────────
 const Modal = ({ item, onClose }) => {
-  const [expanded, setExpanded] = useState(null);
-  useOverlay(expanded ? null : onClose);
-  return (
-    <div className="modal-overlay" role="dialog" aria-modal="true" aria-label={item.title}
-         onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="modal-inner">
-        <div style={{ background: 'var(--navy)', padding: '40px 44px 32px' }}>
-          <div className="label on-dark">{item.company}</div>
-          <h2 className="serif" style={{ fontWeight: 400, fontSize: '2rem', color: '#fff' }}>{item.title}</h2>
-        </div>
-        <div style={{ padding: '36px 44px' }}>
-          <p className="body">{item.longDescription}</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 10, marginTop: 28 }}>
-            {item.images.map((img, i) => (
-              <Photo key={img} src={img} alt={`${item.title}, photo ${i + 1}`} onOpen={setExpanded} style={{ aspectRatio: '4/3', borderRadius: 8 }} />
-            ))}
-          </div>
-          <button className="btn btn-dark" style={{ marginTop: 32 }} onClick={onClose}>Close</button>
-        </div>
-      </div>
-      {expanded && <Lightbox src={expanded} onClose={() => setExpanded(null)} />}
-    </div>
-  );
-};
-
-// ─── CAREER PAGE ───────────────────────────────────────────
-const CareerPage = ({ pageKey, onClose, goHome }) => {
-  const [lb, setLb] = useState(null);
-  const [key, setKey] = useState(pageKey);
-  const scroller = useRef(null);
-  useOverlay(lb ? null : onClose);
-  const data = careerPages[key];
-  if (!data) return null;
-  const photos = PHOTO_SLOTS[key] || [];
-  const switchTo = k => { setKey(k); scroller.current && scroller.current.scrollTo(0, 0); };
-
-  return (
-    <div className="career" ref={scroller} role="dialog" aria-modal="true" aria-label={`${data.company} career page`}>
-      <Nav onBack={onClose} onCareer={switchTo} goTo={goHome} />
-      <div style={{ background: 'var(--navy)', padding: '80px 48px 60px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ maxWidth: 860, margin: '0 auto', position: 'relative' }}>
-          <div className="label on-dark" style={{ fontSize: '1rem', letterSpacing: '.16em' }}>{data.company}</div>
-          <div style={{ fontSize: '.85rem', color: 'rgba(255,255,255,.55)', marginBottom: 16 }}>{data.location} · {data.dates}</div>
-          <h1 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(2rem,5vw,3.5rem)', color: '#fff', lineHeight: 1.05, marginBottom: 20 }}>{data.role}</h1>
-          <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,.65)', fontWeight: 300, maxWidth: 600 }}>{data.tagline}</p>
-        </div>
-      </div>
-      <div style={{ maxWidth: 860, margin: '0 auto', padding: '48px 24px 80px' }}>
-        {data.sections.map((sec, i) => (
-          <section key={i} style={{ marginBottom: 56 }}>
-            <h2 className="serif" style={{ fontWeight: 400, fontSize: '1.7rem', color: 'var(--navy)', marginBottom: 16 }}>{sec.heading}</h2>
-            {sec.body.split('\n\n').map((p, j) => <p key={j} className="body" style={{ marginBottom: 16, maxWidth: '70ch' }}>{p}</p>)}
-            {photos[i] && <Photo src={photos[i]} alt={`${data.company}, photo ${i + 1}`} onOpen={setLb} style={{ marginTop: 28, maxHeight: 420 }} />}
-          </section>
-        ))}
-        {data.pressLinks.length > 0 && (
-          <div style={{ paddingTop: 40, borderTop: '1px solid rgba(0,0,0,.08)' }}>
-            <div className="label">Press & links</div>
-            <div className="links">
-              {data.pressLinks.map(({ label, href }) => (
-                <a key={label} className="btn btn-dark btn-sm" href={href} target="_blank" rel="noopener noreferrer">{label} ↗</a>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-      {lb && <Lightbox src={lb} onClose={() => setLb(null)} />}
-    </div>
-  );
-};
-
-// ─── SECTIONS ──────────────────────────────────────────────
-const MultiplyLabsSection = () => {
-  const [lb, setLb] = useState(null);
-  return (
-    <section id="multiply-labs" className="ml">
-      <div className="wrap two-col">
-        <FadeUp><div>
-          <div className="live"><i></i>Current role · Multiply Labs</div>
-          <h2 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(1.9rem,3.5vw,2.8rem)', color: '#fff', lineHeight: 1.1, marginBottom: 24 }}>
-            Robotic systems for manufacturing biologics
-          </h2>
-          <p className="body" style={{ color: 'rgba(255,255,255,.7)', marginBottom: 14 }}>
-            CAR-T cell therapy is a breakthrough cancer treatment where a patient's own T-cells are genetically engineered to recognize and kill cancer cells. Today it's a highly manual, contamination-prone process — we're automating it end to end.
-          </p>
-          <p className="body" style={{ color: 'rgba(255,255,255,.7)' }}>
-            I design consumables and cartridges for next-generation therapeutic robotic manufacturing.
-          </p>
-          <div className="label on-dark" style={{ marginTop: 36, color: 'rgba(255,255,255,.5)' }}>Key partners</div>
-          <div className="partners">
-            {[['ThermoFisher','Global bioprocessing leader'],['Nvidia','Isaac robotics platform'],['AstraZeneca','Cell therapy collaboration'],['Legend Biotech','CAR-T manufacturing']].map(([n, s]) => (
-              <div className="partner" key={n}><b>{n}</b><span>{s}</span></div>
-            ))}
-          </div>
-          <div className="links">
-            <a className="btn btn-gold btn-sm" href="https://www.multiplylabs.com/" target="_blank" rel="noopener noreferrer">Visit Multiply Labs ↗</a>
-            {PRESS.map(([l, h]) => <a key={l} className="pill-link" href={h} target="_blank" rel="noopener noreferrer">{l} press ↗</a>)}
-          </div>
-        </div></FadeUp>
-        <FadeUp delay={120}>
-          <div className="collage">
-            <Photo src="Multiply_Labs_4.jpg" alt="Multiply Labs robotic system" onOpen={setLb} style={{ gridColumn: 'span 2', height: 280 }} />
-            <Photo src="Multiply_Labs_1.jpg" alt="Multiply Labs robotic arms" onOpen={setLb} style={{ height: 160, borderRadius: 10 }} />
-            <Photo src="Multiply_Labs_Team_1.jpg" alt="The Multiply Labs team" onOpen={setLb} style={{ height: 160, borderRadius: 10 }} />
-          </div>
-        </FadeUp>
-      </div>
-      {lb && <Lightbox src={lb} onClose={() => setLb(null)} />}
-    </section>
-  );
-};
-
-const AboutSection = () => {
-  const [tag, setTag] = useState(null);
-  const [lb, setLb] = useState(null);
-  const active = tag && aboutCategories[tag];
-  return (
-    <section id="about" className="section">
-      <div className="wrap two-col">
-        <FadeUp><div>
-          <div className="label">Beyond engineering</div>
-          <h2 className="h2" style={{ marginBottom: 24 }}>Life outside the lab</h2>
-          <p className="body" style={{ marginBottom: 32, maxWidth: '60ch' }}>
-            When I'm not designing robotic systems, you'll find me on a trail, on the slopes, or finding new ways to push limits outside the office.
-          </p>
-          <div style={{ fontSize: '.8rem', color: 'var(--text-light)', marginBottom: 12 }}>Pick a category to see photos</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {Object.keys(aboutCategories).map(t => (
-              <button key={t} className="chip" aria-pressed={tag === t} onClick={() => setTag(tag === t ? null : t)}>{t}</button>
-            ))}
-          </div>
-          {active && (
-            <div className="gallery">
-              <div className="gallery-grid">
-                {active.photos.map((p, i) => <Photo key={p} src={p} alt={`${tag}, photo ${i + 1}`} onOpen={setLb} style={{ aspectRatio: '4/3', borderRadius: 10 }} />)}
-              </div>
-              <p style={{ color: 'var(--text-light)', fontSize: '.85rem', marginTop: 14, fontStyle: 'italic' }}>{active.desc}</p>
-            </div>
-          )}
-        </div></FadeUp>
-        <FadeUp delay={100}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-            <Photo src="Skiing_1.jpg" alt="Skiing" onOpen={setLb} style={{ gridRow: 'span 2', height: 480 }} />
-            <Photo src="Hiking_1.JPG" alt="Hiking" onOpen={setLb} style={{ height: 235 }} />
-            <Photo src="Robotics_4.jpg" alt="Robotics project" onOpen={setLb} style={{ height: 235 }} />
-          </div>
-        </FadeUp>
-      </div>
-      {lb && <Lightbox src={lb} onClose={() => setLb(null)} />}
-    </section>
-  );
-};
-
-// ─── APP ───────────────────────────────────────────────────
-const App = () => {
-  const [item, setItem] = useState(null);
-  const [career, setCareer] = useState(null);
-  const goTo = id => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
-  const goFromCareer = id => { setCareer(null); setTimeout(() => goTo(id), 60); };
-
-  return (
-    <div>
-      <Nav onCareer={setCareer} goTo={goTo} />
-
-      <section className="hero">
-        <div className="wrap hero-grid">
-          <div>
-            <div className="hero-kicker">Advanced Robotics Engineer · San Francisco</div>
-            <h1 className="hero-name">William<br/>Nuveen</h1>
-            <p className="hero-sub">Robotics · Product design · Automation</p>
-            <div style={{ display: 'flex', gap: 12, marginTop: 36, flexWrap: 'wrap' }}>
-              <a href="#portfolio" className="btn btn-gold">View portfolio</a>
-              <a href="#multiply-labs" className="btn btn-ghost">Current work ↓</a>
-            </div>
-          </div>
-          <Img className="hero-photo" src="WilliamNuveenPortrait.jpg" alt="Portrait of William Nuveen" eager />
-        </div>
-      </section>
-
-      <section className="stats" aria-label="Highlights">
-        <div className="wrap stats-grid">
-          {STATS.map(([n, t]) => <div key={n}><div className="stat-num">{n}</div><div className="stat-txt">{t}</div></div>)}
-        </div>
-      </section>
-
-      <MultiplyLabsSection />
-
-      <section id="portfolio" className="section">
-        <div className="wrap">
-          <FadeUp><div style={{ marginBottom: 52 }}>
-            <div className="label">Design portfolio</div>
-            <h2 className="h2" style={{ fontSize: 'clamp(2.5rem,5vw,3.8rem)' }}>Mechanical design projects</h2>
-            <p style={{ color: 'var(--text-light)', marginTop: 12, fontSize: '.88rem' }}>Select a project for details and photos</p>
-          </div></FadeUp>
-          <div className="cards">
-            {portfolioItems.map((p, i) => (
-              <FadeUp key={p.title} delay={i * 50}>
-                <button className="portfolio-card" onClick={() => setItem(p)} aria-label={`${p.title}, ${p.company}`}>
-                  <Img src={p.image} alt="" />
-                  <div className="card-overlay">
-                    <div className="card-company">{p.company}</div>
-                    <div className="card-title">{p.title}</div>
-                    <div className="card-sub">{p.shortDescription}</div>
-                  </div>
-                </button>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="experience" className="section" style={{ background: 'var(--warm-gray)' }}>
-        <div className="wrap two-col" style={{ gridTemplateColumns: '1fr 2fr' }}>
-          <FadeUp><div className="sticky-col" style={{ position: 'sticky', top: 90 }}>
-            <div className="label">Work history</div>
-            <h2 className="h2" style={{ marginBottom: 20 }}>Experience</h2>
-            <p className="body">From consumer robotics to biotech automation, I've built systems that ship and scale.</p>
-          </div></FadeUp>
-          <div>
-            {experiences.map((job, i) => (
-              <FadeUp key={job.company} delay={i * 60}>
-                <div className="timeline-item">
-                  <div className={'timeline-dot' + (job.isNew ? ' now' : '')}></div>
-                  <div className="label" style={{ fontSize: '1rem', letterSpacing: '.14em', marginBottom: 8 }}>{job.company}</div>
-                  <h3 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(1.6rem,3vw,2.1rem)', color: 'var(--navy)', marginBottom: 10, lineHeight: 1.15 }}>{job.title}</h3>
-                  <div style={{ fontSize: '.95rem', color: 'var(--text-light)', marginBottom: 16 }}>{job.location} · {job.dates}</div>
-                  <p className="body" style={{ maxWidth: 560 }}>{job.description}</p>
-                  <div style={{ marginTop: 20, display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-                    {job.isNew && <span style={{ background: 'rgba(200,169,110,.18)', color: '#6e5718', border: '1px solid rgba(168,137,62,.4)', padding: '3px 10px', borderRadius: 4, fontSize: '.7rem', letterSpacing: '.1em', textTransform: 'uppercase', fontWeight: 600 }}>Current</span>}
-                    <button className="btn btn-sm" style={{ border: '1px solid rgba(0,0,0,.25)', color: 'var(--navy)', background: 'none', padding: '4px 14px' }} onClick={() => setCareer(job.pageKey)}>Read more ↗</button>
-                  </div>
+    const [expanded, setExpanded] = useState(null);
+    const handleBg = e => { if (e.target === e.currentTarget) onClose(); };
+    return (
+        <div className="modal-overlay" onClick={handleBg}>
+            <div className="modal-inner">
+                <div style={{background:'var(--navy)',padding:'40px 44px 32px',borderRadius:'16px 16px 0 0'}}>
+                    <div style={{fontSize:'0.72rem',letterSpacing:'0.15em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:8}}>{item.company}</div>
+                    <h2 style={{fontFamily:"'DM Serif Display',serif",fontSize:'2rem',color:'white'}}>{item.title}</h2>
                 </div>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="skills">
-        <div className="wrap">
-          <FadeUp>
-            <div className="label on-dark">Capabilities</div>
-            <h2 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(1.8rem,3.5vw,2.5rem)', color: '#fff', marginBottom: 44 }}>Key skills</h2>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
-              {SKILLS.map(s => <div key={s} className="skill-pill"><i></i>{s}</div>)}
+                <div style={{padding:'36px 44px'}}>
+                    <p style={{color:'var(--text-mid)',lineHeight:1.8,fontSize:'0.97rem'}}>{item.longDescription}</p>
+                    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))',gap:10,marginTop:28}}>
+                        {item.images.map((img,i) => (
+                            <img key={i} src={img} alt={`${item.title} ${i+1}`}
+                                style={{width:'100%',aspectRatio:'4/3',objectFit:'cover',borderRadius:8,cursor:'pointer',transition:'transform 0.2s,opacity 0.2s'}}
+                                onClick={() => setExpanded(img)}
+                                onMouseEnter={e=>{e.target.style.transform='scale(1.02)';e.target.style.opacity='0.88';}}
+                                onMouseLeave={e=>{e.target.style.transform='scale(1)';e.target.style.opacity='1';}}
+                            />
+                        ))}
+                    </div>
+                    <button onClick={onClose} style={{marginTop:32,background:'var(--navy)',color:'white',border:'none',padding:'12px 28px',borderRadius:6,fontFamily:"'DM Sans',sans-serif",fontSize:'0.88rem',fontWeight:500,cursor:'pointer',letterSpacing:'0.04em'}}>Close</button>
+                </div>
             </div>
-          </FadeUp>
+            {expanded && (
+                <div className="modal-overlay" style={{zIndex:1100}} onClick={()=>setExpanded(null)}>
+                    <img src={expanded} alt="expanded" style={{maxWidth:'88vw',maxHeight:'88vh',borderRadius:10,objectFit:'contain',boxShadow:'0 32px 80px rgba(0,0,0,0.6)'}} />
+                </div>
+            )}
         </div>
-      </section>
+    );
+};
 
-      <AboutSection />
+// ─── CAREER PAGE ─────────────────────────────────────────────
+const CareerPage = ({ pageKey, onClose }) => {
+    const data = careerPages[pageKey];
+    if (!data) return null;
+    const [lbPhoto, setLbPhoto] = useState(null);
+    const [currentKey, setCurrentKey] = useState(pageKey);
+    const currentData = careerPages[currentKey] || data;
+    const setCareerPageFromNav = (key) => { setCurrentKey(key); window.scrollTo(0,0); };
 
-      <section id="resume" className="section" style={{ background: 'var(--warm-gray)' }}>
-        <div className="wrap two-col" style={{ alignItems: 'center' }}>
-          <FadeUp><Img src="resume-preview.png" alt="Preview of William Nuveen's résumé" style={{ width: '100%', maxWidth: 380, borderRadius: 12, boxShadow: '0 24px 64px rgba(0,0,0,.14)', margin: '0 auto' }} /></FadeUp>
-          <FadeUp delay={100}><div>
-            <h2 className="h2" style={{ fontSize: 'clamp(2.5rem,5vw,3.8rem)', marginBottom: 20 }}>Résumé</h2>
-            <p className="body" style={{ marginBottom: 32, maxWidth: '60ch' }}>
-              I specialize in consumable design for therapeutic robotics, AI-driven robotic systems, and cost-efficient mass manufacturing — turning concepts into deployable, scalable hardware.
-            </p>
-            <a className="btn btn-gold" href="William%20Nuveen%27s%20Resume%20%28Sept.%20%2726%29.pdf" target="_blank" rel="noopener noreferrer">View résumé (PDF)</a>
-          </div></FadeUp>
+    // Photo slots per company — swap src values with your actual images
+    const photoSlots = {
+        'multiply-labs': ['Multiply_Labs_1.jpg','Multiply_Labs_2.jpg','Multiply_Labs_3.jpg'],
+        'ocado':         ['depal.jpg','Camera_PC_2.jpg','Camera_PC_3.jpg'],
+        'neato':         ['Nexaro_NR1500.jpg','Mopping_Robot.jpg','Neato_Parts.jpg'],
+        'kohler':        ['Kohler_Work.jpg','Kohler_Bath_Spout.png','Kohler_Pres.jpg'],
+    };
+    const photos = photoSlots[currentKey] || [];
+
+    return (
+        <div style={{position:'fixed',inset:0,zIndex:800,background:'var(--cream)',overflowY:'auto'}}>
+            {/* Full nav — same as main page, with Back button added */}
+            <div style={{position:'sticky',top:0,zIndex:10,background:'rgba(245,240,232,0.93)',backdropFilter:'blur(14px)',borderBottom:'1px solid rgba(0,0,0,0.07)'}}>
+                <nav style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',height:62,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                    <a href="#" style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.5rem',color:'var(--navy)',textDecoration:'none'}}>WN</a>
+                    <div style={{display:'flex',alignItems:'center',gap:28}}>
+                        <button onClick={onClose} style={{display:'flex',alignItems:'center',gap:6,background:'none',border:'none',cursor:'pointer',color:'var(--text-mid)',fontSize:'0.9rem',fontWeight:500,fontFamily:"'DM Sans',sans-serif",padding:0,letterSpacing:'0.03em'}}>
+                            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10 3L5 8l5 5"/></svg>
+                            Back
+                        </button>
+                        <div className="dropdown">
+                            <span className="dropdown-trigger">
+                                Career
+                                <svg className="chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 4l4 4 4-4"/></svg>
+                            </span>
+                            <div className="dropdown-menu">
+                                <div className="dropdown-menu-inner">
+                                    <button onClick={()=>setCareerPageFromNav('multiply-labs')} className="dropdown-item featured" style={{width:'100%',textAlign:'left',background:'rgba(200,169,110,0.06)',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer'}}>✦ Multiply Labs</button>
+                                    <button onClick={()=>setCareerPageFromNav('ocado')} className="dropdown-item" style={{width:'100%',textAlign:'left',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer',background:'none'}}>Ocado Technology</button>
+                                    <button onClick={()=>setCareerPageFromNav('neato')} className="dropdown-item" style={{width:'100%',textAlign:'left',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer',background:'none'}}>Neato Robotics</button>
+                                    <button onClick={()=>setCareerPageFromNav('kohler')} className="dropdown-item" style={{width:'100%',textAlign:'left',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer',background:'none'}}>Kohler Company</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button onClick={onClose} className="nav-link" style={{background:'none',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",padding:'0 0 2px'}}>Portfolio</button>
+                        <button onClick={onClose} className="nav-link" style={{background:'none',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",padding:'0 0 2px'}}>About</button>
+                        <button onClick={onClose} className="nav-link" style={{background:'none',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",padding:'0 0 2px'}}>Resume</button>
+                        <button onClick={onClose} className="nav-link" style={{background:'var(--navy)',color:'white',padding:'8px 20px',borderRadius:6,fontWeight:500,fontSize:'0.85rem',letterSpacing:'0.04em',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif"}}
+                            onMouseEnter={e=>e.currentTarget.style.background='var(--navy-light)'}
+                            onMouseLeave={e=>e.currentTarget.style.background='var(--navy)'}
+                        >Contact</button>
+                    </div>
+                </nav>
+            </div>
+
+            {/* Hero */}
+            <div style={{background:'var(--navy)',padding:'80px 48px 60px',position:'relative',overflow:'hidden'}}>
+                <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse at 60% 40%, rgba(200,169,110,0.1) 0%, transparent 55%)'}}></div>
+                <div style={{maxWidth:860,margin:'0 auto',position:'relative',zIndex:1}}>
+                    <div style={{fontSize:'1rem',letterSpacing:'0.16em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:8}}>{currentData.company}</div>
+                    <div style={{fontSize:'0.85rem',color:'rgba(255,255,255,0.4)',marginBottom:16,letterSpacing:'0.04em'}}>{currentData.location} · {currentData.dates}</div>
+                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2rem,5vw,3.5rem)',color:'white',lineHeight:1.05,marginBottom:20}}>{currentData.role}</div>
+                    <p style={{fontSize:'1.1rem',color:'rgba(255,255,255,0.55)',fontWeight:300,maxWidth:600}}>{currentData.tagline}</p>
+                </div>
+            </div>
+
+            {/* Sections with interleaved photos */}
+            <div style={{maxWidth:860,margin:'0 auto',padding:'48px 48px 80px'}}>
+                {currentData.sections.map((sec,i) => (
+                    <div key={i} style={{marginBottom:64}}>
+                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.7rem',color:'var(--navy)',marginBottom:16}}>{sec.heading}</div>
+                        {sec.body.split('\n\n').map((para,j) => (
+                            <p key={j} style={{color:'var(--text-mid)',lineHeight:1.85,fontSize:'0.97rem',marginBottom:16}}>{para}</p>
+                        ))}
+                        {/* Interleave a photo after each section if available */}
+                        {photos[i] && (
+                            <div style={{marginTop:28,borderRadius:14,overflow:'hidden',cursor:'pointer'}}
+                                onClick={() => setLbPhoto(photos[i])}>
+                                <img src={photos[i]} alt={`${data.company} ${i+1}`}
+                                    style={{width:'100%',maxHeight:420,objectFit:'cover',display:'block',transition:'transform 0.4s'}}
+                                    onMouseEnter={e=>e.target.style.transform='scale(1.02)'}
+                                    onMouseLeave={e=>e.target.style.transform='scale(1)'}
+                                    onError={e=>{e.target.parentNode.style.display='none';}}
+                                />
+                            </div>
+                        )}
+                        {i < data.sections.length - 1 && <div style={{height:1,background:'rgba(0,0,0,0.07)',marginTop:48}}></div>}
+                    </div>
+                ))}
+
+                {currentData.pressLinks.length > 0 && (
+                    <div style={{marginTop:48,paddingTop:40,borderTop:'1px solid rgba(0,0,0,0.07)'}}>
+                        <div style={{fontSize:'0.78rem',letterSpacing:'0.2em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:16}}>Press & Links</div>
+                        <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
+                            {currentData.pressLinks.map(({label,href}) => (
+                                <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+                                    style={{display:'inline-block',background:'var(--navy)',color:'white',padding:'11px 22px',borderRadius:6,fontSize:'0.82rem',fontWeight:500,textDecoration:'none',letterSpacing:'0.04em',transition:'background 0.2s'}}
+                                    onMouseEnter={e=>e.target.style.background='var(--navy-light)'}
+                                    onMouseLeave={e=>e.target.style.background='var(--navy)'}
+                                >{label} ↗</a>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Lightbox */}
+            {lbPhoto && (
+                <div onClick={() => setLbPhoto(null)}
+                    style={{position:'fixed',inset:0,background:'rgba(10,15,25,0.88)',backdropFilter:'blur(6px)',zIndex:1300,display:'flex',alignItems:'center',justifyContent:'center',padding:24,cursor:'zoom-out'}}>
+                    <img src={lbPhoto} alt="expanded"
+                        style={{maxWidth:'90vw',maxHeight:'90vh',borderRadius:12,objectFit:'contain',boxShadow:'0 32px 80px rgba(0,0,0,0.7)',cursor:'default'}}
+                        onClick={e=>e.stopPropagation()}
+                    />
+                    <button onClick={() => setLbPhoto(null)}
+                        style={{position:'absolute',top:24,right:24,background:'rgba(255,255,255,0.1)',border:'1px solid rgba(255,255,255,0.2)',borderRadius:'50%',width:40,height:40,color:'white',fontSize:'1.2rem',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'sans-serif'}}>
+                        ×
+                    </button>
+                </div>
+            )}
         </div>
-      </section>
+    );
+};
 
-      <section id="contact" style={{ background: 'var(--navy)', padding: '100px 0', textAlign: 'center' }}>
-        <div className="wrap">
-          <FadeUp>
-            <div className="label on-dark">Get in touch</div>
-            <h2 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(2.5rem,5vw,4rem)', color: '#fff', lineHeight: 1.05, marginBottom: 24 }}>Let's build something great</h2>
-            <p style={{ color: 'rgba(255,255,255,.7)', maxWidth: 520, margin: '0 auto 12px' }}>San Francisco, CA · wnuveen3@gmail.com</p>
-            <p style={{ color: 'rgba(255,255,255,.6)', fontSize: '.92rem', maxWidth: 520, margin: '0 auto 44px' }}>
-              Open to consulting on product design, consumables engineering, and robotics hardware. Email me about your project.
-            </p>
-            <a className="btn btn-gold" href="mailto:wnuveen3@gmail.com?subject=Consulting%20inquiry">Email William</a>
-          </FadeUp>
+// ─── ABOUT SECTION ───────────────────────────────────────────
+const AboutSection = () => {
+    const [activeTag, setActiveTag] = useState(null);
+    const [lightbox, setLightbox] = useState(null);
+    const tags = Object.keys(aboutCategories);
+    const active = activeTag ? aboutCategories[activeTag] : null;
+    return (
+        <section id="about" style={{padding:'100px 0',background:'var(--cream)'}}>
+            <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px'}}>
+                <div className="two-col" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:80,alignItems:'start'}}>
+                    <FadeUp>
+                        <div>
+                            <SectionLabel>Beyond Engineering</SectionLabel>
+                            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2rem,4vw,2.8rem)',color:'var(--navy)',lineHeight:1.1,marginBottom:24}}>
+                                Life Outside<br/>the Lab
+                            </div>
+                            <p style={{color:'var(--text-mid)',lineHeight:1.85,fontSize:'0.97rem',marginBottom:32}}>
+                                When I'm not designing robotic systems, you'll find me exploring trails, hitting the slopes, or finding new ways to push limits outside the office.
+                            </p>
+                            <div style={{fontSize:'0.78rem',color:'var(--text-light)',marginBottom:12,letterSpacing:'0.06em'}}>Click a category to see photos</div>
+                            <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+                                {tags.map(tag => (
+                                    <button key={tag}
+                                        onClick={() => setActiveTag(activeTag === tag ? null : tag)}
+                                        style={{
+                                            background: activeTag === tag ? 'var(--navy)' : 'var(--warm-gray)',
+                                            color: activeTag === tag ? 'white' : 'var(--navy)',
+                                            padding:'9px 18px', borderRadius:50, fontSize:'0.82rem',
+                                            fontWeight:500, border:'none', cursor:'pointer',
+                                            fontFamily:"'DM Sans',sans-serif",
+                                            transition:'background 0.2s, color 0.2s',
+                                        }}
+                                    >{tag}</button>
+                                ))}
+                            </div>
+
+                            {/* Photo gallery panel */}
+                            {active && (
+                                <div style={{marginTop:28,padding:'24px',background:'var(--warm-gray)',borderRadius:14}}>
+                                    <div style={{fontSize:'0.75rem',color:'var(--text-light)',marginBottom:16,letterSpacing:'0.08em',textTransform:'uppercase'}}>{activeTag}</div>
+                                    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(200px,1fr))',gap:12}}>
+                                        {active.photos.map((photo,i) => (
+                                            <div key={i} style={{aspectRatio:'4/3',borderRadius:10,background:'#ccc8c0',overflow:'hidden',cursor:'pointer',transition:'transform 0.2s,opacity 0.2s'}}
+                                                onClick={() => setLightbox(photo)}
+                                                onMouseEnter={e=>{e.currentTarget.style.transform='scale(1.03)';e.currentTarget.style.opacity='0.9';}}
+                                                onMouseLeave={e=>{e.currentTarget.style.transform='scale(1)';e.currentTarget.style.opacity='1';}}
+                                            >
+                                                <img src={photo} alt={`${activeTag} ${i+1}`}
+                                                    style={{width:'100%',height:'100%',objectFit:'cover',display:'block',pointerEvents:'none'}}
+                                                    onError={e=>{e.target.style.display='none';e.target.parentNode.style.display='flex';e.target.parentNode.style.alignItems='center';e.target.parentNode.style.justifyContent='center';e.target.parentNode.innerHTML='<span style="font-size:0.68rem;color:#999;text-align:center;padding:4px">Add photo</span>';}}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <p style={{color:'var(--text-light)',fontSize:'0.82rem',marginTop:14,fontStyle:'italic'}}>{active.desc}</p>
+                                </div>
+                            )}
+                        </div>
+                    </FadeUp>
+
+                    <FadeUp delay={100}>
+                        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gridTemplateRows:'auto auto',gap:10}}>
+                            <div style={{gridRow:'span 2',height:480,borderRadius:12,overflow:'hidden',cursor:'pointer'}} onClick={() => setLightbox('Skiing_1.jpg')}>
+                                <img src="Skiing_1.jpg" alt="Skiing" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',transition:'transform 0.3s'}}
+                                    onMouseEnter={e=>e.target.style.transform='scale(1.04)'}
+                                    onMouseLeave={e=>e.target.style.transform='scale(1)'}
+                                />
+                            </div>
+                            <div style={{height:232,borderRadius:12,overflow:'hidden',cursor:'pointer'}} onClick={() => setLightbox('Hiking_1.JPG')}>
+                                <img src="Hiking_1.JPG" alt="Hiking" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',transition:'transform 0.3s'}}
+                                    onMouseEnter={e=>e.target.style.transform='scale(1.04)'}
+                                    onMouseLeave={e=>e.target.style.transform='scale(1)'}
+                                />
+                            </div>
+                            <div style={{height:232,borderRadius:12,overflow:'hidden',cursor:'pointer'}} onClick={() => setLightbox('Robotics_4.jpg')}>
+                                <img src="Robotics_4.jpg" alt="Robotics" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',transition:'transform 0.3s'}}
+                                    onMouseEnter={e=>e.target.style.transform='scale(1.04)'}
+                                    onMouseLeave={e=>e.target.style.transform='scale(1)'}
+                                />
+                            </div>
+                        </div>
+                    </FadeUp>
+                </div>
+            </div>
+
+            {/* Lightbox */}
+            {lightbox && (
+                <div onClick={() => setLightbox(null)}
+                    style={{position:'fixed',inset:0,background:'rgba(10,15,25,0.88)',backdropFilter:'blur(6px)',zIndex:1200,display:'flex',alignItems:'center',justifyContent:'center',padding:24,cursor:'zoom-out'}}>
+                    <img src={lightbox} alt="expanded"
+                        style={{maxWidth:'90vw',maxHeight:'90vh',borderRadius:12,objectFit:'contain',boxShadow:'0 32px 80px rgba(0,0,0,0.7)',cursor:'default'}}
+                        onClick={e=>e.stopPropagation()}
+                    />
+                    <button onClick={() => setLightbox(null)}
+                        style={{position:'absolute',top:24,right:24,background:'rgba(255,255,255,0.1)',border:'1px solid rgba(255,255,255,0.2)',borderRadius:'50%',width:40,height:40,color:'white',fontSize:'1.2rem',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'sans-serif'}}>
+                        ×
+                    </button>
+                </div>
+            )}
+        </section>
+    );
+};
+
+// ─── MULTIPLY LABS SECTION ───────────────────────────────────
+const MultiplyLabsSection = ({ onOpenCareer }) => {
+    const [mlLightbox, setMlLightbox] = useState(null);
+    // expose setter so inline onClick handlers can reach it
+    window.__mlLightbox = setMlLightbox;
+    return (
+    <section id="multiply-labs" style={{background:'var(--navy)',padding:'0 0 100px'}}>
+        {/* Separator between hero and this section */}
+        <div style={{height:1,background:'linear-gradient(to right, transparent, rgba(200,169,110,0.5), transparent)',marginBottom:80}}></div>
+        <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px'}}>
+            <div className="two-col" style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:80,alignItems:'start'}}>
+                <FadeUp>
+                    <div>
+                        <div style={{display:'inline-flex',alignItems:'center',gap:8,marginBottom:24}}>
+                            <div style={{width:8,height:8,borderRadius:'50%',background:'#4ade80',boxShadow:'0 0 8px #4ade80'}}></div>
+                            <div style={{background:'rgba(200,169,110,0.15)',color:'var(--accent)',fontSize:'0.72rem',letterSpacing:'0.16em',textTransform:'uppercase',fontWeight:600,padding:'6px 14px',borderRadius:4,border:'1px solid rgba(200,169,110,0.25)'}}>
+                                Current Role · Multiply Labs
+                            </div>
+                        </div>
+                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(1.9rem,3.5vw,2.8rem)',color:'white',lineHeight:1.1,marginBottom:24}}>
+                            Multiply Labs - Robotic System for<br/>Manufacturing Biologics
+                        </div>
+                        <p style={{color:'rgba(255,255,255,0.6)',lineHeight:1.85,fontSize:'0.97rem',marginBottom:14}}>
+                            CAR-T cell therapy is a breakthrough cancer treatment where a patient's own T-cells are genetically engineered to recognize and kill cancer cells. Today it's a highly manual, contamination-prone process — we're automating it end-to-end.
+                        </p>
+                        <p style={{color:'rgba(255,255,255,0.6)',lineHeight:1.85,fontSize:'0.97rem',marginBottom:40}}>
+                            Designing consumables &amp; cartridges for next generation therapeutic robotic manufacturing.
+                        </p>
+                        {/* Key Partners grid */}
+                        <div style={{marginBottom:40}}>
+                            <div style={{fontSize:'0.7rem',letterSpacing:'0.16em',textTransform:'uppercase',color:'rgba(255,255,255,0.3)',fontWeight:600,marginBottom:14}}>Key Partners</div>
+                            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+                                {[
+                                    ['ThermoFisher','Global bioprocessing leader'],
+                                    ['Nvidia','Isaac robotics platform'],
+                                    ['AstraZeneca','Cell therapy collaboration'],
+                                    ['Legend Biotech','CAR-T manufacturing'],
+                                ].map(([name,sub]) => (
+                                    <div key={name} style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:10,padding:'16px 18px'}}>
+                                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.15rem',color:'white',marginBottom:4}}>{name}</div>
+                                        <div style={{fontSize:'0.75rem',color:'rgba(255,255,255,0.38)',letterSpacing:'0.03em'}}>{sub}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div style={{display:'flex',gap:10,flexWrap:'wrap',alignItems:'center'}}>
+                            <a href="https://www.multiplylabs.com/" target="_blank" rel="noopener noreferrer"
+                                style={{display:'inline-flex',alignItems:'center',gap:6,background:'var(--accent)',color:'white',padding:'11px 22px',borderRadius:6,fontSize:'0.82rem',fontWeight:500,textDecoration:'none',fontFamily:"'DM Sans',sans-serif",letterSpacing:'0.04em',transition:'background 0.2s'}}
+                                onMouseEnter={e=>e.currentTarget.style.background='var(--accent-dark)'}
+                                onMouseLeave={e=>e.currentTarget.style.background='var(--accent)'}
+                            >Read More ↗</a>
+                            {[
+                                ['AstraZeneca Press ↗','https://www.businesswire.com/news/home/20260127453159/en/Multiply-Labs-Announces-New-Collaboration-to-Automate-Cell-Therapy-Manufacturing-with-Robotics'],
+                                ['Legend Biotech Press ↗','https://www.businesswire.com/news/home/20240924666477/en/Multiply-Labs-Announces-a-Collaboration-on-Automating-Cell-Therapy-Manufacturing-with-Legend-Biotech'],
+                                ['Nvidia Press ↗','https://blogs.nvidia.com/blog/multiply-labs-isaac-omniverse/'],
+                                ['Team Spotlight ↗','https://www.linkedin.com/posts/engineeringexcellence-robotics-biomanufacturing-ugcPost-7344144321194901504-s3Ux'],
+                            ].map(([label,href]) => (
+                                <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+                                    style={{display:'inline-block',background:'rgba(255,255,255,0.07)',color:'rgba(255,255,255,0.75)',border:'1px solid rgba(255,255,255,0.14)',padding:'10px 18px',borderRadius:6,fontSize:'0.8rem',fontWeight:500,textDecoration:'none',letterSpacing:'0.04em',transition:'background 0.2s'}}
+                                    onMouseEnter={e=>e.target.style.background='rgba(255,255,255,0.12)'}
+                                    onMouseLeave={e=>e.target.style.background='rgba(255,255,255,0.07)'}
+                                >{label}</a>
+                            ))}
+                        </div>
+                    </div>
+                </FadeUp>
+
+                <FadeUp delay={140}>
+                    <div>
+                        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+                            <div style={{gridColumn:'span 2',height:280,borderRadius:12,overflow:'hidden',cursor:'pointer'}} onClick={()=>setMlLightbox('Multiply_Labs_4.jpg')}>
+                                <img src="Multiply_Labs_4.jpg" alt="Multiply Labs" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',transition:'transform 0.4s'}}
+                                    onMouseEnter={e=>e.target.style.transform='scale(1.03)'}
+                                    onMouseLeave={e=>e.target.style.transform='scale(1)'}
+                                />
+                            </div>
+                            <div style={{height:160,borderRadius:10,overflow:'hidden',cursor:'pointer'}} onClick={()=>setMlLightbox('Multiply_Labs_1.jpg')}>
+                                <img src="Multiply_Labs_1.jpg" alt="Multiply Labs Robotic System" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',transition:'transform 0.4s'}}
+                                    onMouseEnter={e=>e.target.style.transform='scale(1.03)'}
+                                    onMouseLeave={e=>e.target.style.transform='scale(1)'}
+                                />
+                            </div>
+                            <div style={{height:160,borderRadius:10,overflow:'hidden',cursor:'pointer'}} onClick={()=>setMlLightbox('Multiply_Labs_Team_1.jpg')}>
+                                <img src="Multiply_Labs_Team_1.jpg" alt="Multiply Labs Team" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',transition:'transform 0.4s'}}
+                                    onMouseEnter={e=>e.target.style.transform='scale(1.03)'}
+                                    onMouseLeave={e=>e.target.style.transform='scale(1)'}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </FadeUp>
+            </div>
         </div>
-      </section>
 
-      <footer>
-        <p>© 2026 William Nuveen. All rights reserved.</p>
-        <div style={{ display: 'flex', gap: 20 }}>
-          <a href="mailto:wnuveen3@gmail.com">Email</a>
-          <a href="https://github.com/williamnuveen" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://www.linkedin.com/in/williamnuveen/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        {/* ML Lightbox */}
+        {mlLightbox && (
+            <div onClick={()=>setMlLightbox(null)}
+                style={{position:'fixed',inset:0,background:'rgba(10,15,25,0.88)',backdropFilter:'blur(6px)',zIndex:1200,display:'flex',alignItems:'center',justifyContent:'center',padding:24,cursor:'zoom-out'}}>
+                <img src={mlLightbox} alt="expanded"
+                    style={{maxWidth:'90vw',maxHeight:'90vh',borderRadius:12,objectFit:'contain',boxShadow:'0 32px 80px rgba(0,0,0,0.7)',cursor:'default'}}
+                    onClick={e=>e.stopPropagation()}
+                />
+                <button onClick={()=>setMlLightbox(null)}
+                    style={{position:'absolute',top:24,right:24,background:'rgba(255,255,255,0.1)',border:'1px solid rgba(255,255,255,0.2)',borderRadius:'50%',width:40,height:40,color:'white',fontSize:'1.2rem',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}}>
+                    ×
+                </button>
+            </div>
+        )}
+    </section>
+    );
+};
+
+// ─── MAIN APP ────────────────────────────────────────────────
+const App = () => {
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [careerPage, setCareerPage] = useState(null);
+
+    const scrollTo = (id) => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    return (
+        <div>
+            {/* ─── NAV ─── */}
+            <header style={{position:'fixed',top:0,left:0,right:0,zIndex:500,background:'rgba(245,240,232,0.93)',backdropFilter:'blur(14px)',borderBottom:'1px solid rgba(0,0,0,0.07)'}}>
+                <nav style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',height:62,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                    <a href="#" style={{fontFamily:"'DM Serif Display',serif",fontSize:'1.5rem',color:'var(--navy)',textDecoration:'none'}}>WN</a>
+                    <div style={{display:'flex',alignItems:'center',gap:28}}>
+                        <a href="#" className="nav-link">Home</a>
+
+                        {/* Career Dropdown */}
+                        <div className="dropdown">
+                            <span className="dropdown-trigger">
+                                Career
+                                <svg className="chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M2 4l4 4 4-4"/>
+                                </svg>
+                            </span>
+                            <div className="dropdown-menu">
+                                <div className="dropdown-menu-inner">
+                                    <button onClick={()=>setCareerPage('multiply-labs')} className="dropdown-item featured" style={{width:'100%',textAlign:'left',background:'rgba(200,169,110,0.06)',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer'}}>✦ Multiply Labs</button>
+                                    <button onClick={()=>setCareerPage('ocado')} className="dropdown-item" style={{width:'100%',textAlign:'left',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer',background:'none'}}>Ocado Technology</button>
+                                    <button onClick={()=>setCareerPage('neato')} className="dropdown-item" style={{width:'100%',textAlign:'left',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer',background:'none'}}>Neato Robotics</button>
+                                    <button onClick={()=>setCareerPage('kohler')} className="dropdown-item" style={{width:'100%',textAlign:'left',fontFamily:"'DM Sans',sans-serif",border:'none',cursor:'pointer',background:'none'}}>Kohler Company</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onClick={()=>scrollTo('portfolio')} className="nav-link" style={{background:'none',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",padding:'0 0 2px'}}>Portfolio</button>
+                        <button onClick={()=>scrollTo('about')} className="nav-link" style={{background:'none',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",padding:'0 0 2px'}}>About</button>
+                        <button onClick={()=>scrollTo('Resume')} className="nav-link" style={{background:'none',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",padding:'0 0 2px'}}>Resume</button>
+                        <button onClick={()=>scrollTo('contact')} className="nav-link" style={{background:'var(--navy)',color:'white',padding:'8px 20px',borderRadius:6,fontWeight:500,fontSize:'0.85rem',letterSpacing:'0.04em',border:'none',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",transition:'background 0.2s'}}
+                            onMouseEnter={e=>e.currentTarget.style.background='var(--navy-light)'}
+                            onMouseLeave={e=>e.currentTarget.style.background='var(--navy)'}
+                        >Contact</button>
+                    </div>
+                </nav>
+            </header>
+
+            {/* ─── HERO ─── */}
+            <section className="hero" style={{paddingTop:62}}>
+                <div className="hero-grid" style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',width:'100%',display:'grid',gridTemplateColumns:'1fr 1fr',gap:60,alignItems:'center'}}>
+                    <div>
+                        <div style={{fontSize:'1rem',letterSpacing:'0.12em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:18}}>Advanced Robotics Engineer · San Francisco</div>
+                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(3.2rem,7vw,5.5rem)',color:'white',lineHeight:1.02,marginBottom:20}}>
+                            William<br/>Nuveen
+                        </div>
+                        <div style={{fontSize:'1.05rem',color:'rgba(255,255,255,0.5)',fontWeight:300,letterSpacing:'0.02em'}}>
+                            Robotics · Product Design · Automation
+                        </div>
+                        <div style={{display:'flex',gap:12,marginTop:36,flexWrap:'wrap'}}>
+                            <a href="#portfolio"
+                                style={{display:'inline-block',background:'var(--accent)',color:'white',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',textDecoration:'none',transition:'background 0.2s,transform 0.15s'}}
+                                onMouseEnter={e=>{e.currentTarget.style.background='var(--accent-dark)';e.currentTarget.style.transform='translateY(-1px)';}}
+                                onMouseLeave={e=>{e.currentTarget.style.background='var(--accent)';e.currentTarget.style.transform='translateY(0)';}}
+                            >View Portfolio</a>
+                            <a href="#multiply-labs"
+                                style={{display:'inline-block',background:'rgba(255,255,255,0.08)',color:'rgba(255,255,255,0.8)',border:'1px solid rgba(255,255,255,0.15)',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',textDecoration:'none',transition:'background 0.2s'}}
+                                onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,0.14)'}
+                                onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,0.08)'}
+                            >Current Work ↓</a>
+                        </div>
+                    </div>
+                    <div className="hero-photo-wrap" style={{display:'flex',justifyContent:'flex-end'}}>
+                        <img src="WilliamNuveenPortrait.jpg" alt="William Nuveen"
+                            style={{width:'100%',maxWidth:400,aspectRatio:'3/4',objectFit:'cover',borderRadius:16,boxShadow:'0 40px 100px rgba(0,0,0,0.5)'}} />
+                    </div>
+                </div>
+            </section>
+
+            {/* ─── MULTIPLY LABS ─── */}
+            <MultiplyLabsSection onOpenCareer={setCareerPage} />
+
+            {/* ─── PORTFOLIO ─── */}
+            <section id="portfolio" style={{padding:'100px 0',background:'var(--cream)'}}>
+                <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px'}}>
+                    <FadeUp>
+                        <div style={{marginBottom:52}}>
+                            <SectionLabel>Design Portfolio</SectionLabel>
+                            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2.5rem,5vw,3.8rem)',color:'var(--navy)',lineHeight:1.1}}>Mechanical Design Projects</div>
+                            <p style={{color:'var(--text-light)',marginTop:12,fontSize:'0.85rem'}}>Click any project to learn more</p>
+                        </div>
+                    </FadeUp>
+                    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(290px,1fr))',gap:18}}>
+                        {portfolioItems.map((item,i) => (
+                            <FadeUp key={i} delay={i*55}>
+                                <div className="portfolio-card" onClick={() => setSelectedItem(item)}>
+                                    <img src={item.image} alt={item.title} />
+                                    <div className="card-overlay">
+                                        <div className="card-company">{item.company}</div>
+                                        <div className="card-title">{item.title}</div>
+                                        <div className="card-sub">{item.shortDescription}</div>
+                                    </div>
+                                </div>
+                            </FadeUp>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ─── EXPERIENCE ─── */}
+            <section id="experience" style={{padding:'100px 0',background:'var(--warm-gray)'}}>
+                <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',display:'grid',gridTemplateColumns:'1fr 2fr',gap:80}} className="two-col">
+                    <FadeUp>
+                        <div style={{position:'sticky',top:90}}>
+                            <SectionLabel>Work History</SectionLabel>
+                            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2rem,4vw,2.8rem)',color:'var(--navy)',lineHeight:1.1,marginBottom:20}}>Experience</div>
+                            <p style={{color:'var(--text-mid)',lineHeight:1.8,fontSize:'0.95rem'}}>
+                                From consumer robotics to cutting-edge biotech automation, I've built systems that ship and scale.
+                            </p>
+                        </div>
+                    </FadeUp>
+                    <div>
+                        {experiences.map((job,i) => (
+                            <FadeUp key={i} delay={i*70}>
+                                <div className="timeline-item">
+                                    <div className="timeline-dot" style={job.isNew?{background:'var(--accent)',borderColor:'var(--accent)'}:{}}></div>
+                                    <div style={{fontSize:'1.1rem',letterSpacing:'0.14em',textTransform:'uppercase',color:'var(--accent)',fontWeight:600,marginBottom:8}}>{job.company}</div>
+                                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'2.1rem',color:'var(--navy)',marginBottom:10,lineHeight:1.15}}>{job.title}</div>
+                                    <div style={{fontSize:'0.95rem',color:'var(--text-light)',marginBottom:16}}>{job.location} · {job.dates}</div>
+                                    <div style={{fontSize:'0.94rem',color:'var(--text-mid)',lineHeight:1.8,maxWidth:560}}>{job.description}</div>
+                                    <div style={{marginTop:20,display:'flex',gap:8,flexWrap:'wrap',alignItems:'center'}}>
+                                        {job.isNew && (
+                                            <span style={{display:'inline-block',background:'rgba(200,169,110,0.12)',color:'var(--accent-dark)',border:'1px solid rgba(200,169,110,0.3)',padding:'3px 10px',borderRadius:4,fontSize:'0.7rem',letterSpacing:'0.1em',textTransform:'uppercase',fontWeight:600}}>Current</span>
+                                        )}
+                                        <button onClick={()=>setCareerPage(job.pageKey)}
+                                            style={{background:'none',border:'1px solid rgba(0,0,0,0.15)',borderRadius:4,padding:'3px 12px',fontSize:'0.75rem',color:'var(--text-mid)',cursor:'pointer',fontFamily:"'DM Sans',sans-serif",fontWeight:500,letterSpacing:'0.04em',transition:'all 0.15s'}}
+                                            onMouseEnter={e=>{e.currentTarget.style.background='var(--navy)';e.currentTarget.style.color='white';e.currentTarget.style.borderColor='var(--navy)';}}
+                                            onMouseLeave={e=>{e.currentTarget.style.background='none';e.currentTarget.style.color='var(--text-mid)';e.currentTarget.style.borderColor='rgba(0,0,0,0.15)';}}
+                                        >Read More ↗</button>
+                                    </div>
+                                </div>
+                            </FadeUp>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ─── SKILLS ─── */}
+            <section style={{padding:'80px 0',background:'var(--navy)'}}>
+                <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',textAlign:'center'}}>
+                    <FadeUp>
+                        <SectionLabel>Capabilities</SectionLabel>
+                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(1.8rem,3.5vw,2.5rem)',color:'white',marginBottom:44}}>Key Skills</div>
+                        <div style={{display:'flex',flexWrap:'wrap',gap:10,justifyContent:'center'}}>
+                            {['Product Design & Development','Mass Manufacturing','Automation & Robotics','Electromechanical Systems','GD&T & Tolerancing','DFM&A','SolidWorks / Onshape','System Integration'].map(s => (
+                                <div key={s} style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(255,255,255,0.07)',border:'1px solid rgba(255,255,255,0.11)',borderRadius:50,padding:'12px 26px',fontSize:'1.05rem',fontWeight:500,color:'rgba(255,255,255,0.85)'}}>
+                                    <div style={{width:7,height:7,borderRadius:'50%',background:'var(--accent)',flexShrink:0}}></div>
+                                    {s}
+                                </div>
+                            ))}
+                        </div>
+                    </FadeUp>
+                </div>
+            </section>
+
+            {/* ─── ABOUT / PHOTOS ─── */}
+            <AboutSection />
+
+            {/* ─── RESUME ─── */}
+            <section id="Resume" style={{padding:'100px 0',background:'var(--warm-gray)'}}>
+                <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',display:'grid',gridTemplateColumns:'1fr 1fr',gap:80,alignItems:'center'}} className="two-col">
+                    <FadeUp>
+                        <img src="resume-preview.png" alt="Resume Preview"
+                            style={{width:'100%',maxWidth:380,borderRadius:12,boxShadow:'0 24px 64px rgba(0,0,0,0.14)',display:'block',margin:'0 auto'}} />
+                    </FadeUp>
+                    <FadeUp delay={100}>
+                        <div>
+                            <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2.5rem,5vw,3.8rem)',color:'var(--navy)',lineHeight:1.05,marginBottom:20}}>Résumé</div>
+                            <p style={{color:'var(--text-mid)',lineHeight:1.8,fontSize:'0.97rem',marginBottom:32}}>
+                                As an advanced robotics engineer, I specialize in consumable design for therapeutic robotics, AI-driven robotic systems, and cost-efficient mass manufacturing. With a passion for innovation, I create solutions that turn concepts into deployable, scalable hardware.
+                            </p>
+                            <a href="William Nuveen's Resume (Oct. 24).pdf" target="_blank" rel="noopener noreferrer"
+                                style={{display:'inline-block',background:'var(--accent)',color:'white',padding:'13px 30px',borderRadius:6,fontWeight:500,fontSize:'0.88rem',letterSpacing:'0.05em',textDecoration:'none',transition:'background 0.2s'}}
+                                onMouseEnter={e=>e.target.style.background='var(--accent-dark)'}
+                                onMouseLeave={e=>e.target.style.background='var(--accent)'}
+                            >View Resume →</a>
+                        </div>
+                    </FadeUp>
+                </div>
+            </section>
+
+            {/* ─── CONTACT ─── */}
+            <section id="contact" style={{background:'var(--navy)',padding:'100px 0'}}>
+                <div style={{maxWidth:1200,margin:'0 auto',padding:'0 48px',textAlign:'center'}}>
+                    <FadeUp>
+                        <SectionLabel>Get In Touch</SectionLabel>
+                        <div style={{fontFamily:"'DM Serif Display',serif",fontSize:'clamp(2.5rem,5vw,4rem)',color:'white',lineHeight:1.05,marginBottom:24}}>
+                            Let's Build<br/><span style={{fontStyle:'italic'}}>Something Great</span>
+                        </div>
+                        <p style={{color:'rgba(255,255,255,0.45)',fontSize:'0.97rem',marginBottom:16,maxWidth:520,margin:'0 auto 16px'}}>
+                            San Francisco, CA &nbsp;·&nbsp; wnuveen3@gmail.com
+                        </p>
+                        <p style={{color:'rgba(255,255,255,0.35)',fontSize:'0.9rem',marginBottom:44,maxWidth:520,margin:'0 auto 44px'}}>
+                            Open to consulting on product design, consumables engineering, and robotics hardware — get in touch to discuss your project.
+                        </p>
+                        <a href="mailto:wnuveen3@gmail.com"
+                            style={{display:'inline-block',background:'var(--accent)',color:'white',padding:'14px 38px',borderRadius:6,fontWeight:500,fontSize:'0.9rem',letterSpacing:'0.06em',textDecoration:'none',transition:'background 0.2s,transform 0.15s'}}
+                            onMouseEnter={e=>{e.target.style.background='var(--accent-dark)';e.target.style.transform='translateY(-1px)';}}
+                            onMouseLeave={e=>{e.target.style.background='var(--accent)';e.target.style.transform='translateY(0)';}}
+                        >Say Hello →</a>
+                    </FadeUp>
+                </div>
+            </section>
+
+            {/* ─── FOOTER ─── */}
+            <footer style={{background:'#111820',padding:'28px 48px',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+                <p style={{color:'rgba(255,255,255,0.28)',fontSize:'0.8rem'}}>© 2026 William Nuveen. All Rights Reserved.</p>
+                <a href="https://www.linkedin.com/in/williamnuveen/" target="_blank" rel="noopener noreferrer"
+                    style={{color:'rgba(255,255,255,0.35)',transition:'color 0.2s'}}
+                    onMouseEnter={e=>e.target.style.color='rgba(255,255,255,0.7)'}
+                    onMouseLeave={e=>e.target.style.color='rgba(255,255,255,0.35)'}
+                    aria-label="LinkedIn">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                </a>
+            </footer>
+
+            {selectedItem && <Modal item={selectedItem} onClose={() => setSelectedItem(null)} />}
+            {careerPage && <CareerPage pageKey={careerPage} onClose={() => setCareerPage(null)} />}
         </div>
-      </footer>
-
-      {item && <Modal item={item} onClose={() => setItem(null)} />}
-      {career && <CareerPage pageKey={career} onClose={() => setCareer(null)} goHome={goFromCareer} />}
-    </div>
-  );
+    );
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
