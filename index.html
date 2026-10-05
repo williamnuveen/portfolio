@@ -175,11 +175,152 @@ footer a:hover{color:#fff}
 <body>
 <div id="root"></div>
 
-<!-- Content lives in data.js: careerPages, aboutCategories, portfolioItems, experiences -->
-<script src="data.js"></script>
-
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
+
+// ─── CONTENT (formerly data.js) ───
+// ─── PAGE DATA ────────────────────────────────────────────────
+const careerPages = {
+  'multiply-labs': {
+    company: 'Multiply Labs',
+    role: 'Advanced Robotics Engineer',
+    dates: '2024 – Present',
+    location: 'San Francisco, CA',
+    tagline: 'Automating the future of cell therapy manufacturing.',
+    heroImage: null, // replace with: 'multiply_labs_hero.jpg'
+    sections: [
+      {
+        heading: 'The Problem We\'re Solving',
+        body: `CAR-T cell therapy is one of the most promising cancer treatments ever developed — a living medicine where a patient's own immune cells are reprogrammed to hunt and destroy tumors. But manufacturing it is painstakingly manual. Every batch requires dozens of precise, sterile handling steps performed by trained technicians in specialized cleanrooms. It's slow, expensive, and prone to variability that can affect patient outcomes.\n\nMultiply Labs is building the robotic infrastructure to automate this process end-to-end — making life-saving therapies faster, cheaper, and more reliably available to the patients who need them.`
+      },
+      {
+        heading: 'My Role: Consumables & Cartridge Design',
+        body: `I focus on the physical interface between the robotic system and the biological process — the consumables and cartridges that make sterile, automated cell manufacturing possible.\n\nDesigning consumables for therapeutic robotics is a uniquely constrained discipline. Every part must be biocompatible, sterilizable, and manufacturable at scale. Fluid paths must be dead-volume-minimized to avoid losing precious patient cells. Connections must be leak-proof under automation forces, yet simple enough for robotic end effectors to handle reliably. Tolerances must be tight enough for process repeatability, but forgiving enough for high-volume injection molding.\n\nI work at the intersection of mechanical design, materials science, and manufacturing engineering to develop cartridges that the robotic arms can load, engage, process through, and dispose of — all without human intervention.`
+      },
+      {
+        heading: 'Design Philosophy',
+        body: `Consumable design for biotech robotics is fundamentally different from industrial tooling. The parts are small, the stakes are high, and the manufacturing volumes range from early clinical (hundreds) to commercial scale (tens of thousands). This means designing for DFM&A from day one — not as an afterthought.\n\nI apply GD&T-driven tolerance stacks to ensure robotic pick-and-place reliability, use Onshape for rapid design iteration with full version control across the team, and prototype aggressively with 3D printing before committing to tooling. Every gram of material, every microliter of dead volume, and every assembly step gets scrutinized.`
+      },
+      {
+        heading: 'Key Partners',
+        body: `Our system integrates with best-in-class partners across the biotech and robotics ecosystem: ThermoFisher for bioprocessing instrumentation, Nvidia Isaac for simulation and robotics AI, AstraZeneca and Legend Biotech for cell therapy manufacturing collaboration. Building hardware that interfaces cleanly with each of these platforms is a core part of what I do.`
+      }
+    ],
+    pressLinks: [
+      { label: 'AstraZeneca Collaboration', href: 'https://www.businesswire.com/news/home/20260127453159/en/Multiply-Labs-Announces-New-Collaboration-to-Automate-Cell-Therapy-Manufacturing-with-Robotics' },
+      { label: 'Nvidia Isaac Partnership', href: 'https://blogs.nvidia.com/blog/multiply-labs-isaac-omniverse/' },
+      { label: 'Team Spotlight', href: 'https://www.linkedin.com/posts/engineeringexcellence-robotics-biomanufacturing-ugcPost-7344144321194901504-s3Ux' },
+    ]
+  },
+  'ocado': {
+    company: 'Ocado Technology',
+    role: 'Mechanical Engineer II',
+    dates: '2022 – 2024',
+    location: 'San Francisco, CA',
+    tagline: 'Building the AI-driven robotic systems powering next-generation e-commerce fulfillment.',
+    heroImage: 'depal.jpg',
+    sections: [
+      {
+        heading: 'The Work',
+        body: `At Ocado Technology I was part of the team developing Ocado's first AI-driven case-handling robotics system — a depalletizing robot designed to autonomously identify, grasp, and place a wide variety of box sizes and weights on a moving conveyor.\n\nI led the design and integration of the camera hardware stack: selecting, benchmarking, and qualifying the depth/RGB sensors that feed the ML perception pipeline. Getting accurate depth data on reflective shrink-wrap and irregular box surfaces is genuinely hard — I developed a systematic KPI testing framework to evaluate sensors across dozens of real-world SKUs, which ultimately enabled the system to exceed 300 units per hour for bulky items.`
+      },
+      {
+        heading: 'Hardware Design',
+        body: `Beyond cameras, I contributed to the mechanical design of the robotic end-effector and arm pedestal — structural components that needed to be stiff enough for positioning accuracy while remaining within payload limits. I managed the hardware build at our San Francisco lab and worked closely with software, QA, and mechatronics teams throughout the product development cycle.\n\nThis experience gave me a complete view of what it takes to take a robotic system from concept through lab build to first deployment — our first installation launched in London in Q4 2024.`
+      }
+    ],
+    pressLinks: []
+  },
+  'neato': {
+    company: 'Neato Robotics',
+    role: 'Jr. Mechanical Engineer',
+    dates: '2020 – 2022',
+    location: 'San Jose, CA',
+    tagline: 'Designing consumer robotics products from concept through injection molded production.',
+    heroImage: 'Nexaro_NR1500.jpg',
+    sections: [
+      {
+        heading: 'Commercial Cleaning Robot',
+        body: `At Neato I was a mechanical design engineer on the company's first commercial (non-consumer) robotic vacuum — a product that ultimately shipped as the Nexaro NR1500 under Vorwerk after Neato dissolved. I designed, prototyped, and tested components including the dustbin, filter assemblies, drivetrains, motor mounts, wire routing, and LiDAR covers across the full DVT/EVT cycle.`
+      },
+      {
+        heading: 'Plastic Part Design & Manufacturing',
+        body: `A major focus of my time at Neato was developing injection-molded plastic components. I used Creo to design parts for manufacturability from the start — working directly with our overseas tooling partners to optimize gate locations, draft angles, and wall thicknesses. I created full GD&T drawing packages, ran tolerance stack analyses, and iterated on prototype tooling to hit functional requirements before production release.\n\nI was the lead designer on Neato's next-generation drivetrain modules and dustbin/filter assemblies — components that shipped in consumer products sold worldwide.`
+      }
+    ],
+    pressLinks: []
+  },
+  'kohler': {
+    company: 'Kohler Company',
+    role: 'Mechanical Engineering Intern',
+    dates: 'Summer 2019',
+    location: 'Kohler, WI',
+    tagline: 'Designing Kohler\'s first back-of-bath spout diverter from concept to prototype.',
+    heroImage: 'Kohler_Bath_Spout.png',
+    sections: [
+      {
+        heading: 'The Project',
+        body: `As a product design engineering intern at Kohler I was tasked with designing an entirely new diverter mechanism for back-of-bath spouts — a first for the company. I benchmarked existing market solutions, identified failure modes and aesthetic limitations, and developed a new design in SolidWorks that addressed all of them.\n\nMy design improved laminar flow aesthetics, reduced leakage through a redesigned o-ring interface, and lowered per-unit manufacturing cost. I prototyped using Kohler's Carbon 3D printing facility and iterated through multiple rounds of functional testing before presenting the final design to the product team.`
+      }
+    ],
+    pressLinks: []
+  }
+};
+
+const aboutCategories = {
+  Hiking:   { photos: ['Hiking_2.JPG','Hiking_3.JPG','Hiking_4.JPG'], desc: 'Exploring trails across California and beyond.' },
+  Skiing:   { photos: ['Skiing_1.jpg'], desc: 'Chasing powder from Tahoe to the Alps.' },
+  Travel:   { photos: ['Travel_3.jpg'], desc: 'Finding inspiration everywhere.' },
+  Robotics: { photos: ['Robotics_1.PNG','Robotics_2.jpeg','Robotics_3.PNG'], desc: 'The obsession that started it all.' },
+};
+
+// ─── DATA ────────────────────────────────────────────────────
+const portfolioItems = [
+    { image:'depal.jpg', title:'Depalletizing Robot', company:'Ocado Technology',
+      images:['depal.jpg','depal_2.jpg','depal_3.jpg'],
+      shortDescription:'Automated depalletizing robotic system for e-commerce fulfillment',
+      longDescription:"At Ocado Technology, I played a key role in developing Ocado's first AI-driven case-handling robotics system. I led the design and implementation of camera hardware, managed the hardware build at our SF lab, and contributed to designing critical components like the robotic end-effector and arm pedestal. My role involves close collaboration with software, QA, and mechatronics teams. Our first deployment launched in London in Q4 2024." },
+    { image:'Camera_PC.png', title:'High-Resolution Camera System', company:'Ocado Technology',
+      images:['Camera_PC.png','Camera_PC_2.jpg','Camera_PC_3.jpg','Camera_PC_4.png'],
+      shortDescription:'Depth/RGB camera testing for robotic computer vision applications',
+      longDescription:"RGB/Depth cameras are crucial for enabling ML models to segment and measure depth of items. I developed a KPI testing process to evaluate and integrate the best depth/RGB camera available. Improved depth accuracy boosted grasping and pick speed, reaching over 300 UPH for bulky items. This led to my role as camera technology consultant for several teams including Ocado's on-grid robotic pick and emerging technology teams." },
+    { image:'Kindred_Sort_Camera.jpg', title:'Sort Camera Mount', company:'Kindred AI',
+      images:['Kindred_Sort_Camera.jpg','Kindred_Sort_Camera_2.jpg','Kindred_Sort_Camera_3.jpg','Kindred_Sort_Camera_4.jpg'],
+      shortDescription:'Sheet metal camera mount for Sort robots — sustaining engineering',
+      longDescription:"I designed a robust camera mount for Kindred AI's (now Ocado Technology) Sort robot, engineered to withstand the forces exerted by a robotic arm without compromising the underneath depth camera. Fabricated from durable sheet metal, the mount is securely bolted to the robot's housing. This camera mount is now integral to the Sort system, which has successfully sorted over 750 million items across retail warehouses." },
+    { image:'Nexaro_NR1500.jpg', title:'Nexaro NR1500 Cleaning Robot', company:'Neato Robotics',
+      images:['Nexaro_NR1500.jpg','Nexaro_2.jpg','Nexaro_3.jpg','Nexaro_4.jpg','Nexaro_7.jpg'],
+      shortDescription:"Neato's first autonomous commercial cleaning robot",
+      longDescription:"At Neato, I was a key mechanical design engineer on the industrial robotic vacuum from concept through the first EVT phase. I designed, prototyped, and tested 3D printed parts for the robot's dustbin, filter, drivetrains, motors, wire layouts, and LiDAR covers. After Neato dissolved, the project was transferred to Vorwerk and now operates as 'Nexaro'." },
+    { image:'Mopping_Robot.jpg', title:'Advanced Mopping Robot', company:'Neato Robotics',
+      images:['Mopping_Robot.jpg','Mopping_Robot_4.jpg','Mopping_Robot_2.jpg'],
+      shortDescription:"Neato's first autonomous mopping robot",
+      longDescription:"At Neato, I redesigned a self-extraction cleaning center to create a more intuitive, accessible system. My solution introduced a pivoting cover for hands-free filter bag access, along with a spring-damped mechanism and leak-proof seal. I also integrated a touchscreen interface and accessory storage to boost customer satisfaction." },
+    { image:'Neato_Parts.jpg', title:'Custom Injection Molded Parts', company:'Neato Robotics',
+      images:['Neato_Parts.jpg','Neato_Filter.jpg','Neato_Drivetrain.jpg'],
+      shortDescription:'Custom-designed injection molded parts for Neato robotic vacuums',
+      longDescription:"At Neato, I specialized in plastic part design. I used Creo to design prototypes, 3D printing to verify functionality, and GD&T and injection molding fundamentals for manufacturing. I collaborated with our overseas manufacturing team to optimize injection molding tool designs, created GD&T drawings, conducted tolerance analyses, and ensured efficient assembly for robotic applications." },
+    { image:'Apple_Design_Challenge.jpg', title:'Apple Design Challenge', company:'Apple',
+      images:['Apple_Design_Challenge.jpg','Apple_Design_Challenge_2.jpg','Apple_Design_Challenge_3.jpg'],
+      shortDescription:'iPod battery release mechanism for Apple PD design challenge',
+      longDescription:"During my interview with Apple's iPhone Product Design Engineering team, I designed a battery release mechanism for the iPod. The challenge: user-friendly, cost-effective, durable, safe, and visually appealing. I also developed a Bill of Materials (BOM) and calculated the forces acting on the mechanism." },
+    { image:'Kohler_Bath_Spout.png', title:'Kohler Bathroom Fixtures', company:'Kohler',
+      images:['Kohler_Work.jpg','Kohler_Bath_Spout.png','Kohler_Bath_Spout_2.jpg','Kohler_Pres.jpg','Kohler_Pres_2.jpg'],
+      shortDescription:"Innovative bath spout diverter technology for Kohler Co.",
+      longDescription:"As a product design engineering intern at Kohler, I designed the company's first back-of-the bath spout diverter. I benchmarked existing diverters, created a 3D model in SolidWorks, and iterated through Carbon 3D printing prototypes. My design improved laminar flow aesthetics, reduced leakages with a new o-ring design, and lowered manufacturing costs." },
+];
+
+const experiences = [
+    { company:'Multiply Labs', title:'Advanced Robotics Engineer', location:'San Francisco, CA', dates:'2024 – Present', isNew:true, pageKey:'multiply-labs',
+      description:"Designing consumables & cartridges for next generation therapeutic robotic manufacturing. Part of a world-class robotics team building an automated system for CAR-T cell therapy, featuring 4 robotic arms, custom end effectors, and proprietary fluid transfer IP — partnered with ThermoFisher, Nvidia, AstraZeneca, and Legend Biotech." },
+    { company:'Ocado Technology', title:'Mechanical Engineer II', location:'San Francisco, CA', dates:'2022 – 2024', pageKey:'ocado',
+      description:"Played a key role in developing Ocado's first AI-driven case-handling robotics system. Led camera hardware design and integration, managed the hardware build at our San Francisco lab, and contributed to critical components including the robotic end-effector and pedestal." },
+    { company:'Neato Robotics', title:'Jr. Mechanical Engineer', location:'San Jose, CA', dates:'2020 – 2022', pageKey:'neato',
+      description:"Led development of key components for robotic vacuums including drivetrains and injection-molded parts. Designed and produced a vacuum/mop robot, a commercial vacuum robot, and robot accessories from concept through production." },
+    { company:'Kohler Company', title:'Mechanical Engineering Intern', location:'Kohler, WI', dates:'Summer 2019', pageKey:'kohler',
+      description:"Designed Kohler's first back-of-the-bath spout diverter. Reduced water leakage, improved laminar flow aesthetics, and lowered manufacturing costs through innovative prototyping with Carbon 3D printing." },
+];
+
 
 const SKILLS = ['Product Design & Development','Mass Manufacturing','Automation & Robotics','Electromechanical Systems','GD&T & Tolerancing','DFM&A','SolidWorks / Onshape','System Integration'];
 const STATS = [
