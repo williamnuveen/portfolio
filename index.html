@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>William Nuveen – Robotics Engineer</title>
-<meta name="description" content="William Nuveen — Advanced Robotics Engineer in San Francisco. Consumables, cartridges and robotics hardware for cell therapy manufacturing.">
+<meta name="description" content="William Nuveen — Senior Robotics Hardware Engineer in San Francisco. Consumables, cartridges and robotics hardware for cell therapy manufacturing.">
 <meta property="og:title" content="William Nuveen – Robotics Engineer">
 <meta property="og:description" content="Robotics, product design and automation — from consumer robots to CAR-T manufacturing.">
 <meta property="og:image" content="https://williamnuveen.github.io/portfolio/WilliamNuveenPortrait.jpg">
@@ -15,7 +15,7 @@
 <link rel="canonical" href="https://williamnuveen.github.io/portfolio/">
 <link rel="preload" as="image" href="WilliamNuveenPortrait.jpg">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Person","name":"William Nuveen","jobTitle":"Advanced Robotics Engineer","worksFor":{"@type":"Organization","name":"Multiply Labs"},"address":{"@type":"PostalAddress","addressLocality":"San Francisco","addressRegion":"CA"},"url":"https://williamnuveen.github.io/portfolio/","sameAs":["https://www.linkedin.com/in/williamnuveen/","https://github.com/williamnuveen"]}
+{"@context":"https://schema.org","@type":"Person","name":"William Nuveen","jobTitle":"Senior Robotics Hardware Engineer","alumniOf":{"@type":"CollegeOrUniversity","name":"Miami University"},"worksFor":{"@type":"Organization","name":"Multiply Labs"},"address":{"@type":"PostalAddress","addressLocality":"San Francisco","addressRegion":"CA"},"url":"https://williamnuveen.github.io/portfolio/","sameAs":["https://www.linkedin.com/in/williamnuveen/","https://github.com/williamnuveen"]}
 </script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚙️</text></svg>">
 <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
@@ -92,7 +92,7 @@ button{font-family:var(--sans)}
 /* STATS */
 .stats{background:var(--navy-light);border-top:1px solid rgba(200,169,110,.25)}
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;padding:40px 48px}
-.stat-num{font-family:var(--serif);font-size:2.4rem;color:var(--accent);line-height:1}
+.stat-num{font-family:var(--serif);font-size:clamp(1.5rem,2.6vw,2.4rem);color:var(--accent);line-height:1}
 .stat-txt{font-size:.85rem;color:rgba(255,255,255,.6);margin-top:8px;line-height:1.5}
 
 /* MULTIPLY LABS */
@@ -157,6 +157,16 @@ button{font-family:var(--sans)}
 .skip:focus{left:8px}
 [tabindex="-1"]:focus{outline:none}
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.hero-lede{font-size:.98rem;color:rgba(255,255,255,.6);font-weight:300;line-height:1.7;max-width:46ch;margin-top:16px}
+.hl{margin:10px 0 0 1.1em;color:var(--text-mid);line-height:1.75;font-size:.97rem;max-width:70ch}
+.hl li{margin-bottom:8px}
+.skill-groups{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;text-align:left}
+.skill-groups .label{margin-bottom:14px}
+.skill-groups .skill-pill{padding:8px 16px;font-size:.88rem}
+.edu{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:48px;text-align:left}
+.edu-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:18px 20px}
+.edu-card b{display:block;font-family:var(--serif);font-weight:400;font-size:1.1rem;color:#fff;margin-bottom:4px}
+.edu-card span{font-size:.82rem;color:rgba(255,255,255,.6)}
 .fade-up{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
 .fade-up.visible{opacity:1;transform:none}
 
@@ -179,6 +189,7 @@ footer a:hover{color:#fff}
   .section,.ml{padding:64px 0}
   .timeline-item{padding-bottom:56px}
   .sticky-col{position:static!important}
+  .skill-groups,.edu{grid-template-columns:1fr}
 }
 @media (max-width:560px){
   .nav-links .nav-link:not(.nav-cta){font-size:.82rem}
@@ -206,11 +217,12 @@ const { useState, useEffect, useRef } = React;
 const careerPages = {
   'multiply-labs': {
     company: 'Multiply Labs',
-    role: 'Advanced Robotics Engineer',
-    dates: '2024 – Present',
+    role: 'Senior Robotics HW Engineer – Consumables R&D',
+    dates: 'Dec. 2024 – Present',
     location: 'San Francisco, CA',
     tagline: 'Automating the future of cell therapy manufacturing.',
     heroImage: null, // replace with: 'multiply_labs_hero.jpg'
+    highlights: [{"heading": "Senior Robotics HW Engineer · May 2026 – Present", "items": ["Lead consumables designer for robotic automation of the Rotea cell-therapy instrument; designed the cartridge, consumable, and hardware interface that enable autonomous, end-to-end operation of the Rotea by a robotic arm.", "Lead designer for Multiply Labs' pharmaceutical-grade (GMP) bag cartridge across Alpha, Beta, and Gamma revisions, improving reliability, robotic pick-and-place success rate, and regulatory manufacturability while reducing customer assembly time.", "Redesigned a peristaltic pumping bag cartridge attachment, cutting per-use cost from $100 to $2.50 while simplifying assembly and improving cell-pumping performance.", "Provide consumables and hardware support for robotic cluster deployments and operation across 3 large cell-therapy customers.", "Managed a summer mechanical engineering intern: defined project scopes, set goals, tracked progress, and provided day-to-day mentorship and technical direction."]}, {"heading": "Advanced Robotics HW Engineer · Dec. 2024 – May 2026", "items": ["Second hire on the consumables design team; designed injection-molded single-use and reusable pharmaceutical-grade consumables for robotic pharmaceutical manufacturing.", "Led Multiply Labs' largest customer pilot to date — 6 cell-therapy batches/day, 20 hrs/day, over 12 continuous days — achieving a 100% batch success rate. Owned the full consumables and hardware stack, including cartridge/consumable manufacturing, robot builds, cluster upgrades, and hardware/testing management.", "Led design, fabrication, and testing of calibration and leveling jigs, enabling bring-up and calibration of 4 robotic clusters and accurate pick-and-place operations across the fleet.", "Supported development, deployment, and operation of Multiply Labs' first customer cell-therapy manufacturing robotic system for Legend Biotech."]}],
     sections: [
       {
         heading: 'The Problem We\'re Solving',
@@ -237,11 +249,12 @@ const careerPages = {
   },
   'ocado': {
     company: 'Ocado Technology',
-    role: 'Mechanical Engineer II',
-    dates: '2022 – 2024',
+    role: 'Mechanical Engineer II – Robotics Product Development',
+    dates: 'Sept. 2022 – Dec. 2024',
     location: 'San Francisco, CA',
     tagline: 'Building the AI-driven robotic systems powering next-generation e-commerce fulfillment.',
     heroImage: 'depal.jpg',
+    highlights: [{"heading": "Highlights", "items": ["Core contributor to the end-to-end design and development of Ocado's first AI/ML-driven robotic depalletizing system, deployed at multiple European fulfillment centers.", "Increased automated robotic pick-and-place accuracy from 75% to 98% through strategic selection and implementation of depth/RGB cameras, boosting system throughput by 30%.", "Co-designed and fabricated an electromechanical end-effector using sensors, actuators, and pneumatics, increasing payload capacity to 80 lbs and improving item-handling versatility.", "Conducted load calculations and structural FEA for securing a 1,250 lb robotic arm to a pedestal on concrete, specifying anchors and adhesives for 100% safety compliance.", "Managed cross-functional installation and integration of the San Francisco proof-of-concept depalletizing test cell, which led to securing funding approval for the program.", "Co-owned hardware design of a portable trade show model of the depalletizing system."]}],
     sections: [
       {
         heading: 'The Work',
@@ -256,11 +269,12 @@ const careerPages = {
   },
   'neato': {
     company: 'Neato Robotics',
-    role: 'Jr. Mechanical Engineer',
-    dates: '2020 – 2022',
+    role: 'Jr. Mechanical Engineer – Product Design',
+    dates: 'Aug. 2020 – Sept. 2022',
     location: 'San Jose, CA',
     tagline: 'Designing consumer robotics products from concept through injection molded production.',
     heroImage: 'Nexaro_NR1500.jpg',
+    highlights: [{"heading": "Highlights", "items": ["Designed, prototyped, and mass-manufactured injection-molded parts for Neato's first commercial robotic vacuum (Nexaro NR1500), now sold globally by Vorwerk.", "Redesigned an electromechanical robotic vacuum drivetrain, improving motor efficiency, reducing noise levels by 30%, and cutting production costs by $2 per unit.", "Streamlined additive manufacturing operations, reducing design iteration time by 75% and saving $20,000 in vendor costs annually.", "Developed and scaled high-volume plastic accessories (pet brush, fragrance dustbin filter), expanding the product line by 7 SKUs.", "Initiated and led the emerging technologies R&D program, developing a novel dust-sensing technology using accelerometer and gyroscope data to enable adaptive suction control."]}],
     sections: [
       {
         heading: 'Commercial Cleaning Robot',
@@ -334,23 +348,31 @@ const portfolioItems = [
 ];
 
 const experiences = [
-    { company:'Multiply Labs', title:'Advanced Robotics Engineer', location:'San Francisco, CA', dates:'2024 – Present', isNew:true, pageKey:'multiply-labs',
-      description:"Designing consumables & cartridges for next generation therapeutic robotic manufacturing. Part of a world-class robotics team building an automated system for CAR-T cell therapy, featuring 4 robotic arms, custom end effectors, and proprietary fluid transfer IP — partnered with ThermoFisher, Nvidia, AstraZeneca, and Legend Biotech." },
-    { company:'Ocado Technology', title:'Mechanical Engineer II', location:'San Francisco, CA', dates:'2022 – 2024', pageKey:'ocado',
-      description:"Played a key role in developing Ocado's first AI-driven case-handling robotics system. Led camera hardware design and integration, managed the hardware build at our San Francisco lab, and contributed to critical components including the robotic end-effector and pedestal." },
-    { company:'Neato Robotics', title:'Jr. Mechanical Engineer', location:'San Jose, CA', dates:'2020 – 2022', pageKey:'neato',
-      description:"Led development of key components for robotic vacuums including drivetrains and injection-molded parts. Designed and produced a vacuum/mop robot, a commercial vacuum robot, and robot accessories from concept through production." },
+    { company:'Multiply Labs', title:'Senior Robotics HW Engineer – Consumables R&D', location:'San Francisco, CA', dates:'Dec. 2024 – Present', isNew:true, pageKey:'multiply-labs',
+      description:"Lead consumables designer for robotic automation of the Rotea cell-therapy instrument and Multiply Labs' GMP bag cartridge. Led the company's largest customer pilot to date (100% batch success over 12 continuous days) and cut a pumping cartridge attachment from $100 to $2.50 per use. Partnered with ThermoFisher, Nvidia, AstraZeneca, and Legend Biotech." },
+    { company:'Ocado Technology', title:'Mechanical Engineer II – Robotics Product Development', location:'San Francisco, CA', dates:'Sept. 2022 – Dec. 2024', pageKey:'ocado',
+      description:"Core contributor to Ocado's first AI/ML-driven robotic depalletizing system, deployed at multiple European fulfillment centers. Raised pick-and-place accuracy from 75% to 98% through camera selection and integration, boosting throughput 30%, and co-designed an 80 lb-payload end-effector." },
+    { company:'Neato Robotics', title:'Jr. Mechanical Engineer – Product Design', location:'San Jose, CA', dates:'Aug. 2020 – Sept. 2022', pageKey:'neato',
+      description:"Designed, prototyped, and mass-manufactured injection-molded parts for the Nexaro NR1500, Neato's first commercial robotic vacuum. Redesigned a drivetrain to cut noise 30% and cost $2 per unit, and led the emerging technologies R&D program." },
     { company:'Kohler Company', title:'Mechanical Engineering Intern', location:'Kohler, WI', dates:'Summer 2019', pageKey:'kohler',
       description:"Designed Kohler's first back-of-the-bath spout diverter. Reduced water leakage, improved laminar flow aesthetics, and lowered manufacturing costs through innovative prototyping with Carbon 3D printing." },
 ];
 
 
-const SKILLS = ['Product Design & Development','Mass Manufacturing','Automation & Robotics','Electromechanical Systems','GD&T & Tolerancing','DFM&A','SolidWorks / Onshape','System Integration'];
+const SKILL_GROUPS = [
+  ['Design',['Onshape','SolidWorks','Creo','Injection Molding','DFM&A','GD&T','RCA','FAI']],
+  ['Building',['Additive Manufacturing','Machining (Subtractive)','Laser Cutting','Sheet Metal','Milling']],
+  ['Project management',['Arena PLM','Confluence','Jira','BOMs','Vendor Management']],
+];
+const EDU = [
+  ['Miami University · Oxford, OH','B.S. in Engineering, Major in Mechanical Engineering · 2016–2020'],
+  ['GD&T Certification','2-B Quality · ASME Y14.5-2009'],
+];
 const STATS = [
-  ['300+','units per hour on bulky items with the Ocado depalletizing system'],
-  ['750M+','items sorted by the Kindred Sort robot using my camera mount'],
-  ['4','robotic arms in the Multiply Labs CAR-T manufacturing system'],
-  ['Q4 2024','first Ocado depalletizer deployment, London'],
+  ['100%','batch success in Multiply Labs\' largest customer pilot: 6 batches a day for 12 continuous days'],
+  ['$100 → $2.50','per-use cost of a redesigned peristaltic pumping cartridge attachment'],
+  ['75% → 98%','robotic pick-and-place accuracy at Ocado through camera selection and integration'],
+  ['6+ years','designing consumables and hardware for robotic systems'],
 ];
 const PRESS = [
   ['AstraZeneca','https://www.businesswire.com/news/home/20260127453159/en/Multiply-Labs-Announces-New-Collaboration-to-Automate-Cell-Therapy-Manufacturing-with-Robotics'],
@@ -518,6 +540,17 @@ const CareerPage = ({ pageKey, onClose, goHome }) => {
         </div>
       </div>
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '48px 24px 80px' }}>
+        {data.highlights && (
+          <section style={{ marginBottom: 56 }}>
+            <h2 className="serif" style={{ fontWeight: 400, fontSize: '1.7rem', color: 'var(--navy)', marginBottom: 20 }}>Highlights</h2>
+            {data.highlights.map(g => (
+              <div key={g.heading} style={{ marginBottom: 28 }}>
+                {g.heading !== 'Highlights' && <div className="label">{g.heading}</div>}
+                <ul className="hl">{g.items.map(t => <li key={t}>{t}</li>)}</ul>
+              </div>
+            ))}
+          </section>
+        )}
         {data.sections.map((sec, i) => (
           <section key={i} style={{ marginBottom: 56 }}>
             <h2 className="serif" style={{ fontWeight: 400, fontSize: '1.7rem', color: 'var(--navy)', marginBottom: 16 }}>{sec.heading}</h2>
@@ -645,9 +678,10 @@ const App = () => {
       <section className="hero">
         <div className="wrap hero-grid">
           <div>
-            <div className="hero-kicker">Advanced Robotics Engineer · San Francisco</div>
+            <div className="hero-kicker">Senior Robotics HW Engineer · San Francisco</div>
             <h1 className="hero-name">William<br/>Nuveen</h1>
-            <p className="hero-sub">Robotics · Product design · Automation</p>
+            <p className="hero-sub">Consumables · Robotic systems · Mass manufacturing</p>
+            <p className="hero-lede">6+ years designing injection-molded and machined consumables and hardware interfaces for robotic systems — across cell-therapy manufacturing, warehouse automation, and consumer robotics.</p>
             <div style={{ display: 'flex', gap: 12, marginTop: 36, flexWrap: 'wrap' }}>
               <a href="#portfolio" className="btn btn-gold">View portfolio</a>
               <a href="#multiply-labs" className="btn btn-ghost">Current work ↓</a>
@@ -723,9 +757,19 @@ const App = () => {
         <div className="wrap">
           <FadeUp>
             <div className="label on-dark">Capabilities</div>
-            <h2 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(1.8rem,3.5vw,2.5rem)', color: '#fff', marginBottom: 44 }}>Key skills</h2>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
-              {SKILLS.map(s => <div key={s} className="skill-pill"><i></i>{s}</div>)}
+            <h2 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(1.8rem,3.5vw,2.5rem)', color: '#fff', marginBottom: 44 }}>Skills &amp; education</h2>
+            <div className="skill-groups">
+              {SKILL_GROUPS.map(([g, items]) => (
+                <div key={g}>
+                  <div className="label on-dark">{g}</div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                    {items.map(t => <div key={t} className="skill-pill"><i></i>{t}</div>)}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="edu">
+              {EDU.map(([t, d]) => <div key={t} className="edu-card"><b>{t}</b><span>{d}</span></div>)}
             </div>
           </FadeUp>
         </div>
@@ -739,7 +783,7 @@ const App = () => {
           <FadeUp delay={100}><div>
             <h2 className="h2" style={{ fontSize: 'clamp(2.5rem,5vw,3.8rem)', marginBottom: 20 }}>Résumé</h2>
             <p className="body" style={{ marginBottom: 32, maxWidth: '60ch' }}>
-              I specialize in consumable design for therapeutic robotics, AI-driven robotic systems, and cost-efficient mass manufacturing — turning concepts into deployable, scalable hardware.
+              Robotics design mechanical engineer with 6+ years of experience across cell-therapy manufacturing, warehouse automation, and consumer robotics. I specialize in designing injection-molded and machinable consumables and hardware interfaces for robotic systems, with a focus on mass manufacturability and reliable human/robotic operation.
             </p>
             <a className="btn btn-gold" href="William%20Nuveen%27s%20Resume%20%28Sept.%20%2726%29.pdf" target="_blank" rel="noopener noreferrer">View résumé (PDF)</a>
           </div></FadeUp>
