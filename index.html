@@ -128,9 +128,9 @@ button{font-family:var(--sans)}
 
 /* TIMELINE */
 .timeline-item{position:relative;padding-left:44px;padding-bottom:100px}
-.timeline-item:last-child{padding-bottom:0}
+.timeline-item.last{padding-bottom:0}
 .timeline-item::before{content:'';position:absolute;left:7px;top:14px;width:1px;height:calc(100% - 14px);background:linear-gradient(to bottom,rgba(168,137,62,.6),rgba(168,137,62,.05))}
-.timeline-item:last-child::before{display:none}
+.timeline-item.last::before{display:none}
 .timeline-dot{position:absolute;left:0;top:10px;width:16px;height:16px;border-radius:50%;border:2px solid var(--accent-dark);background:var(--warm-gray)}
 .timeline-dot.now{background:var(--accent)}
 
@@ -188,12 +188,14 @@ footer a:hover{color:#fff}
 @media (max-width:900px){
   .wrap,.nav{padding:0 20px}
   .two-col,.two-col.exp,.hero-grid{grid-template-columns:1fr;gap:40px}
-  .hero-photo{display:none}
+  .hero-grid{gap:28px}
+  .hero{padding:92px 0 56px}
+  .hero-photo{order:-1;width:160px;max-width:160px;margin:0;border-radius:14px}
   .stats-grid{grid-template-columns:1fr 1fr;padding:32px 20px}
   .nav-links{display:none}
   .menu-btn{display:flex}
   .section,.ml{padding:64px 0}
-  .timeline-item{padding-bottom:56px}
+  .timeline-item{padding-bottom:88px}
   .sticky-col{position:static!important}
   footer{padding:24px 20px}
   .modal-pad{padding:28px 22px!important}
@@ -768,7 +770,7 @@ const App = () => {
           <div>
             {experiences.map((job, i) => (
               <FadeUp key={job.company} delay={i * 60}>
-                <div className="timeline-item">
+                <div className={'timeline-item' + (i === experiences.length - 1 ? ' last' : '')}>
                   <div className={'timeline-dot' + (job.isNew ? ' now' : '')}></div>
                   <div className="label" style={{ fontSize: '1rem', letterSpacing: '.14em', marginBottom: 8 }}>{job.company}</div>
                   <h3 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(1.6rem,3vw,2.1rem)', color: 'var(--navy)', marginBottom: 10, lineHeight: 1.15 }}>{job.title}</h3>
