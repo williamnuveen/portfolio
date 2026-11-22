@@ -95,10 +95,10 @@ const careerPages = {
 };
 
 const aboutCategories = {
-  Hiking:   { photos: ['Hiking_2.JPG','Hiking_3.JPG','Hiking_4.JPG','Hiking_5.jpeg'], desc: 'Exploring trails across California and beyond.' },
+  Hiking:   { photos: ['Hiking_1.JPG','Hiking_2.JPG','Hiking_3.JPG','Hiking_4.JPG','Hiking_5.jpeg'], desc: 'Exploring trails across California and beyond.' },
   Skiing:   { photos: ['Skiing_1.jpg','Skiing_2.JPG','Skiing_3.jpg','Skiing_4.JPG'], desc: 'Chasing powder from Tahoe to the Alps.' },
   Travel:   { photos: ['Travel_1.jpg','Travel_2.jpg','Travel_3.jpg','Travel_4.jpg','Travel_5.jpg'], desc: 'Finding inspiration everywhere.' },
-  Robotics: { photos: ['Robotics_1.jpg','Robotics_2.jpg','Robotics_3.jpg'], desc: 'The obsession that started it all.' },
+  Robotics: { photos: ['Robotics_4.jpg','Robotics_1.jpg','Robotics_2.jpg','Robotics_3.jpg'], desc: 'The obsession that started it all.' },
 };
 
 // ─── DATA ────────────────────────────────────────────────────
@@ -151,8 +151,8 @@ const SKILL_GROUPS = [
   ['Project management',['Arena PLM','Confluence','Jira','BOMs','Vendor Management']],
 ];
 const EDU = [
-  ['Miami University · Oxford, OH','B.S. in Engineering, Major in Mechanical Engineering · 2016–2020'],
-  ['GD&T Certification','2-B Quality · ASME Y14.5-2009'],
+  ['Education', 'B.S. Mechanical Engineering', 'Miami University · Oxford, OH · 2016–2020'],
+  ['Certification', 'GD&T Certification', '2-B Quality · ASME Y14.5-2009'],
 ];
 const STATS = [
   ['100%','batch success in Multiply Labs\' largest customer pilot: 6 batches a day for 12 continuous days'],
@@ -560,7 +560,6 @@ const Timeline = ({ onCareer }) => {
 
 // ─── SECTIONS ──────────────────────────────────────────────
 const ML_PHOTOS = ['Multiply_Labs_4.jpg', 'Multiply_Labs_1.jpg', 'Multiply_Labs_Team_1.jpg'];
-const ABOUT_PHOTOS = ['Skiing_1.jpg', 'Hiking_1.JPG', 'Robotics_4.jpg'];
 
 const MultiplyLabsSection = () => {
   const [lb, setLb] = useState(null);
@@ -606,43 +605,34 @@ const MultiplyLabsSection = () => {
 const AboutSection = () => {
   const [tag, setTag] = useState('Hiking');
   const [lb, setLb] = useState(null);
-  const active = tag && aboutCategories[tag];
+  const active = aboutCategories[tag];
   return (
     <section id="about" className="section">
-      <div className="wrap two-col">
-        <FadeUp><div>
-          <div className="label">Life outside the lab</div>
-          <h2 className="h2" style={{ marginBottom: 24 }}>Beyond work</h2>
-          <p className="body" style={{ marginBottom: 32, maxWidth: '60ch' }}>
-            When I'm not designing robotic systems, you'll find me on a trail, on the slopes, or finding new ways to push limits outside the office.
-          </p>
-          <div style={{ fontSize: '.8rem', color: 'var(--text-light)', marginBottom: 12 }}>Pick a category to see photos</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {Object.keys(aboutCategories).map(t => (
-              <button key={t} className="chip" aria-pressed={tag === t} onClick={() => setTag(tag === t ? null : t)}>{t}</button>
+      <div className="wrap">
+        <FadeUp>
+          <div className="about-head">
+            <div>
+              <div className="label">Life outside the lab</div>
+              <h2 className="h2" style={{ marginBottom: 16 }}>Beyond work</h2>
+              <p className="body" style={{ maxWidth: '56ch' }}>
+                When I'm not designing robotic systems, you'll find me on a trail, on the slopes, or finding new ways to push limits outside the office.
+              </p>
+            </div>
+            <div className="about-tabs" role="group" aria-label="Photo category">
+              {Object.keys(aboutCategories).map(t => (
+                <button key={t} className="chip" aria-pressed={tag === t} onClick={() => setTag(t)}>{t}</button>
+              ))}
+            </div>
+          </div>
+          <div className="about-strip" style={{ '--n': active.photos.length }}>
+            {active.photos.map((p, i) => (
+              <Photo key={p} src={p} alt={`${tag}, photo ${i + 1}`} onOpen={setLb} />
             ))}
           </div>
-          {active && (
-            <div className="gallery">
-              <div className="gallery-grid">
-                {active.photos.map((p, i) => <Photo key={p} src={p} alt={`${tag}, photo ${i + 1}`} onOpen={setLb} style={{ aspectRatio: '4/3', borderRadius: 10 }} />)}
-              </div>
-              <p style={{ color: 'var(--text-light)', fontSize: '.85rem', marginTop: 14, fontStyle: 'italic' }}>{active.desc}</p>
-            </div>
-          )}
-        </div></FadeUp>
-        <FadeUp delay={100}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-            <Photo src="Skiing_1.jpg" alt="Skiing" onOpen={setLb} style={{ gridRow: 'span 2', height: 480 }} />
-            <Photo src="Hiking_1.JPG" alt="Hiking" onOpen={setLb} style={{ height: 235 }} />
-            <Photo src="Robotics_4.jpg" alt="Robotics project" onOpen={setLb} style={{ height: 235 }} />
-          </div>
+          <p className="about-cap">{active.desc}</p>
         </FadeUp>
       </div>
-      {lb && (() => {
-        const group = active && active.photos.includes(lb) ? active.photos : ABOUT_PHOTOS;
-        return <Lightbox images={group} start={group.indexOf(lb)} onClose={() => setLb(null)} />;
-      })()}
+      {lb && <Lightbox images={active.photos} start={active.photos.indexOf(lb)} onClose={() => setLb(null)} />}
     </section>
   );
 };
@@ -752,23 +742,27 @@ const App = () => {
       </section>
 
       <section className="skills">
-        <div className="wrap">
-          <FadeUp>
+        <div className="wrap skills-grid">
+          <FadeUp><div>
             <div className="label on-dark">Capabilities</div>
-            <h2 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(1.8rem,3.5vw,2.5rem)', color: '#fff', marginBottom: 44 }}>Skills &amp; education</h2>
-            <div className="skill-groups">
+            <h2 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(1.9rem,3.5vw,2.6rem)', color: '#fff', lineHeight: 1.1, marginBottom: 16 }}>Skills &amp; education</h2>
+            <p className="body" style={{ color: 'rgba(255,255,255,.62)', maxWidth: '36ch' }}>The tools and processes I use to take parts from CAD to mass production.</p>
+          </div></FadeUp>
+          <FadeUp delay={80}>
+            <dl className="cap-list">
               {SKILL_GROUPS.map(([g, items]) => (
-                <div key={g}>
-                  <div className="label on-dark">{g}</div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                    {items.map(t => <div key={t} className="skill-pill"><i></i>{t}</div>)}
-                  </div>
+                <div key={g} className="cap-row">
+                  <dt>{g}</dt>
+                  <dd className="cap-tags">{items.map(s => <span key={s} className="cap-tag">{s}</span>)}</dd>
                 </div>
               ))}
-            </div>
-            <div className="edu">
-              {EDU.map(([t, d]) => <div key={t} className="edu-card"><b>{t}</b><span>{d}</span></div>)}
-            </div>
+              {EDU.map(([g, title, detail]) => (
+                <div key={g} className="cap-row">
+                  <dt>{g}</dt>
+                  <dd><b className="cap-title">{title}</b><span className="cap-detail">{detail}</span></dd>
+                </div>
+              ))}
+            </dl>
           </FadeUp>
         </div>
       </section>
