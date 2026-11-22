@@ -27,7 +27,7 @@ const pages = [
   { out: 'index.html', page: 'home', path: '', html: ssr.renderHome(),
     title: 'William Nuveen – Robotics Engineer',
     description: 'William Nuveen — Senior Robotics Hardware Engineer in San Francisco. Consumables, cartridges and robotics hardware for cell therapy manufacturing.',
-    preload: '<link rel="preload" as="image" href="William_Nuveen_Portrait.jpg">' },
+    preload: '<link rel="preload" as="image" href="Multiply_Labs_Cluster.jpg">' },
   { out: 'resume.html', page: 'resume', path: 'resume.html', html: ssr.renderResume(),
     title: 'Résumé – William Nuveen',
     description: 'Résumé of William Nuveen, Senior Robotics Hardware Engineer: experience at Multiply Labs, Ocado Technology, Neato Robotics and Kohler, plus education, certifications and skills.',
