@@ -237,15 +237,89 @@ const useOverlay = (onClose, ref) => {
   }, []);
 };
 
-const Lightbox = ({ src, onClose }) => {
+// Renders and diagrams (white or transparent corners) are shown whole instead of cropped.
+const fitCache = {};
+const looksLikeRender = img => {
+  try {
+    const c = document.createElement('canvas'); c.width = c.height = 16;
+    const x = c.getContext('2d', { willReadFrequently: true });
+    x.drawImage(img, 0, 0, 16, 16);
+    const d = x.getImageData(0, 0, 16, 16).data;
+    return [0, 15, 240, 255].every(p => {
+      const k = p * 4;
+      return d[k + 3] < 20 || (d[k] > 232 && d[k + 1] > 232 && d[k + 2] > 232);
+    });
+  } catch (err) { return false; }
+};
+const SmartImg = ({ src, className = '', ...rest }) => {
   const ref = useRef(null);
-  useOverlay(onClose, ref);
+  const [render, setRender] = useState(!!fitCache[src]);
+  const check = () => {
+    const img = ref.current;
+    if (!img || !img.naturalWidth) return;
+    if (fitCache[src] === undefined) fitCache[src] = looksLikeRender(img);
+    setRender(fitCache[src]);
+  };
+  useEffect(() => { if (ref.current && ref.current.complete) check(); }, [src]);
+  return <Img {...rest} ref={ref} src={src} onLoad={check} className={(className + (render ? ' fit-contain' : '')).trim()} />;
+};
+
+// Left/right swipe on touch screens
+const useSwipe = go => {
+  const start = useRef(null);
+  return {
+    onTouchStart: e => { start.current = e.touches[0].clientX; },
+    onTouchEnd: e => {
+      if (start.current == null) return;
+      const dx = e.changedTouches[0].clientX - start.current;
+      start.current = null;
+      if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+    },
+  };
+};
+
+// Left/right arrow keys while active
+const useArrowKeys = (go, active = true) => {
+  useEffect(() => {
+    if (!active) return;
+    const onKey = e => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [active]);
+};
+
+const GalleryNav = ({ i, n, go }) => n > 1 && (
+  <>
+    <button className="gal-nav prev" aria-label="Previous photo" onClick={e => { e.stopPropagation(); go(-1); }}>‹</button>
+    <button className="gal-nav next" aria-label="Next photo" onClick={e => { e.stopPropagation(); go(1); }}>›</button>
+    <span className="gal-count" aria-live="polite">{i + 1} / {n}</span>
+  </>
+);
+
+// Full-screen viewer. onClose receives the photo index it was closed on.
+const Lightbox = ({ images, start = 0, onClose }) => {
+  const ref = useRef(null);
+  const [i, setI] = useState(Math.max(0, start));
+  const idx = useRef(i); idx.current = i;
+  const n = images.length;
+  const go = d => setI(x => (x + d + n) % n);
+  const close = () => onClose(idx.current);
+  useOverlay(close, ref);
+  useArrowKeys(go, n > 1);
+  useEffect(() => {
+    if (n < 2) return;
+    [1, -1].forEach(d => { const im = new Image(); im.src = images[(i + d + n) % n]; });
+  }, [i]);
+  const swipe = useSwipe(n > 1 ? go : () => {});
   return (
-    <div ref={ref} tabIndex={-1} className="modal-overlay" role="dialog" aria-modal="true" aria-label="Image viewer"
-         style={{ zIndex: 1300, cursor: 'zoom-out' }} onClick={onClose}>
-      <Img src={src} alt="" eager onClick={e => e.stopPropagation()}
-           style={{ maxWidth: '90vw', maxHeight: '90vh', borderRadius: 12, objectFit: 'contain', boxShadow: '0 32px 80px rgba(0,0,0,.7)' }} />
-      <button className="lb-close" onClick={onClose} aria-label="Close image">×</button>
+    <div ref={ref} tabIndex={-1} className="modal-overlay lb" role="dialog" aria-modal="true" aria-label="Image viewer"
+         style={{ zIndex: 1300 }} onClick={close} {...swipe}>
+      <img key={images[i]} className="lb-img" src={images[i]} alt="" onClick={e => e.stopPropagation()} />
+      <button className="lb-close" onClick={close} aria-label="Close image">×</button>
+      <GalleryNav i={i} n={n} go={go} />
     </div>
   );
 };
@@ -256,7 +330,7 @@ const Photo = ({ src, alt, onOpen, style }) => {
   if (bad) return null;
   return (
     <button className="tile" style={style} onClick={() => onOpen(src)} aria-label={`Enlarge: ${alt}`}>
-      <Img src={src} alt={alt} onError={() => setBad(true)} />
+      <SmartImg src={src} alt={alt} onError={() => setBad(true)} />
     </button>
   );
 };
@@ -334,28 +408,43 @@ const Nav = ({ onBack, onCareer, goTo, homeHref = '#', page = 'home' }) => {
 
 // ─── PORTFOLIO MODAL ───────────────────────────────────────
 const Modal = ({ item, onClose }) => {
-  const [expanded, setExpanded] = useState(null);
   const ref = useRef(null);
-  useOverlay(expanded ? null : onClose, ref);
+  const [i, setI] = useState(0);
+  const [zoom, setZoom] = useState(false);
+  const n = item.images.length;
+  const go = d => setI(x => (x + d + n) % n);
+  useOverlay(zoom ? null : onClose, ref);
+  useArrowKeys(go, !zoom && n > 1);
+  const swipe = useSwipe(go);
   return (
     <div ref={ref} tabIndex={-1} className="modal-overlay" role="dialog" aria-modal="true" aria-label={item.title}
          onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="modal-inner">
-        <div className="modal-pad" style={{ background: 'var(--navy)', padding: '40px 44px 32px' }}>
+        <div className="pm-head">
           <div className="label on-dark">{item.company}</div>
-          <h2 className="serif" style={{ fontWeight: 400, fontSize: '2rem', color: '#fff' }}>{item.title}</h2>
+          <h2 className="serif" style={{ fontWeight: 400, fontSize: '2rem', color: '#fff', paddingRight: 48 }}>{item.title}</h2>
+          <button className="pm-close" onClick={onClose} aria-label="Close project">×</button>
         </div>
-        <div className="modal-pad" style={{ padding: '36px 44px' }}>
-          <p className="body">{item.longDescription}</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 10, marginTop: 28 }}>
-            {item.images.map((img, i) => (
-              <Photo key={img} src={img} alt={`${item.title}, photo ${i + 1}`} onOpen={setExpanded} style={{ aspectRatio: '4/3', borderRadius: 8 }} />
+        <div className="pm-stage" {...swipe}>
+          <button className="pm-stage-img" onClick={() => setZoom(true)} aria-label={`View photo ${i + 1} of ${n} full screen`}>
+            <SmartImg key={item.images[i]} src={item.images[i]} alt={`${item.title}, photo ${i + 1}`} eager />
+          </button>
+          <GalleryNav i={i} n={n} go={go} />
+        </div>
+        {n > 1 && (
+          <div className="pm-thumbs" role="group" aria-label="Choose a photo">
+            {item.images.map((src, j) => (
+              <button key={src} className={'pm-thumb' + (j === i ? ' on' : '')} aria-label={`Photo ${j + 1}`} aria-current={j === i ? 'true' : undefined} onClick={() => setI(j)}>
+                <SmartImg src={src} alt="" />
+              </button>
             ))}
           </div>
-          <button className="btn btn-dark" style={{ marginTop: 32 }} onClick={onClose}>Close</button>
+        )}
+        <div className="pm-body">
+          <p className="body">{item.longDescription}</p>
         </div>
       </div>
-      {expanded && <Lightbox src={expanded} onClose={() => setExpanded(null)} />}
+      {zoom && <Lightbox images={item.images} start={i} onClose={last => { setZoom(false); setI(last); }} />}
     </div>
   );
 };
@@ -412,7 +501,7 @@ const CareerPage = ({ pageKey, onClose, goHome }) => {
           </div>
         )}
       </div>
-      {lb && <Lightbox src={lb} onClose={() => setLb(null)} />}
+      {lb && <Lightbox images={photos} start={photos.indexOf(lb)} onClose={() => setLb(null)} />}
     </div>
   );
 };
@@ -470,6 +559,9 @@ const Timeline = ({ onCareer }) => {
 };
 
 // ─── SECTIONS ──────────────────────────────────────────────
+const ML_PHOTOS = ['Multiply_Labs_4.jpg', 'Multiply_Labs_1.jpg', 'Multiply_Labs_Team_1.jpg'];
+const ABOUT_PHOTOS = ['Skiing_1.jpg', 'Hiking_1.JPG', 'Robotics_4.jpg'];
+
 const MultiplyLabsSection = () => {
   const [lb, setLb] = useState(null);
   return (
@@ -506,7 +598,7 @@ const MultiplyLabsSection = () => {
           </div>
         </FadeUp>
       </div>
-      {lb && <Lightbox src={lb} onClose={() => setLb(null)} />}
+      {lb && <Lightbox images={ML_PHOTOS} start={ML_PHOTOS.indexOf(lb)} onClose={() => setLb(null)} />}
     </section>
   );
 };
@@ -547,7 +639,10 @@ const AboutSection = () => {
           </div>
         </FadeUp>
       </div>
-      {lb && <Lightbox src={lb} onClose={() => setLb(null)} />}
+      {lb && (() => {
+        const group = active && active.photos.includes(lb) ? active.photos : ABOUT_PHOTOS;
+        return <Lightbox images={group} start={group.indexOf(lb)} onClose={() => setLb(null)} />;
+      })()}
     </section>
   );
 };
@@ -615,7 +710,7 @@ const App = () => {
             {shown.map((p, i) => (
               <FadeUp key={p.title} delay={i * 50}>
                 <button className="pcard" onClick={() => setItem(p)}>
-                  <div className="pcard-img"><Img src={p.image} alt="" /></div>
+                  <div className="pcard-img"><SmartImg src={p.image} alt="" /></div>
                   <div className="pcard-body">
                     <div className="card-company">{p.company}</div>
                     <h3 className="card-title">{p.title}</h3>
