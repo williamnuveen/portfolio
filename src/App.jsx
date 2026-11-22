@@ -506,6 +506,37 @@ const CareerPage = ({ pageKey, onClose, goHome }) => {
   );
 };
 
+// ─── PARALLAX PHOTO ────────────────────────────────────────
+// The photo moves slower than the page while scrolling (like jamesbryant.engineer).
+const ParallaxBand = ({ id, src, alt }) => {
+  const box = useRef(null);
+  const img = useRef(null);
+  useEffect(() => {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const el = box.current, im = img.current;
+      if (!el || !im) return;
+      const r = el.getBoundingClientRect(), vh = window.innerHeight;
+      if (r.bottom < 0 || r.top > vh) return;
+      const progress = (vh - r.top) / (vh + r.height);       // 0 entering → 1 leaving
+      const travel = r.height * 0.28;                       // how far the photo drifts
+      im.style.transform = `translate3d(0, ${((progress - 0.5) * travel).toFixed(1)}px, 0)`;
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); cancelAnimationFrame(frame); };
+  }, []);
+  return (
+    <figure id={id} className="hero-band" ref={box}>
+      <img ref={img} src={src} alt={alt} decoding="async" />
+    </figure>
+  );
+};
+
 // ─── CAREER TIMELINE ───────────────────────────────────────
 const Timeline = ({ onCareer }) => {
   const scroller = useRef(null);
@@ -674,9 +705,7 @@ const App = () => {
         <a href="#hero-photo" className="hero-cue" aria-label="Scroll down"><span></span></a>
       </section>
 
-      <figure id="hero-photo" className="hero-band">
-        <Img src="Multiply_Labs_Cluster.jpg" alt="William looking into a Multiply Labs robotic cell-therapy manufacturing cluster" eager />
-      </figure>
+      <ParallaxBand id="hero-photo" src="Multiply_Labs_Cluster.jpg" alt="William looking into a Multiply Labs robotic cell-therapy manufacturing cluster" />
 
       <section className="stats" aria-label="Highlights">
         <div className="wrap stats-grid">
