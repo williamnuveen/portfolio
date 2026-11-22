@@ -159,7 +159,37 @@ button{font-family:var(--sans)}
 
 /* OVERLAYS */
 .modal-overlay{position:fixed;inset:0;background:rgba(10,15,25,.78);backdrop-filter:blur(6px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
-.modal-inner{background:#fff;border-radius:16px;max-width:860px;width:100%;max-height:90vh;overflow-y:auto}
+.modal-inner{background:#fff;border-radius:16px;max-width:900px;width:100%;max-height:92vh;overflow-y:auto;overflow-x:hidden}
+.fit-contain{object-fit:contain!important;background:#fff;padding:4%}
+
+/* PROJECT GALLERY */
+.pm-head{position:relative;background:var(--navy);padding:30px 44px 26px}
+.pm-close{position:absolute;top:18px;right:18px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);color:#fff;font-size:1.35rem;line-height:1;cursor:pointer;transition:background .2s}
+.pm-close:hover{background:rgba(255,255,255,.2)}
+.pm-stage{position:relative;background:#f1eee8;aspect-ratio:16/10;max-height:60vh;width:100%}
+.pm-stage-img{display:block;width:100%;height:100%;border:none;padding:0;background:none;cursor:zoom-in}
+.pm-stage-img img{display:block;width:100%;height:100%;object-fit:contain;animation:fade .25s ease}
+.pm-thumbs{display:flex;gap:8px;padding:14px 44px 2px;overflow-x:auto;scrollbar-width:thin}
+.pm-thumb{flex:none;width:88px;height:62px;padding:0;border:2px solid transparent;border-radius:8px;overflow:hidden;background:#f1eee8;cursor:pointer;opacity:.55;transition:opacity .2s,border-color .2s}
+.pm-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.pm-thumb img.fit-contain{padding:6%}
+.pm-stage-img img.fit-contain{padding:3%}
+.pm-thumb:hover{opacity:.9}
+.pm-thumb.on{opacity:1;border-color:var(--accent-dark)}
+.pm-body{padding:22px 44px 36px}
+.gal-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.94);color:var(--navy);font-size:1.7rem;line-height:1;padding-bottom:3px;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.18);transition:background .2s,transform .2s;z-index:2}
+.gal-nav:hover{background:#fff;transform:translateY(-50%) scale(1.07)}
+.gal-nav.prev{left:14px}
+.gal-nav.next{right:14px}
+.gal-count{position:absolute;right:14px;bottom:12px;background:rgba(15,22,34,.74);color:#fff;font-size:.74rem;font-weight:600;letter-spacing:.06em;padding:4px 10px;border-radius:50px;z-index:2}
+.lb{cursor:zoom-out}
+.lb-img{max-width:min(92vw,1600px);max-height:84vh;object-fit:contain;border-radius:10px;background:#f1eee8;box-shadow:0 32px 80px rgba(0,0,0,.7);cursor:default;animation:fade .25s ease}
+.lb .gal-nav{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.28);box-shadow:none}
+.lb .gal-nav:hover{background:rgba(255,255,255,.24)}
+.lb .gal-nav.prev{left:24px}
+.lb .gal-nav.next{right:24px}
+.lb .gal-count{left:50%;right:auto;bottom:22px;transform:translateX(-50%);background:rgba(255,255,255,.12)}
+@keyframes fade{from{opacity:.25}to{opacity:1}}
 .lb-close{position:absolute;top:24px;right:24px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:1.2rem;cursor:pointer}
 .career{position:fixed;inset:0;z-index:800;background:var(--cream);overflow-y:auto}
 
@@ -278,6 +308,18 @@ footer a:hover{color:#fff}
   .sticky-col{position:static!important}
   footer{padding:24px 20px}
   .modal-pad{padding:28px 22px!important}
+  .modal-overlay{padding:10px}
+  .pm-head{padding:24px 22px 20px}
+  .pm-stage{aspect-ratio:4/3}
+  .pm-thumbs{padding:12px 22px 2px}
+  .pm-body{padding:18px 22px 28px}
+  .gal-nav{width:38px;height:38px;font-size:1.45rem}
+  .gal-nav.prev{left:8px}.gal-nav.next{right:8px}
+  .lb-img{max-height:74vh}
+  .lb .gal-nav{top:auto;bottom:16px;transform:none}
+  .lb .gal-nav:hover{transform:none}
+  .lb .gal-nav.prev{left:20px}.lb .gal-nav.next{right:20px}
+  .lb .gal-count{bottom:26px}
   .career-hero{padding:56px 20px 44px!important}
   .skill-groups,.edu{grid-template-columns:1fr}
   .tl-section{padding:56px 0 48px}
