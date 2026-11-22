@@ -661,20 +661,22 @@ const App = () => {
 
       <main id="main">
       <section className="hero">
-        <div className="wrap hero-grid">
-          <div>
-            <div className="hero-kicker">Senior Robotics HW Engineer · San Francisco</div>
-            <h1 className="hero-name">William<br/>Nuveen</h1>
-            <p className="hero-sub">Consumables · Robotic systems · Mass manufacturing</p>
-            <p className="hero-lede">6+ years designing injection-molded and machined consumables and hardware interfaces for robotic systems — across cell-therapy manufacturing, warehouse automation, and consumer robotics.</p>
-            <div style={{ display: 'flex', gap: 12, marginTop: 36, flexWrap: 'wrap' }}>
-              <a href="#portfolio" className="btn btn-gold">View projects</a>
-              <a href={RESUME} className="btn btn-ghost" target="_blank" rel="noopener noreferrer">Résumé (PDF) ↗</a>
-            </div>
-          </div>
-          <div className="hero-photo-wrap"><Img className="hero-photo" src="William_Nuveen_Portrait.jpg" alt="Portrait of William Nuveen" eager /></div>
+        <div className="wrap hero-inner">
+          <h1 className="hero-line">
+            Hi, I'm William Nuveen — a <em>robotics hardware engineer</em> in San Francisco, designing consumables for cell‑therapy robots at <em>Multiply&nbsp;Labs</em>.
+          </h1>
+          <nav className="hero-links" aria-label="Quick links">
+            <a href="#portfolio">Projects</a>
+            <a href="resume.html">Résumé</a>
+            <a href="#contact">Contact</a>
+          </nav>
         </div>
+        <a href="#hero-photo" className="hero-cue" aria-label="Scroll down"><span></span></a>
       </section>
+
+      <figure id="hero-photo" className="hero-band">
+        <Img src="Multiply_Labs_Cluster.jpg" alt="William looking into a Multiply Labs robotic cell-therapy manufacturing cluster" eager />
+      </figure>
 
       <section className="stats" aria-label="Highlights">
         <div className="wrap stats-grid">
