@@ -1,2 +1,6 @@
 node_modules
 .ssr-tmp.cjs
+# Built by build.mjs (GitHub builds these on every deploy)
+index.html
+resume.html
+assets/app.js

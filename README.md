@@ -4,15 +4,21 @@ Live site: https://williamnuveen.github.io/portfolio/
 
 ## Editing the site
 
-- **Content and layout:** `src/App.jsx` (projects, experience, stats, skills and so on are near the top)
+- **Content and layout:** `src/App.jsx` (projects, experience, timeline, stats, skills and so on are near the top)
+- **Résumé page:** `src/Resume.jsx` (summary, education, certifications). Job bullets come from `careerPages` in `src/App.jsx`.
 - **Styles and page `<head>`:** `src/template.html`
 - **Photos and the résumé PDF:** the repo root
 
-After editing, rebuild so `index.html` and `assets/app.js` are updated, then commit everything:
+Push to `main` and GitHub builds and deploys the site automatically (see `.github/workflows/static.yml`). The built files (`index.html`, `resume.html`, `assets/app.js`) are generated during the deploy and are not stored in the repo.
+
+## Contact email
+
+The email address is not stored in the code. The deploy reads it from a GitHub repository variable named `CONTACT_EMAIL` (Settings → Secrets and variables → Actions → Variables). If the variable is missing, the email links are left off the site.
+
+## Previewing locally
 
 ```
 npm install
-npm run build
+CONTACT_EMAIL=you@example.com npm run build
+python3 -m http.server
 ```
-
-The build pre-renders the page into `index.html`, so the content is visible straight away and readable by search engines, recruiters' tools and link previews. It then hands the page over to React for the interactive parts (filters, popups, galleries). GitHub Pages deploys whatever is on `main` (see `.github/workflows/static.yml`).

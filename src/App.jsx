@@ -37,6 +37,7 @@ const careerPages = {
   },
   'ocado': {
     company: 'Ocado Technology',
+    resumeCompany: 'Ocado Technology (formerly Kindred AI)',
     role: 'Mechanical Engineer II – Robotics Product Development',
     dates: 'Sept. 2022 – Dec. 2024',
     location: 'San Francisco, CA',
@@ -82,6 +83,7 @@ const careerPages = {
     location: 'Kohler, WI',
     tagline: 'Designing Kohler\'s first back-of-bath spout diverter from concept to prototype.',
     heroImage: 'Kohler_Bath_Spout.png',
+    highlights: [{"heading": "Highlights", "items": ["Designed Kohler's first back-of-the-bath spout diverter, from benchmarking existing diverters through a SolidWorks model and Carbon 3D-printed prototypes.", "Reduced water leakage with a redesigned o-ring interface, improved laminar flow aesthetics, and lowered manufacturing cost."]}],
     sections: [
       {
         heading: 'The Project',
@@ -158,7 +160,35 @@ const STATS = [
   ['75% → 98%','robotic pick-and-place accuracy at Ocado through camera selection and integration'],
   ['6+ years','designing consumables and hardware for robotic systems'],
 ];
-const RESUME = "William%20Nuveen%27s%20Resume%20%28Sept.%20%2726%29.pdf";
+// Career timeline (home page, under the headline stats). Add a new year by adding an entry.
+const TIMELINE = [
+  { year: '2016', items: [
+    { title: 'Started a B.S. in Mechanical Engineering', sub: 'Miami University · Oxford, OH' } ] },
+  { year: '2019', items: [
+    { title: 'Mechanical Engineering Intern, Kohler', sub: 'Kohler, WI', page: 'kohler',
+      points: ["Designed Kohler's first back-of-bath spout diverter", 'Prototyped with Carbon 3D printing'] } ] },
+  { year: '2020', items: [
+    { title: 'Graduated, B.S. Mechanical Engineering', sub: 'Miami University' },
+    { title: 'Joined Neato Robotics', sub: 'Jr. Mechanical Engineer, Product Design', page: 'neato',
+      points: ['Injection-molded parts for the Nexaro NR1500', 'Drivetrain redesign: 30% quieter, $2/unit cheaper', 'Led the emerging technologies R&D program'] } ] },
+  { year: '2022', items: [
+    { title: 'Joined Ocado Technology', sub: 'Mechanical Engineer II, Robotics Product Development', page: 'ocado',
+      points: ["Ocado's first AI/ML depalletizing robot", 'Pick-and-place accuracy 75% → 98%', '80 lb-payload end-effector'] } ] },
+  { year: '2024', items: [
+    { title: 'First depalletizer deployment', sub: 'London · Q4 2024' },
+    { title: 'Joined Multiply Labs', sub: 'Advanced Robotics HW Engineer, Consumables R&D', page: 'multiply-labs',
+      points: ['Largest customer pilot: 100% batch success', 'Calibration jigs for 4 robotic clusters', 'First customer system, for Legend Biotech'] } ] },
+  { year: '2026', now: true, items: [
+    { title: 'Promoted to Senior Robotics HW Engineer', sub: 'Multiply Labs · May 2026', page: 'multiply-labs',
+      points: ['Lead designer, Rotea cartridge', 'GMP bag cartridge: Alpha → Gamma', 'Pumping attachment: $100 → $2.50 per use'] } ] },
+];
+
+// Contact email is not stored in the code. The build fills it in from the
+// CONTACT_EMAIL environment variable (on GitHub: Settings → Secrets and variables
+// → Actions → Variables). Without it, the email links are simply left out.
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL || '';
+
+const RESUME ="William%20Nuveen%27s%20Resume%20%28Sept.%20%2726%29.pdf";
 const PRESS = [
   ['AstraZeneca','https://www.businesswire.com/news/home/20260127453159/en/Multiply-Labs-Announces-New-Collaboration-to-Automate-Cell-Therapy-Manufacturing-with-Robotics'],
   ['Legend Biotech','https://www.businesswire.com/news/home/20240924666477/en/Multiply-Labs-Announces-a-Collaboration-on-Automating-Cell-Therapy-Manufacturing-with-Legend-Biotech'],
@@ -232,7 +262,7 @@ const Photo = ({ src, alt, onOpen, style }) => {
 };
 
 // ─── NAV (shared by home + career pages) ───────────────────
-const Nav = ({ onBack, onCareer, goTo }) => {
+const Nav = ({ onBack, onCareer, goTo, homeHref = '#', page = 'home' }) => {
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState(false);
   const go = id => { setMenu(false); goTo(id); };
@@ -255,11 +285,11 @@ const Nav = ({ onBack, onCareer, goTo }) => {
   return (
     <header className="site-header">
       <nav className="nav" aria-label="Main">
-        <a href="#" className="logo" aria-label="William Nuveen, home" onClick={e => { if (onBack) { e.preventDefault(); onBack(); } }}>W<span>N</span></a>
+        <a href={homeHref} className="logo" aria-label="William Nuveen, home" onClick={e => { if (onBack) { e.preventDefault(); onBack(); } }}>W<span>N</span></a>
         <div className="nav-links">
           {onBack
             ? <button className="nav-link" onClick={onBack}>← Back</button>
-            : <a href="#" className="nav-link hide-sm">Home</a>}
+            : <a href={homeHref} className="nav-link hide-sm">Home</a>}
           <div className={'dropdown' + (open ? ' open' : '')} onMouseLeave={() => setOpen(false)}>
             <button className="dropdown-trigger" aria-haspopup="true" aria-expanded={open} onClick={() => setOpen(o => !o)}>
               Experience
@@ -276,7 +306,7 @@ const Nav = ({ onBack, onCareer, goTo }) => {
           </div>
           <button className="nav-link" onClick={() => goTo('portfolio')}>Projects</button>
           <button className="nav-link hide-sm" onClick={() => goTo('about')}>Beyond Work</button>
-          <button className="nav-link hide-sm" onClick={() => goTo('resume')}>Résumé</button>
+          <a className="nav-link hide-sm" href="resume.html" aria-current={page === 'resume' ? 'page' : undefined}>Résumé</a>
           <button className="nav-link nav-cta" onClick={() => goTo('contact')}>Contact</button>
         </div>
         <button className="menu-btn" aria-label={menu ? 'Close menu' : 'Open menu'} aria-expanded={menu} aria-controls="mobile-menu" onClick={() => setMenu(m => !m)}>
@@ -294,7 +324,7 @@ const Nav = ({ onBack, onCareer, goTo }) => {
           ))}
           <button className="mm-item" onClick={() => go('portfolio')}>Projects</button>
           <button className="mm-item" onClick={() => go('about')}>Beyond Work</button>
-          <button className="mm-item" onClick={() => go('resume')}>Résumé</button>
+          <a className="mm-item" href="resume.html">Résumé</a>
           <button className="mm-item mm-cta" onClick={() => go('contact')}>Contact</button>
         </div>
       )}
@@ -384,6 +414,58 @@ const CareerPage = ({ pageKey, onClose, goHome }) => {
       </div>
       {lb && <Lightbox src={lb} onClose={() => setLb(null)} />}
     </div>
+  );
+};
+
+// ─── CAREER TIMELINE ───────────────────────────────────────
+const Timeline = ({ onCareer }) => {
+  const scroller = useRef(null);
+  const [edge, setEdge] = useState({ start: true, end: false });
+  const update = () => {
+    const el = scroller.current; if (!el) return;
+    setEdge({ start: el.scrollLeft < 8, end: el.scrollLeft + el.clientWidth > el.scrollWidth - 8 });
+  };
+  useEffect(() => {
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+  const nudge = dir => scroller.current && scroller.current.scrollBy({ left: dir * 300, behavior: 'smooth' });
+  return (
+    <section id="timeline" className="tl-section" aria-labelledby="tl-title">
+      <div className="wrap">
+        <div className="tl-head">
+          <div>
+            <div className="label">Career timeline</div>
+            <h2 id="tl-title" className="h2">From intern to senior engineer</h2>
+          </div>
+          <div className="tl-arrows">
+            <button className="tl-arrow" aria-label="Scroll timeline back" disabled={edge.start} onClick={() => nudge(-1)}>←</button>
+            <button className="tl-arrow" aria-label="Scroll timeline forward" disabled={edge.end} onClick={() => nudge(1)}>→</button>
+          </div>
+        </div>
+        <div className="tl-scroll" ref={scroller} onScroll={update} tabIndex={0} aria-label="Career timeline, scrolls sideways">
+          <ol className="tl">
+            {TIMELINE.map(({ year, now, items }) => (
+              <li key={year} className={'tl-col' + (now ? ' now' : '')}>
+                <span className="tl-dot" aria-hidden="true"></span>
+                <div className="tl-year">{year}{now && <span className="tl-now">Now</span>}</div>
+                <ul className="tl-items">
+                  {items.map(it => (
+                    <li key={it.title} className="tl-item">
+                      <b>{it.title}</b>
+                      {it.sub && <span className="tl-sub">{it.sub}</span>}
+                      {it.points && <ul>{it.points.map(p => <li key={p}>{p}</li>)}</ul>}
+                      {it.page && <button className="tl-link" onClick={() => onCareer(it.page)}>Read more →</button>}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
   );
 };
 
@@ -482,6 +564,10 @@ const App = () => {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
   const goFromCareer = id => { setCareer(null); setTimeout(() => goTo(id), 60); };
+  useEffect(() => {
+    const m = window.location.hash.match(/^#career-(.+)$/);
+    if (m && careerPages[m[1]]) setCareer(m[1]);
+  }, []);
 
   return (
     <div>
@@ -510,6 +596,8 @@ const App = () => {
           {STATS.map(([n, t]) => <div key={n}><div className="stat-num">{n}</div><div className="stat-txt">{t}</div></div>)}
         </div>
       </section>
+
+      <Timeline onCareer={setCareer} />
 
       <MultiplyLabsSection />
 
@@ -600,7 +688,10 @@ const App = () => {
             <p className="body" style={{ marginBottom: 32, maxWidth: '60ch' }}>
               Robotics design mechanical engineer with 6+ years of experience across cell-therapy manufacturing, warehouse automation, and consumer robotics. I specialize in designing injection-molded and machinable consumables and hardware interfaces for robotic systems, with a focus on mass manufacturability and reliable human/robotic operation.
             </p>
-            <a className="btn btn-gold" href={RESUME} target="_blank" rel="noopener noreferrer">View résumé (PDF)</a>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <a className="btn btn-gold" href="resume.html">Full résumé →</a>
+              <a className="btn btn-dark" href={RESUME} target="_blank" rel="noopener noreferrer">Download PDF ↗</a>
+            </div>
           </div></FadeUp>
         </div>
       </section>
@@ -610,12 +701,12 @@ const App = () => {
           <FadeUp>
             <div className="label on-dark">Get in touch</div>
             <h2 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(2.5rem,5vw,4rem)', color: '#fff', lineHeight: 1.05, marginBottom: 24 }}>Let's build something great</h2>
-            <p style={{ color: 'rgba(255,255,255,.7)', maxWidth: 520, margin: '0 auto 12px' }}>San Francisco, CA · wnuveen3@gmail.com</p>
+            <p style={{ color: 'rgba(255,255,255,.7)', maxWidth: 520, margin: '0 auto 12px' }}>San Francisco, CA{CONTACT_EMAIL && ` · ${CONTACT_EMAIL}`}</p>
             <p style={{ color: 'rgba(255,255,255,.6)', fontSize: '.92rem', maxWidth: 520, margin: '0 auto 44px' }}>
               Open to consulting on product design, consumables engineering, and robotics hardware. Email me about your project.
             </p>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a className="btn btn-gold" href="mailto:wnuveen3@gmail.com?subject=Consulting%20inquiry">Email William</a>
+              {CONTACT_EMAIL && <a className="btn btn-gold" href={`mailto:${CONTACT_EMAIL}?subject=Consulting%20inquiry`}>Email William</a>}
               <a className="btn btn-ghost" href="https://www.linkedin.com/in/williamnuveen/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
             </div>
           </FadeUp>
@@ -627,7 +718,7 @@ const App = () => {
       <footer>
         <p>© 2026 William Nuveen. All rights reserved.</p>
         <div style={{ display: 'flex', gap: 20 }}>
-          <a href="mailto:wnuveen3@gmail.com">Email</a>
+          {CONTACT_EMAIL && <a href={`mailto:${CONTACT_EMAIL}`}>Email</a>}
           <a href="https://github.com/williamnuveen" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://www.linkedin.com/in/williamnuveen/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
@@ -640,3 +731,4 @@ const App = () => {
 };
 
 export default App;
+export { CONTACT_EMAIL, Nav, careerPages, experiences, SKILL_GROUPS, RESUME };

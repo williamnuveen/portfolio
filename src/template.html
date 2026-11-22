@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>William Nuveen – Robotics Engineer</title>
-<meta name="description" content="William Nuveen — Senior Robotics Hardware Engineer in San Francisco. Consumables, cartridges and robotics hardware for cell therapy manufacturing.">
-<meta property="og:title" content="William Nuveen – Robotics Engineer">
+<title>{{TITLE}}</title>
+<meta name="description" content="{{DESCRIPTION}}">
+<meta property="og:title" content="{{TITLE}}">
 <meta property="og:description" content="Robotics, product design and automation — from consumer robots to CAR-T manufacturing.">
 <meta property="og:image" content="https://williamnuveen.github.io/portfolio/William_Nuveen_Portrait.jpg">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://williamnuveen.github.io/portfolio/">
+<meta property="og:url" content="https://williamnuveen.github.io/portfolio/{{PATH}}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#1a2332">
-<link rel="canonical" href="https://williamnuveen.github.io/portfolio/">
-<link rel="preload" as="image" href="William_Nuveen_Portrait.jpg">
+<link rel="canonical" href="https://williamnuveen.github.io/portfolio/{{PATH}}">
+{{PRELOAD}}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"William Nuveen","jobTitle":"Senior Robotics Hardware Engineer","alumniOf":{"@type":"CollegeOrUniversity","name":"Miami University"},"worksFor":{"@type":"Organization","name":"Multiply Labs"},"address":{"@type":"PostalAddress","addressLocality":"San Francisco","addressRegion":"CA"},"url":"https://williamnuveen.github.io/portfolio/","sameAs":["https://www.linkedin.com/in/williamnuveen/","https://github.com/williamnuveen"]}
@@ -186,6 +186,72 @@ button{font-family:var(--sans)}
 .js .fade-up{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
 .js .fade-up.visible{opacity:1;transform:none}
 
+/* CAREER TIMELINE */
+.tl-section{background:var(--cream);padding:72px 0 64px;border-bottom:1px solid rgba(26,35,50,.08)}
+.tl-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:36px;flex-wrap:wrap}
+.tl-arrows{display:flex;gap:8px}
+.tl-arrow{width:42px;height:42px;border-radius:50%;border:1px solid rgba(26,35,50,.2);background:#fff;color:var(--navy);font-size:1.05rem;cursor:pointer;transition:background .2s,color .2s,opacity .2s}
+.tl-arrow:hover:not(:disabled){background:var(--navy);color:#fff}
+.tl-arrow:disabled{opacity:.35;cursor:default}
+.tl-scroll{overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:rgba(168,137,62,.55) rgba(26,35,50,.07);padding-bottom:18px}
+.tl-scroll::-webkit-scrollbar{height:6px}
+.tl-scroll::-webkit-scrollbar-track{background:rgba(26,35,50,.07);border-radius:3px}
+.tl-scroll::-webkit-scrollbar-thumb{background:rgba(168,137,62,.55);border-radius:3px}
+.tl{display:flex;list-style:none;min-width:max-content}
+.tl-col{position:relative;width:272px;flex:none;padding:0 28px 0 0;scroll-snap-align:start}
+.tl-col::before{content:'';position:absolute;top:7px;left:0;right:0;height:1px;background:rgba(168,137,62,.45)}
+.tl-col:last-child::before{right:auto;width:60%;background:linear-gradient(90deg,rgba(168,137,62,.45),transparent)}
+.tl-dot{position:relative;display:block;width:15px;height:15px;border-radius:50%;background:var(--cream);border:2px solid var(--accent-dark)}
+.tl-col.now .tl-dot{background:var(--accent);box-shadow:0 0 0 5px rgba(200,169,110,.22)}
+.tl-year{font-family:var(--serif);font-size:1.9rem;color:var(--navy);line-height:1;margin:18px 0 16px;display:flex;align-items:center;gap:10px}
+.tl-now{font-family:var(--sans);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:#6e5718;background:rgba(200,169,110,.2);border:1px solid rgba(168,137,62,.4);padding:3px 8px;border-radius:4px}
+.tl-items{list-style:none;display:flex;flex-direction:column;gap:18px}
+.tl-item b{display:block;font-weight:600;color:var(--navy);font-size:.95rem;line-height:1.4}
+.tl-item .tl-sub{display:block;font-size:.82rem;color:var(--text-light);margin-top:3px;line-height:1.45}
+.tl-item ul{list-style:none;margin-top:10px;padding-left:12px;border-left:1px solid rgba(168,137,62,.35);display:flex;flex-direction:column;gap:6px}
+.tl-item ul li{font-size:.82rem;color:var(--text-mid);line-height:1.45}
+.tl-link{background:none;border:none;padding:0;margin-top:10px;font-size:.78rem;font-weight:600;letter-spacing:.04em;color:var(--accent-dark);cursor:pointer;text-decoration:none;display:inline-block}
+.tl-link:hover{color:var(--navy)}
+
+/* RÉSUMÉ PAGE */
+.rs-hero{background:var(--navy);padding:128px 0 64px;position:relative;overflow:hidden}
+.rs-hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at 80% 30%,#000 5%,transparent 65%);mask-image:radial-gradient(ellipse at 80% 30%,#000 5%,transparent 65%);pointer-events:none}
+.rs-wrap{max-width:920px;margin:0 auto;padding:0 48px;position:relative;z-index:1}
+.rs-name{font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,6vw,4.2rem);color:#fff;line-height:1.02;margin-bottom:14px}
+.rs-meta{color:rgba(255,255,255,.62);font-size:.95rem;line-height:1.7}
+.rs-meta a{color:rgba(255,255,255,.85);text-decoration:none;border-bottom:1px solid rgba(200,169,110,.4)}
+.rs-meta a:hover{color:#fff;border-color:var(--accent)}
+.rs-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.rs-body{padding:64px 0 96px}
+.rs-sec{margin-bottom:56px}
+.rs-sec>h2{font-family:var(--sans);font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-dark);font-weight:600;padding-bottom:12px;border-bottom:1px solid rgba(26,35,50,.15);margin-bottom:8px}
+.rs-summary{font-size:1.08rem;line-height:1.8;color:var(--text-dark);padding-top:12px;max-width:68ch}
+.rs-co{padding:26px 0 8px;border-bottom:1px solid rgba(26,35,50,.08)}
+.rs-co:last-child{border-bottom:none}
+.rs-row{display:flex;justify-content:space-between;align-items:baseline;gap:20px}
+.rs-co-name{font-family:var(--serif);font-size:1.55rem;color:var(--navy);line-height:1.2}
+.rs-loc,.rs-date{font-size:.85rem;color:var(--text-light);white-space:nowrap}
+.rs-role{margin-top:18px}
+.rs-role h4{font-size:1rem;font-weight:600;color:var(--navy);line-height:1.4}
+.rs-role ul{margin:10px 0 0 1.15em;color:var(--text-mid);font-size:.94rem;line-height:1.7}
+.rs-role li{margin-bottom:6px}
+.rs-role li::marker{color:var(--accent-dark)}
+.rs-more{display:inline-block;margin:14px 0 18px;font-size:.8rem;font-weight:600;letter-spacing:.04em;color:var(--accent-dark);text-decoration:none}
+.rs-more:hover{color:var(--navy)}
+.rs-line{padding:16px 0;border-bottom:1px solid rgba(26,35,50,.08)}
+.rs-line:last-child{border-bottom:none}
+.rs-line b{display:block;font-weight:600;color:var(--navy);font-size:1rem}
+.rs-line span{display:block;font-size:.88rem;color:var(--text-mid);margin-top:3px}
+.rs-skills{display:grid;grid-template-columns:190px 1fr;gap:12px 24px;padding-top:16px;align-items:start}
+.rs-skills dt{font-weight:600;color:var(--navy);font-size:.92rem;padding-top:6px}
+.rs-skills dd{display:flex;flex-wrap:wrap;gap:6px}
+.rs-tag{background:var(--warm-gray);color:var(--navy);font-size:.82rem;padding:6px 12px;border-radius:50px}
+.rs-links{list-style:none;padding-top:8px}
+.rs-links li{padding:12px 0;border-bottom:1px solid rgba(26,35,50,.08);font-size:.92rem;color:var(--text-mid)}
+.rs-links li:last-child{border-bottom:none}
+.rs-links a{color:var(--navy);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(168,137,62,.5);margin-right:8px}
+.rs-links a:hover{border-color:var(--navy)}
+
 footer{background:#111820;padding:28px 48px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
 footer p,footer a{color:rgba(255,255,255,.5);font-size:.8rem;text-decoration:none}
 footer a:hover{color:#fff}
@@ -214,13 +280,21 @@ footer a:hover{color:#fff}
   .modal-pad{padding:28px 22px!important}
   .career-hero{padding:56px 20px 44px!important}
   .skill-groups,.edu{grid-template-columns:1fr}
+  .tl-section{padding:56px 0 48px}
+  .tl-col{width:236px;padding-right:20px}
+  .tl-arrows{display:none}
+  .rs-wrap{padding:0 20px}
+  .rs-hero{padding:104px 0 48px}
+  .rs-row{flex-direction:column;gap:2px}
+  .rs-skills{grid-template-columns:1fr;gap:4px}
+  .rs-skills dd{margin-bottom:12px}
 }
 @media (max-width:560px){
   .partners{grid-template-columns:1fr}
 }
 </style>
 </head>
-<body>
+<body data-page="{{PAGE}}">
 <div id="root"><!--APP--></div>
 
 <script src="assets/app.js" defer></script>
