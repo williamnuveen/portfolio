@@ -103,6 +103,10 @@ const aboutCategories = {
 
 // ─── DATA ────────────────────────────────────────────────────
 const portfolioItems = [
+    { image:'Multiply_Labs_Cluster_Exterior.jpg', title:'Cell-Therapy Robotic Cluster', company:'Multiply Labs',
+      images:['Multiply_Labs_Cluster_Exterior.jpg','Multiply_Labs_Robot_Arm.jpg','Multiply_Labs_Cluster_Floor.jpg','Multiply_Labs_1.jpg'],
+      shortDescription:'Consumables, cartridges and hardware for robotic cell-therapy manufacturing',
+      longDescription:"At Multiply Labs, I design the consumables, cartridges and hardware interfaces that let robotic clusters like this one manufacture cell therapies end to end. I'm the lead consumables designer for robotic automation of the Rotea cell-therapy instrument and for the pharmaceutical-grade (GMP) bag cartridge across its Alpha, Beta and Gamma revisions. I led the company's largest customer pilot to date (6 batches a day for 12 continuous days at a 100% batch success rate), built the calibration and leveling jigs used to bring up 4 robotic clusters, and redesigned a peristaltic pumping cartridge attachment from $100 to $2.50 per use." },
     { image:'depal.jpg', title:'Depalletizing Robot', company:'Ocado Technology',
       images:['depal.jpg','depal_2.jpg','depal_3.jpg'],
       shortDescription:'Automated depalletizing robotic system for e-commerce fulfillment',
@@ -196,7 +200,7 @@ const PRESS = [
   ['Team Spotlight','https://www.linkedin.com/posts/engineeringexcellence-robotics-biomanufacturing-ugcPost-7344144321194901504-s3Ux'],
 ];
 const PHOTO_SLOTS = {
-  'multiply-labs':['Multiply_Labs_1.jpg','Multiply_Labs_2.jpg','Multiply_Labs_3.jpg'],
+  'multiply-labs':['Multiply_Labs_Cluster_Floor.jpg','Multiply_Labs_Robot_Arm.jpg','Multiply_Labs_1.jpg','Multiply_Labs_4.jpg'],
   'ocado':['depal.jpg','Camera_PC_2.jpg','Camera_PC_3.jpg'],
   'neato':['Nexaro_NR1500.jpg','Mopping_Robot.jpg','Neato_Parts.jpg'],
   'kohler':['Kohler_Work.jpg','Kohler_Bath_Spout.png','Kohler_Pres.jpg'],
@@ -487,7 +491,7 @@ const CareerPage = ({ pageKey, onClose, goHome }) => {
           <section key={i} style={{ marginBottom: 56 }}>
             <h2 className="serif" style={{ fontWeight: 400, fontSize: '1.7rem', color: 'var(--navy)', marginBottom: 16 }}>{sec.heading}</h2>
             {sec.body.split('\n\n').map((p, j) => <p key={j} className="body" style={{ marginBottom: 16, maxWidth: '70ch' }}>{p}</p>)}
-            {photos[i] && <Photo src={photos[i]} alt={`${data.company}, photo ${i + 1}`} onOpen={setLb} style={{ marginTop: 28, maxHeight: 420 }} />}
+            {photos[i] && <Photo src={photos[i]} alt={`${data.company}, photo ${i + 1}`} onOpen={setLb} style={{ marginTop: 28, aspectRatio: '16/9' }} />}
           </section>
         ))}
         {data.pressLinks.length > 0 && (
@@ -590,7 +594,7 @@ const Timeline = ({ onCareer }) => {
 };
 
 // ─── SECTIONS ──────────────────────────────────────────────
-const ML_PHOTOS = ['Multiply_Labs_4.jpg', 'Multiply_Labs_1.jpg', 'Multiply_Labs_Team_1.jpg'];
+const ML_PHOTOS = ['Multiply_Labs_Cluster_Exterior.jpg', 'Multiply_Labs_Robot_Arm.jpg', 'Multiply_Labs_Team_1.jpg', 'Multiply_Labs_Cluster_Floor.jpg', 'Multiply_Labs_4.jpg', 'Multiply_Labs_1.jpg'];
 
 const MultiplyLabsSection = () => {
   const [lb, setLb] = useState(null);
@@ -622,9 +626,9 @@ const MultiplyLabsSection = () => {
         </div></FadeUp>
         <FadeUp delay={120}>
           <div className="collage">
-            <Photo src="Multiply_Labs_4.jpg" alt="Multiply Labs robotic system" onOpen={setLb} style={{ gridColumn: 'span 2', height: 280 }} />
-            <Photo src="Multiply_Labs_1.jpg" alt="Multiply Labs robotic arms" onOpen={setLb} style={{ height: 160, borderRadius: 10 }} />
-            <Photo src="Multiply_Labs_Team_1.jpg" alt="The Multiply Labs team" onOpen={setLb} style={{ height: 160, borderRadius: 10 }} />
+            <Photo src="Multiply_Labs_Cluster_Exterior.jpg" alt="Multiply Labs robotic cell-therapy manufacturing cluster" onOpen={setLb} style={{ gridColumn: 'span 2', height: 300 }} />
+            <Photo src="Multiply_Labs_Robot_Arm.jpg" alt="Robotic arm inside a Multiply Labs cluster" onOpen={setLb} style={{ height: 170, borderRadius: 10 }} />
+            <Photo src="Multiply_Labs_Team_1.jpg" alt="The Multiply Labs team" onOpen={setLb} style={{ height: 170, borderRadius: 10 }} />
           </div>
         </FadeUp>
       </div>
