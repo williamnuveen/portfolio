@@ -35,8 +35,10 @@ const pages = [
 ];
 fs.rmSync(ssrFile);
 
-// 3. Fill the shared template for each page
-const tpl = fs.readFileSync('src/template.html', 'utf8');
+// 3. Fill the shared template for each page. The script URL gets a content hash so
+// browsers fetch the new version after every deploy instead of reusing a cached copy.
+const hash = (await import('crypto')).createHash('sha1').update(fs.readFileSync('assets/app.js')).digest('hex').slice(0, 10);
+const tpl = fs.readFileSync('src/template.html', 'utf8').replace('assets/app.js', `assets/app.js?v=${hash}`);
 for (const p of pages) {
   const out = tpl.replaceAll('{{TITLE}}', p.title).replaceAll('{{DESCRIPTION}}', p.description)
     .replaceAll('{{PATH}}', p.path).replaceAll('{{PAGE}}', p.page).replace('{{PRELOAD}}', p.preload)
