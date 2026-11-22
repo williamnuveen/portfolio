@@ -637,37 +637,133 @@ const MultiplyLabsSection = () => {
   );
 };
 
+// "Beyond work" drawn as an exploded-view engineering drawing. Each hobby is a
+// part with a balloon number, a leader line to the main assembly, and a spec
+// callout. Scrolling the section into view pulls the assembly apart.
+const PARTS = [
+  { key: 'Hiking', pn: 'WN-101', name: 'Trail module', pos: 'xp-tl', cover: 'Hiking_1.JPG',
+    specs: [['Terrain', 'California & beyond'], ['Drive', '2 legs, 4WD on scrambles'], ['Duty cycle', 'Every free weekend']] },
+  { key: 'Skiing', pn: 'WN-102', name: 'Descent module', pos: 'xp-tr', cover: 'Skiing_1.jpg',
+    specs: [['Range', 'Tahoe to the Alps'], ['Operating temp', 'Below 0 °C'], ['Known failure mode', 'Occasional yard sale']] },
+  { key: 'Travel', pn: 'WN-103', name: 'Exploration module', pos: 'xp-bl', cover: 'Travel_3.jpg',
+    specs: [['Range', 'Global'], ['Payload', 'Carry-on only'], ['Output', 'Inspiration, everywhere']] },
+  { key: 'Robotics', pn: 'WN-104', name: 'Origin module', pos: 'xp-br', cover: 'Robotics_4.jpg',
+    specs: [['Installed', 'Long before it was a job'], ['Material', 'Aluminum, PLA, persistence'], ['Status', 'Still the obsession']] },
+];
+
 const AboutSection = () => {
-  const [tag, setTag] = useState('Hiking');
-  const [lb, setLb] = useState(null);
-  const active = aboutCategories[tag];
+  const stage = useRef(null);
+  const core = useRef(null);
+  const parts = useRef({});
+  const [lines, setLines] = useState([]);
+  const [open, setOpen] = useState(null);
+  const [hot, setHot] = useState(null);
+
+  // Leader lines + explode vectors, measured from the real layout
+  useEffect(() => {
+    const el = stage.current; if (!el) return;
+    const measure = () => {
+      // offsetLeft/Top give the resting layout, unaffected by the explode transform
+      const c = core.current;
+      const cx = c.offsetLeft + c.offsetWidth / 2;
+      const cy = c.offsetTop + c.offsetWidth / 2;          // centre of the round portrait
+      const r = c.offsetWidth / 2 + 6;
+      const out = PARTS.map(p => {
+        const node = parts.current[p.key]; if (!node) return null;
+        const b = node.querySelector('.xp-balloon');
+        const bx = node.offsetLeft + b.offsetLeft + b.offsetWidth / 2;
+        const by = node.offsetTop + b.offsetTop + b.offsetHeight / 2;
+        const dx = bx - cx, dy = by - cy, d = Math.hypot(dx, dy) || 1;
+        const px = node.offsetLeft + node.offsetWidth / 2, py = node.offsetTop + node.offsetHeight / 2;
+        node.style.setProperty('--vx', `${(cx - px).toFixed(0)}px`);
+        node.style.setProperty('--vy', `${(cy - py).toFixed(0)}px`);
+        return { key: p.key, x1: cx + dx / d * r, y1: cy + dy / d * r, x2: bx - dx / d * 16, y2: by - dy / d * 16 };
+      }).filter(Boolean);
+      setLines(out);
+    };
+    measure();
+    const ro = new ResizeObserver(measure); ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Scroll progress: 0 = assembled (parts tucked behind the core), 1 = exploded
+  useEffect(() => {
+    const el = stage.current; if (!el) return;
+    const still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      if (still || window.innerWidth <= 900) { el.style.setProperty('--p', 1); return; }
+      const r = el.getBoundingClientRect(), vh = window.innerHeight;
+      const p = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (vh * 0.6)));
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.style.setProperty('--p', eased.toFixed(3));
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    el.classList.add('xp-live');
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); cancelAnimationFrame(frame); };
+  }, []);
+
+  const active = open && aboutCategories[open];
   return (
-    <section id="about" className="section">
+    <section id="about" className="xp-section" aria-labelledby="about-title">
       <div className="wrap">
-        <FadeUp>
-          <div className="about-head">
+        <div className="xp-sheet">
+          <header className="xp-header">
             <div>
-              <div className="label">Life outside the lab</div>
-              <h2 className="h2" style={{ marginBottom: 16 }}>Beyond work</h2>
-              <p className="body" style={{ maxWidth: '56ch' }}>
-                When I'm not designing robotic systems, you'll find me on a trail, on the slopes, or finding new ways to push limits outside the office.
-              </p>
+              <div className="label on-dark">Life outside the lab</div>
+              <h2 id="about-title" className="xp-title">Beyond work</h2>
+              <p className="xp-lede">An exploded view of what keeps me going outside the office. Select a part to see the photos.</p>
             </div>
-            <div className="about-tabs" role="group" aria-label="Photo category">
-              {Object.keys(aboutCategories).map(t => (
-                <button key={t} className="chip" aria-pressed={tag === t} onClick={() => setTag(t)}>{t}</button>
+            <div className="xp-sec">SECTION A–A</div>
+          </header>
+
+          <div className="xp-stage" ref={stage}>
+            <svg className="xp-lines" aria-hidden="true">
+              {lines.map(l => (
+                <g key={l.key} className={hot === l.key ? 'on' : ''}>
+                  <line x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} />
+                  <circle cx={l.x1} cy={l.y1} r="3" />
+                </g>
               ))}
+            </svg>
+
+            <div className="xp-core" ref={core}>
+              <img src="William_Nuveen_Portrait.jpg" alt="William Nuveen" loading="lazy" />
+              <div className="xp-core-tag"><b>ASSY-000</b><span>W. Nuveen · main assembly</span></div>
             </div>
-          </div>
-          <div className="about-strip" style={{ '--n': active.photos.length }}>
-            {active.photos.map((p, i) => (
-              <Photo key={p} src={p} alt={`${tag}, photo ${i + 1}`} onOpen={setLb} />
+
+            {PARTS.map((p, i) => (
+              <div key={p.key} className={`xp-part ${p.pos}`} ref={n => { parts.current[p.key] = n; }}
+                   onMouseEnter={() => setHot(p.key)} onMouseLeave={() => setHot(null)}>
+                <button className="xp-photo" onClick={() => setOpen(p.key)}
+                        onFocus={() => setHot(p.key)} onBlur={() => setHot(null)}
+                        aria-label={`${p.key}: view ${aboutCategories[p.key].photos.length} photos`}>
+                  <Img src={p.cover} alt="" />
+                  <span className="xp-count">{aboutCategories[p.key].photos.length} photos ↗</span>
+                </button>
+                <span className="xp-balloon" aria-hidden="true">{i + 1}</span>
+                <dl className="xp-spec">
+                  <div className="xp-spec-head"><dt>{p.pn}</dt><dd>{p.key} · {p.name}</dd></div>
+                  {p.specs.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
+                </dl>
+              </div>
             ))}
           </div>
-          <p className="about-cap">{active.desc}</p>
-        </FadeUp>
+
+          <footer className="xp-titleblock" aria-hidden="true">
+            <div><span>Title</span><b>Beyond work — exploded view</b></div>
+            <div><span>Dwg no.</span><b>WN-002</b></div>
+            <div><span>Scale</span><b>1 : 1</b></div>
+            <div><span>Drawn</span><b>W. Nuveen</b></div>
+            <div><span>Sheet</span><b>1 of 1</b></div>
+          </footer>
+        </div>
       </div>
-      {lb && <Lightbox images={active.photos} start={active.photos.indexOf(lb)} onClose={() => setLb(null)} />}
+      {active && <Lightbox images={active.photos} start={0} onClose={() => setOpen(null)} />}
     </section>
   );
 };
