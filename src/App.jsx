@@ -1,0 +1,642 @@
+import React, { useState, useEffect, useRef } from 'react';
+
+// ─── CONTENT (formerly data.js) ───
+// ─── PAGE DATA ────────────────────────────────────────────────
+const careerPages = {
+  'multiply-labs': {
+    company: 'Multiply Labs',
+    role: 'Senior Robotics HW Engineer – Consumables R&D',
+    dates: 'Dec. 2024 – Present',
+    location: 'San Francisco, CA',
+    tagline: 'Automating the future of cell therapy manufacturing.',
+    heroImage: null, // replace with: 'multiply_labs_hero.jpg'
+    highlights: [{"heading": "Senior Robotics HW Engineer · May 2026 – Present", "items": ["Lead consumables designer for robotic automation of the Rotea cell-therapy instrument; designed the cartridge, consumable, and hardware interface that enable autonomous, end-to-end operation of the Rotea by a robotic arm.", "Lead designer for Multiply Labs' pharmaceutical-grade (GMP) bag cartridge across Alpha, Beta, and Gamma revisions, improving reliability, robotic pick-and-place success rate, and regulatory manufacturability while reducing customer assembly time.", "Redesigned a peristaltic pumping bag cartridge attachment, cutting per-use cost from $100 to $2.50 while simplifying assembly and improving cell-pumping performance.", "Provide consumables and hardware support for robotic cluster deployments and operation across 3 large cell-therapy customers.", "Managed a summer mechanical engineering intern: defined project scopes, set goals, tracked progress, and provided day-to-day mentorship and technical direction."]}, {"heading": "Advanced Robotics HW Engineer · Dec. 2024 – May 2026", "items": ["Second hire on the consumables design team; designed injection-molded single-use and reusable pharmaceutical-grade consumables for robotic pharmaceutical manufacturing.", "Led Multiply Labs' largest customer pilot to date — 6 cell-therapy batches/day, 20 hrs/day, over 12 continuous days — achieving a 100% batch success rate. Owned the full consumables and hardware stack, including cartridge/consumable manufacturing, robot builds, cluster upgrades, and hardware/testing management.", "Led design, fabrication, and testing of calibration and leveling jigs, enabling bring-up and calibration of 4 robotic clusters and accurate pick-and-place operations across the fleet.", "Supported development, deployment, and operation of Multiply Labs' first customer cell-therapy manufacturing robotic system for Legend Biotech."]}],
+    sections: [
+      {
+        heading: 'The Problem We\'re Solving',
+        body: `CAR-T cell therapy is one of the most promising cancer treatments ever developed — a living medicine where a patient's own immune cells are reprogrammed to hunt and destroy tumors. But manufacturing it is painstakingly manual. Every batch requires dozens of precise, sterile handling steps performed by trained technicians in specialized cleanrooms. It's slow, expensive, and prone to variability that can affect patient outcomes.\n\nMultiply Labs is building the robotic infrastructure to automate this process end-to-end — making life-saving therapies faster, cheaper, and more reliably available to the patients who need them.`
+      },
+      {
+        heading: 'My Role: Consumables & Cartridge Design',
+        body: `I focus on the physical interface between the robotic system and the biological process — the consumables and cartridges that make sterile, automated cell manufacturing possible.\n\nDesigning consumables for therapeutic robotics is a uniquely constrained discipline. Every part must be biocompatible, sterilizable, and manufacturable at scale. Fluid paths must be dead-volume-minimized to avoid losing precious patient cells. Connections must be leak-proof under automation forces, yet simple enough for robotic end effectors to handle reliably. Tolerances must be tight enough for process repeatability, but forgiving enough for high-volume injection molding.\n\nI work at the intersection of mechanical design, materials science, and manufacturing engineering to develop cartridges that the robotic arms can load, engage, process through, and dispose of — all without human intervention.`
+      },
+      {
+        heading: 'Design Philosophy',
+        body: `Consumable design for biotech robotics is fundamentally different from industrial tooling. The parts are small, the stakes are high, and the manufacturing volumes range from early clinical (hundreds) to commercial scale (tens of thousands). This means designing for DFM&A from day one — not as an afterthought.\n\nI apply GD&T-driven tolerance stacks to ensure robotic pick-and-place reliability, use Onshape for rapid design iteration with full version control across the team, and prototype aggressively with 3D printing before committing to tooling. Every gram of material, every microliter of dead volume, and every assembly step gets scrutinized.`
+      },
+      {
+        heading: 'Key Partners',
+        body: `Our system integrates with best-in-class partners across the biotech and robotics ecosystem: ThermoFisher for bioprocessing instrumentation, Nvidia Isaac for simulation and robotics AI, AstraZeneca and Legend Biotech for cell therapy manufacturing collaboration. Building hardware that interfaces cleanly with each of these platforms is a core part of what I do.`
+      }
+    ],
+    pressLinks: [
+      { label: 'AstraZeneca Collaboration', href: 'https://www.businesswire.com/news/home/20260127453159/en/Multiply-Labs-Announces-New-Collaboration-to-Automate-Cell-Therapy-Manufacturing-with-Robotics' },
+      { label: 'Nvidia Isaac Partnership', href: 'https://blogs.nvidia.com/blog/multiply-labs-isaac-omniverse/' },
+      { label: 'Team Spotlight', href: 'https://www.linkedin.com/posts/engineeringexcellence-robotics-biomanufacturing-ugcPost-7344144321194901504-s3Ux' },
+    ]
+  },
+  'ocado': {
+    company: 'Ocado Technology',
+    role: 'Mechanical Engineer II – Robotics Product Development',
+    dates: 'Sept. 2022 – Dec. 2024',
+    location: 'San Francisco, CA',
+    tagline: 'Building the AI-driven robotic systems powering next-generation e-commerce fulfillment.',
+    heroImage: 'depal.jpg',
+    highlights: [{"heading": "Highlights", "items": ["Core contributor to the end-to-end design and development of Ocado's first AI/ML-driven robotic depalletizing system, deployed at multiple European fulfillment centers.", "Increased automated robotic pick-and-place accuracy from 75% to 98% through strategic selection and implementation of depth/RGB cameras, boosting system throughput by 30%.", "Co-designed and fabricated an electromechanical end-effector using sensors, actuators, and pneumatics, increasing payload capacity to 80 lbs and improving item-handling versatility.", "Conducted load calculations and structural FEA for securing a 1,250 lb robotic arm to a pedestal on concrete, specifying anchors and adhesives for 100% safety compliance.", "Managed cross-functional installation and integration of the San Francisco proof-of-concept depalletizing test cell, which led to securing funding approval for the program.", "Co-owned hardware design of a portable trade show model of the depalletizing system."]}],
+    sections: [
+      {
+        heading: 'The Work',
+        body: `At Ocado Technology I was part of the team developing Ocado's first AI-driven case-handling robotics system — a depalletizing robot designed to autonomously identify, grasp, and place a wide variety of box sizes and weights on a moving conveyor.\n\nI led the design and integration of the camera hardware stack: selecting, benchmarking, and qualifying the depth/RGB sensors that feed the ML perception pipeline. Getting accurate depth data on reflective shrink-wrap and irregular box surfaces is genuinely hard — I developed a systematic KPI testing framework to evaluate sensors across dozens of real-world SKUs, which ultimately enabled the system to exceed 300 units per hour for bulky items.`
+      },
+      {
+        heading: 'Hardware Design',
+        body: `Beyond cameras, I contributed to the mechanical design of the robotic end-effector and arm pedestal — structural components that needed to be stiff enough for positioning accuracy while remaining within payload limits. I managed the hardware build at our San Francisco lab and worked closely with software, QA, and mechatronics teams throughout the product development cycle.\n\nThis experience gave me a complete view of what it takes to take a robotic system from concept through lab build to first deployment — our first installation launched in London in Q4 2024.`
+      }
+    ],
+    pressLinks: []
+  },
+  'neato': {
+    company: 'Neato Robotics',
+    role: 'Jr. Mechanical Engineer – Product Design',
+    dates: 'Aug. 2020 – Sept. 2022',
+    location: 'San Jose, CA',
+    tagline: 'Designing consumer robotics products from concept through injection molded production.',
+    heroImage: 'Nexaro_NR1500.jpg',
+    highlights: [{"heading": "Highlights", "items": ["Designed, prototyped, and mass-manufactured injection-molded parts for Neato's first commercial robotic vacuum (Nexaro NR1500), now sold globally by Vorwerk.", "Redesigned an electromechanical robotic vacuum drivetrain, improving motor efficiency, reducing noise levels by 30%, and cutting production costs by $2 per unit.", "Streamlined additive manufacturing operations, reducing design iteration time by 75% and saving $20,000 in vendor costs annually.", "Developed and scaled high-volume plastic accessories (pet brush, fragrance dustbin filter), expanding the product line by 7 SKUs.", "Initiated and led the emerging technologies R&D program, developing a novel dust-sensing technology using accelerometer and gyroscope data to enable adaptive suction control."]}],
+    sections: [
+      {
+        heading: 'Commercial Cleaning Robot',
+        body: `At Neato I was a mechanical design engineer on the company's first commercial (non-consumer) robotic vacuum — a product that ultimately shipped as the Nexaro NR1500 under Vorwerk after Neato dissolved. I designed, prototyped, and tested components including the dustbin, filter assemblies, drivetrains, motor mounts, wire routing, and LiDAR covers across the full DVT/EVT cycle.`
+      },
+      {
+        heading: 'Plastic Part Design & Manufacturing',
+        body: `A major focus of my time at Neato was developing injection-molded plastic components. I used Creo to design parts for manufacturability from the start — working directly with our overseas tooling partners to optimize gate locations, draft angles, and wall thicknesses. I created full GD&T drawing packages, ran tolerance stack analyses, and iterated on prototype tooling to hit functional requirements before production release.\n\nI was the lead designer on Neato's next-generation drivetrain modules and dustbin/filter assemblies — components that shipped in consumer products sold worldwide.`
+      }
+    ],
+    pressLinks: []
+  },
+  'kohler': {
+    company: 'Kohler Company',
+    role: 'Mechanical Engineering Intern',
+    dates: 'Summer 2019',
+    location: 'Kohler, WI',
+    tagline: 'Designing Kohler\'s first back-of-bath spout diverter from concept to prototype.',
+    heroImage: 'Kohler_Bath_Spout.png',
+    sections: [
+      {
+        heading: 'The Project',
+        body: `As a product design engineering intern at Kohler I was tasked with designing an entirely new diverter mechanism for back-of-bath spouts — a first for the company. I benchmarked existing market solutions, identified failure modes and aesthetic limitations, and developed a new design in SolidWorks that addressed all of them.\n\nMy design improved laminar flow aesthetics, reduced leakage through a redesigned o-ring interface, and lowered per-unit manufacturing cost. I prototyped using Kohler's Carbon 3D printing facility and iterated through multiple rounds of functional testing before presenting the final design to the product team.`
+      }
+    ],
+    pressLinks: []
+  }
+};
+
+const aboutCategories = {
+  Hiking:   { photos: ['Hiking_2.JPG','Hiking_3.JPG','Hiking_4.JPG','Hiking_5.jpeg'], desc: 'Exploring trails across California and beyond.' },
+  Skiing:   { photos: ['Skiing_1.jpg','Skiing_2.JPG','Skiing_3.jpg','Skiing_4.JPG'], desc: 'Chasing powder from Tahoe to the Alps.' },
+  Travel:   { photos: ['Travel_1.jpg','Travel_2.jpg','Travel_3.jpg','Travel_4.jpg','Travel_5.jpg'], desc: 'Finding inspiration everywhere.' },
+  Robotics: { photos: ['Robotics_1.jpg','Robotics_2.jpg','Robotics_3.jpg'], desc: 'The obsession that started it all.' },
+};
+
+// ─── DATA ────────────────────────────────────────────────────
+const portfolioItems = [
+    { image:'depal.jpg', title:'Depalletizing Robot', company:'Ocado Technology',
+      images:['depal.jpg','depal_2.jpg','depal_3.jpg'],
+      shortDescription:'Automated depalletizing robotic system for e-commerce fulfillment',
+      longDescription:"At Ocado Technology, I played a key role in developing Ocado's first AI-driven case-handling robotics system. I led the design and implementation of camera hardware, managed the hardware build at our SF lab, and contributed to designing critical components like the robotic end-effector and arm pedestal. My role involves close collaboration with software, QA, and mechatronics teams. Our first deployment launched in London in Q4 2024." },
+    { image:'Camera_PC.png', title:'High-Resolution Camera System', company:'Ocado Technology',
+      images:['Camera_PC.png','Camera_PC_2.jpg','Camera_PC_3.jpg','Camera_PC_4.png'],
+      shortDescription:'Depth/RGB camera testing for robotic computer vision applications',
+      longDescription:"RGB/Depth cameras are crucial for enabling ML models to segment and measure depth of items. I developed a KPI testing process to evaluate and integrate the best depth/RGB camera available. Improved depth accuracy boosted grasping and pick speed, reaching over 300 UPH for bulky items. This led to my role as camera technology consultant for several teams including Ocado's on-grid robotic pick and emerging technology teams." },
+    { image:'Kindred_Sort_Camera.jpg', title:'Sort Camera Mount', company:'Kindred AI',
+      images:['Kindred_Sort_Camera.jpg','Kindred_Sort_Camera_2.jpg','Kindred_Sort_Camera_3.jpg','Kindred_Sort_Camera_4.jpg'],
+      shortDescription:'Sheet metal camera mount for Sort robots — sustaining engineering',
+      longDescription:"I designed a robust camera mount for Kindred AI's (now Ocado Technology) Sort robot, engineered to withstand the forces exerted by a robotic arm without compromising the underneath depth camera. Fabricated from durable sheet metal, the mount is securely bolted to the robot's housing. This camera mount is now integral to the Sort system, which has successfully sorted over 750 million items across retail warehouses." },
+    { image:'Nexaro_NR1500.jpg', title:'Nexaro NR1500 Cleaning Robot', company:'Neato Robotics',
+      images:['Nexaro_NR1500.jpg','Nexaro_2.jpg','Nexaro_3.jpg','Nexaro_4.jpg','Nexaro_7.jpg'],
+      shortDescription:"Neato's first autonomous commercial cleaning robot",
+      longDescription:"At Neato, I was a key mechanical design engineer on the industrial robotic vacuum from concept through the first EVT phase. I designed, prototyped, and tested 3D printed parts for the robot's dustbin, filter, drivetrains, motors, wire layouts, and LiDAR covers. After Neato dissolved, the project was transferred to Vorwerk and now operates as 'Nexaro'." },
+    { image:'Mopping_Robot.jpg', title:'Advanced Mopping Robot', company:'Neato Robotics',
+      images:['Mopping_Robot.jpg','Mopping_Robot_4.jpg','Mopping_Robot_2.jpg'],
+      shortDescription:"Neato's first autonomous mopping robot",
+      longDescription:"At Neato, I redesigned a self-extraction cleaning center to create a more intuitive, accessible system. My solution introduced a pivoting cover for hands-free filter bag access, along with a spring-damped mechanism and leak-proof seal. I also integrated a touchscreen interface and accessory storage to boost customer satisfaction." },
+    { image:'Neato_Parts.jpg', title:'Custom Injection Molded Parts', company:'Neato Robotics',
+      images:['Neato_Parts.jpg','Neato_Filter.jpg','Neato_Drivetrain.jpg'],
+      shortDescription:'Custom-designed injection molded parts for Neato robotic vacuums',
+      longDescription:"At Neato, I specialized in plastic part design. I used Creo to design prototypes, 3D printing to verify functionality, and GD&T and injection molding fundamentals for manufacturing. I collaborated with our overseas manufacturing team to optimize injection molding tool designs, created GD&T drawings, conducted tolerance analyses, and ensured efficient assembly for robotic applications." },
+    { image:'Kohler_Bath_Spout.png', title:'Kohler Bathroom Fixtures', company:'Kohler',
+      images:['Kohler_Work.jpg','Kohler_Bath_Spout.png','Kohler_Bath_Spout_2.jpg','Kohler_Pres.jpg','Kohler_Pres_2.jpg'],
+      shortDescription:"Innovative bath spout diverter technology for Kohler Co.",
+      longDescription:"As a product design engineering intern at Kohler, I designed the company's first back-of-the bath spout diverter. I benchmarked existing diverters, created a 3D model in SolidWorks, and iterated through Carbon 3D printing prototypes. My design improved laminar flow aesthetics, reduced leakages with a new o-ring design, and lowered manufacturing costs." },
+];
+
+const experiences = [
+    { company:'Multiply Labs', title:'Senior Robotics HW Engineer – Consumables R&D', location:'San Francisco, CA', dates:'Dec. 2024 – Present', isNew:true, pageKey:'multiply-labs',
+      description:"Lead consumables designer for robotic automation of the Rotea cell-therapy instrument and Multiply Labs' GMP bag cartridge. Led the company's largest customer pilot to date (100% batch success over 12 continuous days) and cut a pumping cartridge attachment from $100 to $2.50 per use. Partnered with ThermoFisher, Nvidia, AstraZeneca, and Legend Biotech." },
+    { company:'Ocado Technology', title:'Mechanical Engineer II – Robotics Product Development', location:'San Francisco, CA', dates:'Sept. 2022 – Dec. 2024', pageKey:'ocado',
+      description:"Core contributor to Ocado's first AI/ML-driven robotic depalletizing system, deployed at multiple European fulfillment centers. Raised pick-and-place accuracy from 75% to 98% through camera selection and integration, boosting throughput 30%, and co-designed an 80 lb-payload end-effector." },
+    { company:'Neato Robotics', title:'Jr. Mechanical Engineer – Product Design', location:'San Jose, CA', dates:'Aug. 2020 – Sept. 2022', pageKey:'neato',
+      description:"Designed, prototyped, and mass-manufactured injection-molded parts for the Nexaro NR1500, Neato's first commercial robotic vacuum. Redesigned a drivetrain to cut noise 30% and cost $2 per unit, and led the emerging technologies R&D program." },
+    { company:'Kohler Company', title:'Mechanical Engineering Intern', location:'Kohler, WI', dates:'Summer 2019', pageKey:'kohler',
+      description:"Designed Kohler's first back-of-the-bath spout diverter. Reduced water leakage, improved laminar flow aesthetics, and lowered manufacturing costs through innovative prototyping with Carbon 3D printing." },
+];
+
+
+const SKILL_GROUPS = [
+  ['Design',['Onshape','SolidWorks','Creo','Injection Molding','DFM&A','GD&T','RCA','FAI']],
+  ['Building',['Additive Manufacturing','Machining (Subtractive)','Laser Cutting','Sheet Metal','Milling']],
+  ['Project management',['Arena PLM','Confluence','Jira','BOMs','Vendor Management']],
+];
+const EDU = [
+  ['Miami University · Oxford, OH','B.S. in Engineering, Major in Mechanical Engineering · 2016–2020'],
+  ['GD&T Certification','2-B Quality · ASME Y14.5-2009'],
+];
+const STATS = [
+  ['100%','batch success in Multiply Labs\' largest customer pilot: 6 batches a day for 12 continuous days'],
+  ['$100 → $2.50','per-use cost of a redesigned peristaltic pumping cartridge attachment'],
+  ['75% → 98%','robotic pick-and-place accuracy at Ocado through camera selection and integration'],
+  ['6+ years','designing consumables and hardware for robotic systems'],
+];
+const RESUME = "William%20Nuveen%27s%20Resume%20%28Sept.%20%2726%29.pdf";
+const PRESS = [
+  ['AstraZeneca','https://www.businesswire.com/news/home/20260127453159/en/Multiply-Labs-Announces-New-Collaboration-to-Automate-Cell-Therapy-Manufacturing-with-Robotics'],
+  ['Legend Biotech','https://www.businesswire.com/news/home/20240924666477/en/Multiply-Labs-Announces-a-Collaboration-on-Automating-Cell-Therapy-Manufacturing-with-Legend-Biotech'],
+  ['Nvidia','https://blogs.nvidia.com/blog/multiply-labs-isaac-omniverse/'],
+  ['Team Spotlight','https://www.linkedin.com/posts/engineeringexcellence-robotics-biomanufacturing-ugcPost-7344144321194901504-s3Ux'],
+];
+const PHOTO_SLOTS = {
+  'multiply-labs':['Multiply_Labs_1.jpg','Multiply_Labs_2.jpg','Multiply_Labs_3.jpg'],
+  'ocado':['depal.jpg','Camera_PC_2.jpg','Camera_PC_3.jpg'],
+  'neato':['Nexaro_NR1500.jpg','Mopping_Robot.jpg','Neato_Parts.jpg'],
+  'kohler':['Kohler_Work.jpg','Kohler_Bath_Spout.png','Kohler_Pres.jpg'],
+};
+
+// ─── HELPERS ───────────────────────────────────────────────
+const FadeUp = ({ children, delay = 0 }) => {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add('visible'); obs.disconnect(); } }, { threshold: .08 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return <div ref={ref} className="fade-up" style={{ transitionDelay: `${delay}ms` }}>{children}</div>;
+};
+
+const Img = ({ src, alt, eager, ...rest }) =>
+  <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" {...rest} />;
+
+// Escape to close, page scroll lock, and focus in / focus restore
+const useOverlay = (onClose, ref) => {
+  useEffect(() => {
+    if (!onClose) return;
+    const onKey = e => { if (e.key === 'Escape' && !document.querySelector('.dropdown.open, .mobile-menu')) onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    const opener = document.activeElement;
+    document.body.style.overflow = 'hidden';
+    if (ref && ref.current) ref.current.focus({ preventScroll: true });
+    return () => {
+      document.body.style.overflow = prev;
+      if (opener && opener.focus && document.contains(opener)) opener.focus({ preventScroll: true });
+    };
+  }, []);
+};
+
+const Lightbox = ({ src, onClose }) => {
+  const ref = useRef(null);
+  useOverlay(onClose, ref);
+  return (
+    <div ref={ref} tabIndex={-1} className="modal-overlay" role="dialog" aria-modal="true" aria-label="Image viewer"
+         style={{ zIndex: 1300, cursor: 'zoom-out' }} onClick={onClose}>
+      <Img src={src} alt="" eager onClick={e => e.stopPropagation()}
+           style={{ maxWidth: '90vw', maxHeight: '90vh', borderRadius: 12, objectFit: 'contain', boxShadow: '0 32px 80px rgba(0,0,0,.7)' }} />
+      <button className="lb-close" onClick={onClose} aria-label="Close image">×</button>
+    </div>
+  );
+};
+
+// Clickable photo that hides itself if the file is missing
+const Photo = ({ src, alt, onOpen, style }) => {
+  const [bad, setBad] = useState(false);
+  if (bad) return null;
+  return (
+    <button className="tile" style={style} onClick={() => onOpen(src)} aria-label={`Enlarge: ${alt}`}>
+      <Img src={src} alt={alt} onError={() => setBad(true)} />
+    </button>
+  );
+};
+
+// ─── NAV (shared by home + career pages) ───────────────────
+const Nav = ({ onBack, onCareer, goTo }) => {
+  const [open, setOpen] = useState(false);
+  const [menu, setMenu] = useState(false);
+  const go = id => { setMenu(false); goTo(id); };
+  useEffect(() => {
+    if (!menu) return;
+    const onKey = e => { if (e.key === 'Escape') setMenu(false); };
+    const onResize = () => { if (window.innerWidth > 900) setMenu(false); };
+    document.addEventListener('keydown', onKey);
+    window.addEventListener('resize', onResize);
+    return () => { document.removeEventListener('keydown', onKey); window.removeEventListener('resize', onResize); };
+  }, [menu]);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = e => { if (e.key === 'Escape') setOpen(false); };
+    const onClick = e => { if (!e.target.closest('.dropdown')) setOpen(false); };
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('click', onClick);
+    return () => { document.removeEventListener('keydown', onKey); document.removeEventListener('click', onClick); };
+  }, [open]);
+  return (
+    <header className="site-header">
+      <nav className="nav" aria-label="Main">
+        <a href="#" className="logo" aria-label="William Nuveen, home" onClick={e => { if (onBack) { e.preventDefault(); onBack(); } }}>W<span>N</span></a>
+        <div className="nav-links">
+          {onBack
+            ? <button className="nav-link" onClick={onBack}>← Back</button>
+            : <a href="#" className="nav-link hide-sm">Home</a>}
+          <div className={'dropdown' + (open ? ' open' : '')} onMouseLeave={() => setOpen(false)}>
+            <button className="dropdown-trigger" aria-haspopup="true" aria-expanded={open} onClick={() => setOpen(o => !o)}>
+              Experience
+              <svg className="chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg>
+            </button>
+            <div className="dropdown-menu"><div className="dropdown-menu-inner">
+              {Object.entries(careerPages).map(([key, c], i) => (
+                <button key={key} className={'dropdown-item' + (i === 0 ? ' featured' : '')}
+                        onClick={() => { setOpen(false); onCareer(key); }}>
+                  {i === 0 ? '✦ ' : ''}{c.company}
+                </button>
+              ))}
+            </div></div>
+          </div>
+          <button className="nav-link" onClick={() => goTo('portfolio')}>Projects</button>
+          <button className="nav-link hide-sm" onClick={() => goTo('about')}>Beyond Work</button>
+          <button className="nav-link hide-sm" onClick={() => goTo('resume')}>Résumé</button>
+          <button className="nav-link nav-cta" onClick={() => goTo('contact')}>Contact</button>
+        </div>
+        <button className="menu-btn" aria-label={menu ? 'Close menu' : 'Open menu'} aria-expanded={menu} aria-controls="mobile-menu" onClick={() => setMenu(m => !m)}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+            {menu ? <path d="M6 6l12 12M18 6L6 18"/> : <path d="M4 7h16M4 12h16M4 17h16"/>}
+          </svg>
+        </button>
+      </nav>
+      {menu && (
+        <div className="mobile-menu" id="mobile-menu">
+          {onBack && <button className="mm-item" onClick={() => { setMenu(false); onBack(); }}>← Back to home</button>}
+          <div className="mm-group">Experience</div>
+          {Object.entries(careerPages).map(([key, c]) => (
+            <button key={key} className="mm-item mm-sub" onClick={() => { setMenu(false); onCareer(key); }}>{c.company}</button>
+          ))}
+          <button className="mm-item" onClick={() => go('portfolio')}>Projects</button>
+          <button className="mm-item" onClick={() => go('about')}>Beyond Work</button>
+          <button className="mm-item" onClick={() => go('resume')}>Résumé</button>
+          <button className="mm-item mm-cta" onClick={() => go('contact')}>Contact</button>
+        </div>
+      )}
+    </header>
+  );
+};
+
+// ─── PORTFOLIO MODAL ───────────────────────────────────────
+const Modal = ({ item, onClose }) => {
+  const [expanded, setExpanded] = useState(null);
+  const ref = useRef(null);
+  useOverlay(expanded ? null : onClose, ref);
+  return (
+    <div ref={ref} tabIndex={-1} className="modal-overlay" role="dialog" aria-modal="true" aria-label={item.title}
+         onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className="modal-inner">
+        <div className="modal-pad" style={{ background: 'var(--navy)', padding: '40px 44px 32px' }}>
+          <div className="label on-dark">{item.company}</div>
+          <h2 className="serif" style={{ fontWeight: 400, fontSize: '2rem', color: '#fff' }}>{item.title}</h2>
+        </div>
+        <div className="modal-pad" style={{ padding: '36px 44px' }}>
+          <p className="body">{item.longDescription}</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 10, marginTop: 28 }}>
+            {item.images.map((img, i) => (
+              <Photo key={img} src={img} alt={`${item.title}, photo ${i + 1}`} onOpen={setExpanded} style={{ aspectRatio: '4/3', borderRadius: 8 }} />
+            ))}
+          </div>
+          <button className="btn btn-dark" style={{ marginTop: 32 }} onClick={onClose}>Close</button>
+        </div>
+      </div>
+      {expanded && <Lightbox src={expanded} onClose={() => setExpanded(null)} />}
+    </div>
+  );
+};
+
+// ─── CAREER PAGE ───────────────────────────────────────────
+const CareerPage = ({ pageKey, onClose, goHome }) => {
+  const [lb, setLb] = useState(null);
+  const [key, setKey] = useState(pageKey);
+  const scroller = useRef(null);
+  useOverlay(lb ? null : onClose, scroller);
+  const data = careerPages[key];
+  if (!data) return null;
+  const photos = PHOTO_SLOTS[key] || [];
+  const switchTo = k => { setKey(k); scroller.current && scroller.current.scrollTo(0, 0); };
+
+  return (
+    <div className="career" ref={scroller} tabIndex={-1} role="dialog" aria-modal="true" aria-label={`${data.company} career page`}>
+      <Nav onBack={onClose} onCareer={switchTo} goTo={goHome} />
+      <div className="career-hero" style={{ background: 'var(--navy)', padding: '80px 48px 60px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ maxWidth: 860, margin: '0 auto', position: 'relative' }}>
+          <div className="label on-dark" style={{ fontSize: '1rem', letterSpacing: '.16em' }}>{data.company}</div>
+          <div style={{ fontSize: '.85rem', color: 'rgba(255,255,255,.55)', marginBottom: 16 }}>{data.location} · {data.dates}</div>
+          <h1 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(2rem,5vw,3.5rem)', color: '#fff', lineHeight: 1.05, marginBottom: 20 }}>{data.role}</h1>
+          <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,.65)', fontWeight: 300, maxWidth: 600 }}>{data.tagline}</p>
+        </div>
+      </div>
+      <div style={{ maxWidth: 860, margin: '0 auto', padding: '48px 24px 80px' }}>
+        {data.highlights && (
+          <section style={{ marginBottom: 56 }}>
+            <h2 className="serif" style={{ fontWeight: 400, fontSize: '1.7rem', color: 'var(--navy)', marginBottom: 20 }}>Highlights</h2>
+            {data.highlights.map(g => (
+              <div key={g.heading} style={{ marginBottom: 28 }}>
+                {g.heading !== 'Highlights' && <div className="label">{g.heading}</div>}
+                <ul className="hl">{g.items.map(t => <li key={t}>{t}</li>)}</ul>
+              </div>
+            ))}
+          </section>
+        )}
+        {data.sections.map((sec, i) => (
+          <section key={i} style={{ marginBottom: 56 }}>
+            <h2 className="serif" style={{ fontWeight: 400, fontSize: '1.7rem', color: 'var(--navy)', marginBottom: 16 }}>{sec.heading}</h2>
+            {sec.body.split('\n\n').map((p, j) => <p key={j} className="body" style={{ marginBottom: 16, maxWidth: '70ch' }}>{p}</p>)}
+            {photos[i] && <Photo src={photos[i]} alt={`${data.company}, photo ${i + 1}`} onOpen={setLb} style={{ marginTop: 28, maxHeight: 420 }} />}
+          </section>
+        ))}
+        {data.pressLinks.length > 0 && (
+          <div style={{ paddingTop: 40, borderTop: '1px solid rgba(0,0,0,.08)' }}>
+            <div className="label">Press & links</div>
+            <div className="links">
+              {data.pressLinks.map(({ label, href }) => (
+                <a key={label} className="btn btn-dark btn-sm" href={href} target="_blank" rel="noopener noreferrer">{label} ↗</a>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+      {lb && <Lightbox src={lb} onClose={() => setLb(null)} />}
+    </div>
+  );
+};
+
+// ─── SECTIONS ──────────────────────────────────────────────
+const MultiplyLabsSection = () => {
+  const [lb, setLb] = useState(null);
+  return (
+    <section id="multiply-labs" className="ml">
+      <div className="wrap two-col">
+        <FadeUp><div>
+          <div className="live"><i></i>Current role · Multiply Labs</div>
+          <h2 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(1.9rem,3.5vw,2.8rem)', color: '#fff', lineHeight: 1.1, marginBottom: 24 }}>
+            Robotic systems for manufacturing biologics
+          </h2>
+          <p className="body" style={{ color: 'rgba(255,255,255,.7)', marginBottom: 14 }}>
+            CAR-T cell therapy is a breakthrough cancer treatment where a patient's own T-cells are genetically engineered to recognize and kill cancer cells. Today it's a highly manual, contamination-prone process — we're automating it end to end.
+          </p>
+          <p className="body" style={{ color: 'rgba(255,255,255,.7)' }}>
+            I design consumables and cartridges for next-generation therapeutic robotic manufacturing.
+          </p>
+          <div className="label on-dark" style={{ marginTop: 36, color: 'rgba(255,255,255,.5)' }}>Key partners</div>
+          <div className="partners">
+            {[['ThermoFisher','Global bioprocessing leader'],['Nvidia','Isaac robotics platform'],['AstraZeneca','Cell therapy collaboration'],['Legend Biotech','CAR-T manufacturing']].map(([n, s]) => (
+              <div className="partner" key={n}><b>{n}</b><span>{s}</span></div>
+            ))}
+          </div>
+          <a className="btn btn-gold btn-sm" href="https://www.multiplylabs.com/" target="_blank" rel="noopener noreferrer">Visit Multiply Labs ↗</a>
+          <div className="press">
+            <div className="press-label">In the press</div>
+            {PRESS.map(([l, h]) => <a key={l} href={h} target="_blank" rel="noopener noreferrer">{l} ↗</a>)}
+          </div>
+        </div></FadeUp>
+        <FadeUp delay={120}>
+          <div className="collage">
+            <Photo src="Multiply_Labs_4.jpg" alt="Multiply Labs robotic system" onOpen={setLb} style={{ gridColumn: 'span 2', height: 280 }} />
+            <Photo src="Multiply_Labs_1.jpg" alt="Multiply Labs robotic arms" onOpen={setLb} style={{ height: 160, borderRadius: 10 }} />
+            <Photo src="Multiply_Labs_Team_1.jpg" alt="The Multiply Labs team" onOpen={setLb} style={{ height: 160, borderRadius: 10 }} />
+          </div>
+        </FadeUp>
+      </div>
+      {lb && <Lightbox src={lb} onClose={() => setLb(null)} />}
+    </section>
+  );
+};
+
+const AboutSection = () => {
+  const [tag, setTag] = useState('Hiking');
+  const [lb, setLb] = useState(null);
+  const active = tag && aboutCategories[tag];
+  return (
+    <section id="about" className="section">
+      <div className="wrap two-col">
+        <FadeUp><div>
+          <div className="label">Life outside the lab</div>
+          <h2 className="h2" style={{ marginBottom: 24 }}>Beyond work</h2>
+          <p className="body" style={{ marginBottom: 32, maxWidth: '60ch' }}>
+            When I'm not designing robotic systems, you'll find me on a trail, on the slopes, or finding new ways to push limits outside the office.
+          </p>
+          <div style={{ fontSize: '.8rem', color: 'var(--text-light)', marginBottom: 12 }}>Pick a category to see photos</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {Object.keys(aboutCategories).map(t => (
+              <button key={t} className="chip" aria-pressed={tag === t} onClick={() => setTag(tag === t ? null : t)}>{t}</button>
+            ))}
+          </div>
+          {active && (
+            <div className="gallery">
+              <div className="gallery-grid">
+                {active.photos.map((p, i) => <Photo key={p} src={p} alt={`${tag}, photo ${i + 1}`} onOpen={setLb} style={{ aspectRatio: '4/3', borderRadius: 10 }} />)}
+              </div>
+              <p style={{ color: 'var(--text-light)', fontSize: '.85rem', marginTop: 14, fontStyle: 'italic' }}>{active.desc}</p>
+            </div>
+          )}
+        </div></FadeUp>
+        <FadeUp delay={100}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+            <Photo src="Skiing_1.jpg" alt="Skiing" onOpen={setLb} style={{ gridRow: 'span 2', height: 480 }} />
+            <Photo src="Hiking_1.JPG" alt="Hiking" onOpen={setLb} style={{ height: 235 }} />
+            <Photo src="Robotics_4.jpg" alt="Robotics project" onOpen={setLb} style={{ height: 235 }} />
+          </div>
+        </FadeUp>
+      </div>
+      {lb && <Lightbox src={lb} onClose={() => setLb(null)} />}
+    </section>
+  );
+};
+
+// ─── APP ───────────────────────────────────────────────────
+const App = () => {
+  const [item, setItem] = useState(null);
+  const [career, setCareer] = useState(null);
+  const [filter, setFilter] = useState('All');
+  const companies = ['All', ...Array.from(new Set(portfolioItems.map(p => p.company)))];
+  const shown = filter === 'All' ? portfolioItems : portfolioItems.filter(p => p.company === filter);
+  const goTo = id => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+  const goFromCareer = id => { setCareer(null); setTimeout(() => goTo(id), 60); };
+
+  return (
+    <div>
+      <a className="skip" href="#main">Skip to content</a>
+      <Nav onCareer={setCareer} goTo={goTo} />
+
+      <main id="main">
+      <section className="hero">
+        <div className="wrap hero-grid">
+          <div>
+            <div className="hero-kicker">Senior Robotics HW Engineer · San Francisco</div>
+            <h1 className="hero-name">William<br/>Nuveen</h1>
+            <p className="hero-sub">Consumables · Robotic systems · Mass manufacturing</p>
+            <p className="hero-lede">6+ years designing injection-molded and machined consumables and hardware interfaces for robotic systems — across cell-therapy manufacturing, warehouse automation, and consumer robotics.</p>
+            <div style={{ display: 'flex', gap: 12, marginTop: 36, flexWrap: 'wrap' }}>
+              <a href="#portfolio" className="btn btn-gold">View projects</a>
+              <a href={RESUME} className="btn btn-ghost" target="_blank" rel="noopener noreferrer">Résumé (PDF) ↗</a>
+            </div>
+          </div>
+          <div className="hero-photo-wrap"><Img className="hero-photo" src="William_Nuveen_Portrait.jpg" alt="Portrait of William Nuveen" eager /></div>
+        </div>
+      </section>
+
+      <section className="stats" aria-label="Highlights">
+        <div className="wrap stats-grid">
+          {STATS.map(([n, t]) => <div key={n}><div className="stat-num">{n}</div><div className="stat-txt">{t}</div></div>)}
+        </div>
+      </section>
+
+      <MultiplyLabsSection />
+
+      <section id="portfolio" className="section">
+        <div className="wrap">
+          <FadeUp><div style={{ marginBottom: 52 }}>
+            <div className="label">Mechanical design</div>
+            <h2 className="h2" style={{ fontSize: 'clamp(2.5rem,5vw,3.8rem)' }}>Projects</h2>
+            <p style={{ color: 'var(--text-light)', marginTop: 12, fontSize: '.88rem' }}>Select a project for details and photos</p>
+          </div></FadeUp>
+          <div className="filters" role="group" aria-label="Filter projects by company">
+            {companies.map(c => <button key={c} className="chip" aria-pressed={filter === c} onClick={() => setFilter(c)}>{c}</button>)}
+          </div>
+          <div className="cards">
+            {shown.map((p, i) => (
+              <FadeUp key={p.title} delay={i * 50}>
+                <button className="pcard" onClick={() => setItem(p)}>
+                  <div className="pcard-img"><Img src={p.image} alt="" /></div>
+                  <div className="pcard-body">
+                    <div className="card-company">{p.company}</div>
+                    <h3 className="card-title">{p.title}</h3>
+                    <p className="card-sub">{p.shortDescription}</p>
+                    <span className="card-more" aria-hidden="true">View project →</span>
+                  </div>
+                </button>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="experience" className="section" style={{ background: 'var(--warm-gray)' }}>
+        <div className="wrap two-col exp">
+          <FadeUp><div className="sticky-col" style={{ position: 'sticky', top: 90 }}>
+            <div className="label">Work history</div>
+            <h2 className="h2" style={{ marginBottom: 20 }}>Experience</h2>
+            <p className="body">From consumer robotics to biotech automation, I've built systems that ship and scale.</p>
+          </div></FadeUp>
+          <div>
+            {experiences.map((job, i) => (
+              <FadeUp key={job.company} delay={i * 60}>
+                <div className={'timeline-item' + (i === experiences.length - 1 ? ' last' : '')}>
+                  <div className={'timeline-dot' + (job.isNew ? ' now' : '')}></div>
+                  <div className="label" style={{ fontSize: '.85rem', letterSpacing: '.14em', marginBottom: 8 }}>{job.company}</div>
+                  <h3 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(1.4rem,2.3vw,1.75rem)', color: 'var(--navy)', marginBottom: 8, lineHeight: 1.2 }}>{job.title}</h3>
+                  <div style={{ fontSize: '.95rem', color: 'var(--text-light)', marginBottom: 16 }}>{job.location} · {job.dates}</div>
+                  <p className="body" style={{ maxWidth: 560 }}>{job.description}</p>
+                  <div style={{ marginTop: 20, display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                    {job.isNew && <span style={{ background: 'rgba(200,169,110,.18)', color: '#6e5718', border: '1px solid rgba(168,137,62,.4)', padding: '3px 10px', borderRadius: 4, fontSize: '.7rem', letterSpacing: '.1em', textTransform: 'uppercase', fontWeight: 600 }}>Current</span>}
+                    <button className="btn btn-sm" style={{ border: '1px solid rgba(0,0,0,.25)', color: 'var(--navy)', background: 'none', padding: '4px 14px' }} onClick={() => setCareer(job.pageKey)}>Read more ↗</button>
+                  </div>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="skills">
+        <div className="wrap">
+          <FadeUp>
+            <div className="label on-dark">Capabilities</div>
+            <h2 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(1.8rem,3.5vw,2.5rem)', color: '#fff', marginBottom: 44 }}>Skills &amp; education</h2>
+            <div className="skill-groups">
+              {SKILL_GROUPS.map(([g, items]) => (
+                <div key={g}>
+                  <div className="label on-dark">{g}</div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                    {items.map(t => <div key={t} className="skill-pill"><i></i>{t}</div>)}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="edu">
+              {EDU.map(([t, d]) => <div key={t} className="edu-card"><b>{t}</b><span>{d}</span></div>)}
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
+      <AboutSection />
+
+      <section id="resume" className="section" style={{ background: 'var(--warm-gray)' }}>
+        <div className="wrap two-col" style={{ alignItems: 'center' }}>
+          <FadeUp><Img src="Resume-Screenshot-26.png" alt="Preview of William Nuveen's résumé" style={{ width: '100%', maxWidth: 380, borderRadius: 12, boxShadow: '0 24px 64px rgba(0,0,0,.14)', margin: '0 auto' }} /></FadeUp>
+          <FadeUp delay={100}><div>
+            <h2 className="h2" style={{ fontSize: 'clamp(2.5rem,5vw,3.8rem)', marginBottom: 20 }}>Résumé</h2>
+            <p className="body" style={{ marginBottom: 32, maxWidth: '60ch' }}>
+              Robotics design mechanical engineer with 6+ years of experience across cell-therapy manufacturing, warehouse automation, and consumer robotics. I specialize in designing injection-molded and machinable consumables and hardware interfaces for robotic systems, with a focus on mass manufacturability and reliable human/robotic operation.
+            </p>
+            <a className="btn btn-gold" href={RESUME} target="_blank" rel="noopener noreferrer">View résumé (PDF)</a>
+          </div></FadeUp>
+        </div>
+      </section>
+
+      <section id="contact" style={{ background: 'var(--navy)', padding: '100px 0', textAlign: 'center' }}>
+        <div className="wrap">
+          <FadeUp>
+            <div className="label on-dark">Get in touch</div>
+            <h2 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(2.5rem,5vw,4rem)', color: '#fff', lineHeight: 1.05, marginBottom: 24 }}>Let's build something great</h2>
+            <p style={{ color: 'rgba(255,255,255,.7)', maxWidth: 520, margin: '0 auto 12px' }}>San Francisco, CA · wnuveen3@gmail.com</p>
+            <p style={{ color: 'rgba(255,255,255,.6)', fontSize: '.92rem', maxWidth: 520, margin: '0 auto 44px' }}>
+              Open to consulting on product design, consumables engineering, and robotics hardware. Email me about your project.
+            </p>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a className="btn btn-gold" href="mailto:wnuveen3@gmail.com?subject=Consulting%20inquiry">Email William</a>
+              <a className="btn btn-ghost" href="https://www.linkedin.com/in/williamnuveen/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
+      </main>
+
+      <footer>
+        <p>© 2026 William Nuveen. All rights reserved.</p>
+        <div style={{ display: 'flex', gap: 20 }}>
+          <a href="mailto:wnuveen3@gmail.com">Email</a>
+          <a href="https://github.com/williamnuveen" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/williamnuveen/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+      </footer>
+
+      {item && <Modal item={item} onClose={() => setItem(null)} />}
+      {career && <CareerPage pageKey={career} onClose={() => setCareer(null)} goHome={goFromCareer} />}
+    </div>
+  );
+};
+
+export default App;
