@@ -159,7 +159,7 @@ const EDU = [
   ['Certification', 'GD&T Certification', '2-B Quality · ASME Y14.5-2009'],
 ];
 const STATS = [
-  ['100%','batch success in Multiply Labs\' largest customer pilot: 6 batches a day for 12 continuous days'],
+  ['3 robots in the field','robotic systems taken from design to customer deployment: Neato\'s Nexaro vacuum, Ocado\'s European depalletizer, and Multiply Labs\' cell-therapy clusters'],
   ['Mass production','injection-molded parts taken from concept to mass production for Neato\'s first commercial robot vacuum, now sold globally by Vorwerk'],
   ['6+ years','designing consumables and hardware for robotic systems'],
 ];
