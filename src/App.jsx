@@ -160,8 +160,7 @@ const EDU = [
 ];
 const STATS = [
   ['100%','batch success in Multiply Labs\' largest customer pilot: 6 batches a day for 12 continuous days'],
-  ['$100 → $2.50','per-use cost of a redesigned peristaltic pumping cartridge attachment'],
-  ['75% → 98%','robotic pick-and-place accuracy at Ocado through camera selection and integration'],
+  ['Mass production','injection-molded parts taken from concept to mass production for Neato\'s first commercial robot vacuum, now sold globally by Vorwerk'],
   ['6+ years','designing consumables and hardware for robotic systems'],
 ];
 // Career timeline (home page, under the headline stats). Add a new year by adding an entry.
