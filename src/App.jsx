@@ -4,13 +4,14 @@ import React, { useState, useEffect, useRef } from 'react';
 // ─── PAGE DATA ────────────────────────────────────────────────
 const careerPages = {
   'multiply-labs': {
+    resumeCompany: 'Multiply Labs Inc.',
     company: 'Multiply Labs',
     role: 'Senior Robotics HW Engineer – Consumables R&D',
     dates: 'Dec. 2024 – Present',
     location: 'San Francisco, CA',
     tagline: 'Automating the future of cell therapy manufacturing.',
     heroImage: null, // replace with: 'multiply_labs_hero.jpg'
-    highlights: [{"heading": "Senior Robotics HW Engineer · May 2026 – Present", "items": ["Lead consumables designer for robotic automation of the Rotea cell-therapy instrument; designed the cartridge, consumable, and hardware interface that enable autonomous, end-to-end operation of the Rotea by a robotic arm.", "Lead designer for Multiply Labs' pharmaceutical-grade (GMP) bag cartridge across Alpha, Beta, and Gamma revisions, improving reliability, robotic pick-and-place success rate, and regulatory manufacturability while reducing customer assembly time.", "Redesigned a peristaltic pumping bag cartridge attachment, cutting per-use cost from $100 to $2.50 while simplifying assembly and improving cell-pumping performance.", "Provide consumables and hardware support for robotic cluster deployments and operation across 3 large cell-therapy customers.", "Managed a summer mechanical engineering intern: defined project scopes, set goals, tracked progress, and provided day-to-day mentorship and technical direction."]}, {"heading": "Advanced Robotics HW Engineer · Dec. 2024 – May 2026", "items": ["Second hire on the consumables design team; designed injection-molded single-use and reusable pharmaceutical-grade consumables for robotic pharmaceutical manufacturing.", "Led Multiply Labs' largest customer pilot to date — 6 cell-therapy batches/day, 20 hrs/day, over 12 continuous days — achieving a 100% batch success rate. Owned the full consumables and hardware stack, including cartridge/consumable manufacturing, robot builds, cluster upgrades, and hardware/testing management.", "Led design, fabrication, and testing of calibration and leveling jigs, enabling bring-up and calibration of 4 robotic clusters and accurate pick-and-place operations across the fleet.", "Supported development, deployment, and operation of Multiply Labs' first customer cell-therapy manufacturing robotic system for Legend Biotech."]}],
+    highlights: [{"heading": "Senior Robotics Hardware Engineer – Consumables R&D · May 2026 – Present", "items": ["Lead consumables designer for robotic automation of the Rotea cell-therapy instrument; designed the cartridge, consumable, and hardware interface that let a robotic arm run the Rotea autonomously, end to end.", "Led design of Multiply Labs' pharmaceutical-grade (GMP) bag cartridge through Alpha, Beta, and Gamma revisions, improving reliability, robotic pick-and-place success rate, and GMP manufacturability while reducing customer assembly time.", "Redesigned a peristaltic pumping bag cartridge attachment, cutting per-use cost from $100 to an estimated $2.50 (~97%) while simplifying assembly and improving cell-pumping performance.", "Support consumables and hardware for robotic cluster deployments and daily operation at 3 large cell-therapy customers.", "Managed a summer mechanical engineering intern: defined project scopes and goals, tracked progress, and provided day-to-day mentorship and technical direction."]}, {"heading": "Advanced Robotics Hardware Engineer – Consumables R&D · Dec. 2024 – May 2026", "items": ["Joined as the second hire on the consumables design team; designed injection-molded single-use and reusable pharmaceutical-grade consumables for robotic cell-therapy manufacturing.", "Led Multiply Labs' largest customer pilot to date (6 cell-therapy batches/day, 20 hrs/day, for 12 continuous days), achieving a 100% batch success rate.", "Owned the pilot's full consumables and hardware stack (cartridge and consumable manufacturing, robot builds, cluster upgrades, and hardware testing), keeping the system production-ready for the full run.", "Designed, fabricated, and tested calibration and leveling jigs used to bring up and calibrate 4 robotic clusters, enabling accurate pick-and-place across the fleet.", "Helped develop, deploy, and operate Multiply Labs' first customer robotic cell-therapy manufacturing system, built for Legend Biotech."]}],
     sections: [
       {
         heading: 'The Problem We\'re Solving',
@@ -43,7 +44,7 @@ const careerPages = {
     location: 'San Francisco, CA',
     tagline: 'Building the AI-driven robotic systems powering next-generation e-commerce fulfillment.',
     heroImage: 'depal.jpg',
-    highlights: [{"heading": "Highlights", "items": ["Core contributor to the end-to-end design and development of Ocado's first AI/ML-driven robotic depalletizing system, deployed at multiple European fulfillment centers.", "Increased automated robotic pick-and-place accuracy from 75% to 98% through strategic selection and implementation of depth/RGB cameras, boosting system throughput by 30%.", "Co-designed and fabricated an electromechanical end-effector using sensors, actuators, and pneumatics, increasing payload capacity to 80 lbs and improving item-handling versatility.", "Conducted load calculations and structural FEA for securing a 1,250 lb robotic arm to a pedestal on concrete, specifying anchors and adhesives for 100% safety compliance.", "Managed cross-functional installation and integration of the San Francisco proof-of-concept depalletizing test cell, which led to securing funding approval for the program.", "Co-owned hardware design of a portable trade show model of the depalletizing system."]}],
+    highlights: [{"heading": "Highlights", "items": ["Core mechanical contributor to Ocado's first AI/ML-driven robotic depalletizing system, from design through deployment at multiple European fulfillment centers.", "Raised robotic pick-and-place accuracy from 75% to 98% by selecting and integrating depth/RGB cameras, increasing system throughput by 30%.", "Co-designed and fabricated an electromechanical end-effector (sensors, actuators, pneumatics) that raised payload capacity to 80 lb and handled a wider range of items.", "Performed load calculations and structural FEA to anchor a 1,250 lb robotic arm and pedestal to concrete, specifying anchors and adhesives that met all safety requirements.", "Managed cross-functional installation and integration of the San Francisco proof-of-concept depalletizing test cell, which led to funding approval for the program."]}],
     sections: [
       {
         heading: 'The Work',
@@ -63,7 +64,7 @@ const careerPages = {
     location: 'San Jose, CA',
     tagline: 'Designing consumer robotics products from concept through injection molded production.',
     heroImage: 'Nexaro_NR1500.jpg',
-    highlights: [{"heading": "Highlights", "items": ["Designed, prototyped, and mass-manufactured injection-molded parts for Neato's first commercial robotic vacuum (Nexaro NR1500), now sold globally by Vorwerk.", "Redesigned an electromechanical robotic vacuum drivetrain, improving motor efficiency, reducing noise levels by 30%, and cutting production costs by $2 per unit.", "Streamlined additive manufacturing operations, reducing design iteration time by 75% and saving $20,000 in vendor costs annually.", "Developed and scaled high-volume plastic accessories (pet brush, fragrance dustbin filter), expanding the product line by 7 SKUs.", "Initiated and led the emerging technologies R&D program, developing a novel dust-sensing technology using accelerometer and gyroscope data to enable adaptive suction control."]}],
+    highlights: [{"heading": "Highlights", "items": ["Designed, prototyped, and tooled injection-molded parts for Neato's first commercial robotic vacuum, the Nexaro NR1500, now sold globally by Vorwerk.", "Redesigned a robotic vacuum drivetrain, improving motor efficiency, reducing noise by 30%, and cutting production cost by $2 per unit.", "Streamlined Neato's additive manufacturing operations, cutting design iteration time by 75% and saving $20,000 a year in vendor costs.", "Developed and scaled high-volume plastic accessories (pet brush, fragrance dustbin filter), adding 7 SKUs to the product line.", "Started and led Neato's emerging-technologies R&D program, developing dust-sensing technology that used accelerometer and gyroscope data to adjust suction automatically."]}],
     sections: [
       {
         heading: 'Commercial Cleaning Robot',
@@ -150,8 +151,8 @@ const experiences = [
 
 
 const SKILL_GROUPS = [
-  ['Design',['Onshape','SolidWorks','Creo','Injection Molding','DFM&A','GD&T','RCA','FAI']],
-  ['Building',['Additive Manufacturing','Machining (Subtractive)','Laser Cutting','Sheet Metal','Milling']],
+  ['Design',['Onshape','SolidWorks','Creo','Injection-Molded Part Design','DFM&A','GD&T','Root Cause Analysis (RCA)','First Article Inspection (FAI)']],
+  ['Prototyping & manufacturing',['Additive Manufacturing','Machining (Milling)','Injection Molding','Sheet Metal','Laser Cutting']],
   ['Project management',['Arena PLM','Confluence','Jira','BOMs','Vendor Management']],
 ];
 const EDU = [
@@ -191,7 +192,7 @@ const TIMELINE = [
 // → Actions → Variables). Without it, the email links are simply left out.
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || '';
 
-const RESUME ="William%20Nuveen%27s%20Resume%20%28Sept.%20%2726%29.pdf";
+const RESUME ="William%20Nuveen%27s%20Resume%20%28Nov.%20%2726%29.pdf";
 const PRESS = [
   ['AstraZeneca','https://www.businesswire.com/news/home/20260127453159/en/Multiply-Labs-Announces-New-Collaboration-to-Automate-Cell-Therapy-Manufacturing-with-Robotics'],
   ['Legend Biotech','https://www.businesswire.com/news/home/20240924666477/en/Multiply-Labs-Announces-a-Collaboration-on-Automating-Cell-Therapy-Manufacturing-with-Legend-Biotech'],
@@ -905,7 +906,7 @@ const App = () => {
           <FadeUp delay={100}><div>
             <h2 className="h2" style={{ fontSize: 'clamp(2.5rem,5vw,3.8rem)', marginBottom: 20 }}>Résumé</h2>
             <p className="body" style={{ marginBottom: 32, maxWidth: '60ch' }}>
-              Robotics design mechanical engineer with 6+ years of experience across cell-therapy manufacturing, warehouse automation, and consumer robotics. I specialize in designing injection-molded and machinable consumables and hardware interfaces for robotic systems, with a focus on mass manufacturability and reliable human/robotic operation.
+              Mechanical engineer with 6+ years of experience designing hardware for robotic systems in cell-therapy manufacturing, warehouse automation, and consumer robotics. I specialize in injection-molded and machined consumables and robot-facing interfaces built for mass manufacturability and reliable human and robotic operation.
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <a className="btn btn-gold" href="resume.html">Full résumé →</a>
