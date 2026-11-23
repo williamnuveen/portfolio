@@ -3,7 +3,7 @@ import { CONTACT_EMAIL, Nav, careerPages, experiences, SKILL_GROUPS, RESUME } fr
 
 // Résumé page (resume.html). Experience bullets come from careerPages in App.jsx,
 // so the résumé and the career pages stay in sync.
-const SUMMARY = 'Robotics design mechanical engineer with 6+ years of experience across cell-therapy manufacturing, warehouse automation, and consumer robotics. I specialize in designing injection-molded and machinable consumables and hardware interfaces for robotic systems, with a focus on mass manufacturability and reliable human/robotic operation.';
+const SUMMARY = 'Mechanical engineer with 6+ years of experience designing hardware for robotic systems in cell-therapy manufacturing, warehouse automation, and consumer robotics. I specialize in injection-molded and machined consumables and robot-facing interfaces built for mass manufacturability and reliable human and robotic operation.';
 
 const EDUCATION = [
   { title: 'B.S. in Engineering, Major in Mechanical Engineering', detail: 'Miami University · Oxford, OH', date: '2016 – 2020' },
@@ -43,7 +43,7 @@ const ResumePage = () => {
             <div className="label on-dark">Résumé</div>
             <h1 className="rs-name">William F. Nuveen</h1>
             <p className="rs-meta">
-              Senior Robotics HW Engineer · Consumables R&amp;D · San Francisco, CA<br />
+              Senior Robotics Hardware Engineer · Consumables R&amp;D · San Francisco, CA<br />
               {CONTACT_EMAIL && <><a href={MAILTO}>{CONTACT_EMAIL}</a> · </>}<a href="https://www.linkedin.com/in/williamnuveen/" target="_blank" rel="noopener noreferrer">linkedin.com/in/williamnuveen</a>
             </p>
             <div className="rs-actions">
@@ -62,7 +62,7 @@ const ResumePage = () => {
 
             <section className="rs-sec">
               <h2>Professional experience</h2>
-              {experiences.map(job => {
+              {experiences.filter(job => job.pageKey !== 'kohler').map(job => {
                 const page = careerPages[job.pageKey];
                 return (
                   <article key={job.pageKey} className="rs-co">
