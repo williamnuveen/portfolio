@@ -13,7 +13,7 @@ const CERTS = [
 ];
 const MAILTO = 'mailto:' + CONTACT_EMAIL;
 const LINKS = [
-  ['Portfolio', 'https://williamnuveen.github.io/portfolio/', 'williamnuveen.github.io/portfolio'],
+  ['Portfolio', process.env.SITE_URL, process.env.SITE_URL.replace(/^https?:\/\//, '').replace(/\/$/, '')],
   ['LinkedIn', 'https://www.linkedin.com/in/williamnuveen/', 'linkedin.com/in/williamnuveen'],
   ['GitHub', 'https://github.com/williamnuveen', 'github.com/williamnuveen'],
   CONTACT_EMAIL && ['Email', MAILTO, CONTACT_EMAIL],
