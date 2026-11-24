@@ -396,6 +396,14 @@ footer a:hover{color:#fff}
   .partners{grid-template-columns:1fr}
 }
 
+.skills-strip{display:flex;flex-direction:column;gap:14px;padding:22px 48px 32px;border-top:1px solid rgba(255,255,255,.08)}
+.ss-row{display:flex;gap:20px;align-items:baseline}
+.ss-label{flex:none;width:110px;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.ss-tags{display:flex;flex-wrap:wrap;gap:8px}
+.ss-tags .cap-tag{font-size:.8rem;padding:5px 11px}
+.ss-edu{display:flex;flex-wrap:wrap;gap:6px 28px;font-size:.88rem;color:rgba(255,255,255,.6)}
+.ss-edu b{color:rgba(255,255,255,.9);font-weight:500}
+@media (max-width:900px){.skills-strip{padding:20px 20px 28px}.ss-row{flex-direction:column;gap:8px}}
 /* Project pages */
 a.pcard{text-decoration:none;color:inherit}
 .proj-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
