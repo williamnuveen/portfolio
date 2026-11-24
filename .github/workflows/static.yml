@@ -38,6 +38,7 @@ jobs:
         env:
           # Set under Settings → Secrets and variables → Actions → Variables
           CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
+          SITE_URL: ${{ vars.SITE_URL }}
         run: |
           npm install --no-audit --no-fund
           node build.mjs
