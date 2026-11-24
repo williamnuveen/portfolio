@@ -163,6 +163,7 @@ const SKILL_GROUPS = [
   ['Prototyping & manufacturing',['Additive Manufacturing','Machining (Milling)','Injection Molding','Sheet Metal','Laser Cutting']],
   ['Project management',['Arena PLM','Confluence','Jira','BOMs','Vendor Management']],
 ];
+const CORE_SKILLS = ['Injection-Molded Part Design', 'DFM&A', 'GD&T', 'Tolerance Analysis', 'Onshape', 'SolidWorks', 'Creo', 'Machining', 'Additive Manufacturing', 'Sheet Metal'];
 const EDU = [
   ['Education', 'B.S. Mechanical Engineering', 'Miami University · Oxford, OH · 2016–2020'],
   ['Certification', 'GD&T Certification', '2-B Quality · ASME Y14.5-2009'],
@@ -827,6 +828,16 @@ const App = () => {
         <div className="wrap stats-grid">
           {STATS.map(([n, t]) => <div key={n}><div className="stat-num">{n}</div><div className="stat-txt">{t}</div></div>)}
         </div>
+        <div className="wrap skills-strip">
+          <div className="ss-row">
+            <span className="ss-label">Core skills</span>
+            <div className="ss-tags">{CORE_SKILLS.map(t => <span key={t} className="cap-tag">{t}</span>)}</div>
+          </div>
+          <div className="ss-row">
+            <span className="ss-label">Education</span>
+            <div className="ss-edu">{EDU.map(([g, title, detail]) => <span key={g}><b>{title}</b> · {detail}</span>)}</div>
+          </div>
+        </div>
       </section>
 
       <Timeline onCareer={setCareer} />
@@ -848,49 +859,7 @@ const App = () => {
         </div>
       </section>
 
-      <section className="skills">
-        <div className="wrap skills-grid">
-          <FadeUp><div>
-            <div className="label on-dark">Capabilities</div>
-            <h2 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(1.9rem,3.5vw,2.6rem)', color: '#fff', lineHeight: 1.1, marginBottom: 16 }}>Skills &amp; education</h2>
-            <p className="body" style={{ color: 'rgba(255,255,255,.62)', maxWidth: '36ch' }}>The tools and processes I use to take parts from CAD to mass production.</p>
-          </div></FadeUp>
-          <FadeUp delay={80}>
-            <dl className="cap-list">
-              {SKILL_GROUPS.map(([g, items]) => (
-                <div key={g} className="cap-row">
-                  <dt>{g}</dt>
-                  <dd className="cap-tags">{items.map(s => <span key={s} className="cap-tag">{s}</span>)}</dd>
-                </div>
-              ))}
-              {EDU.map(([g, title, detail]) => (
-                <div key={g} className="cap-row">
-                  <dt>{g}</dt>
-                  <dd><b className="cap-title">{title}</b><span className="cap-detail">{detail}</span></dd>
-                </div>
-              ))}
-            </dl>
-          </FadeUp>
-        </div>
-      </section>
-
       <AboutSection />
-
-      <section id="resume" className="section" style={{ background: 'var(--warm-gray)' }}>
-        <div className="wrap two-col" style={{ alignItems: 'center' }}>
-          <FadeUp><Img src="Resume-Screenshot-26.png" alt="Preview of William Nuveen's résumé" style={{ width: '100%', maxWidth: 380, borderRadius: 12, boxShadow: '0 24px 64px rgba(0,0,0,.14)', margin: '0 auto' }} /></FadeUp>
-          <FadeUp delay={100}><div>
-            <h2 className="h2" style={{ fontSize: 'clamp(2.5rem,5vw,3.8rem)', marginBottom: 20 }}>Résumé</h2>
-            <p className="body" style={{ marginBottom: 32, maxWidth: '60ch' }}>
-              Mechanical engineer with 6+ years of experience designing hardware for robotic systems in cell-therapy manufacturing, warehouse automation, and consumer robotics. I specialize in injection-molded and machined consumables and robot-facing interfaces built for mass manufacturability and reliable human and robotic operation.
-            </p>
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <a className="btn btn-gold" href="resume.html">Full résumé →</a>
-              <a className="btn btn-dark" href={RESUME} target="_blank" rel="noopener noreferrer">Download PDF ↗</a>
-            </div>
-          </div></FadeUp>
-        </div>
-      </section>
 
       <section id="contact" style={{ background: 'var(--navy)', padding: '100px 0', textAlign: 'center' }}>
         <div className="wrap">
@@ -903,6 +872,7 @@ const App = () => {
             </p>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
               {CONTACT_EMAIL && <a className="btn btn-gold" href={`mailto:${CONTACT_EMAIL}?subject=Consulting%20inquiry`}>Email William</a>}
+              <a className="btn btn-ghost" href={RESUME} target="_blank" rel="noopener noreferrer">Download résumé ↗</a>
               <a className="btn btn-ghost" href="https://www.linkedin.com/in/williamnuveen/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
             </div>
           </FadeUp>
