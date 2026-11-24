@@ -37,6 +37,16 @@ const pages = [
     title: 'Résumé – William Nuveen',
     description: 'Résumé of William Nuveen, Senior Robotics Hardware Engineer: experience at Multiply Labs, Ocado Technology, Neato Robotics and Kohler, plus education, certifications and skills.',
     preload: '' },
+  { out: 'projects/index.html', page: 'projects', path: 'projects/', html: ssr.renderProjects(), base: '../',
+    title: 'Projects – William Nuveen',
+    description: 'Mechanical design projects by William Nuveen: cell-therapy consumables at Multiply Labs, warehouse robotics at Ocado Technology, robot vacuums at Neato Robotics, and Kohler fixtures.',
+    preload: '' },
+  ...ssr.portfolioItems.map(p => ({
+    out: `projects/${p.slug}/index.html`, page: 'project', slug: p.slug, path: `projects/${p.slug}/`,
+    html: ssr.renderProject(p.slug), base: '../../', image: p.image,
+    title: `${p.title} – ${p.company} | William Nuveen`,
+    description: `${p.shortDescription}. A ${p.company} project by William Nuveen, robotics hardware engineer.`,
+    preload: `<link rel="preload" as="image" href="${p.images[0]}">` })),
 ];
 fs.rmSync(ssrFile);
 
@@ -45,7 +55,10 @@ fs.rmSync(ssrFile);
 const hash = (await import('crypto')).createHash('sha1').update(fs.readFileSync('assets/app.js')).digest('hex').slice(0, 10);
 const tpl = fs.readFileSync('src/template.html', 'utf8').replace('assets/app.js', `assets/app.js?v=${hash}`);
 for (const p of pages) {
-  const out = tpl.replaceAll('{{SITE}}', SITE_URL).replaceAll('{{TITLE}}', p.title).replaceAll('{{DESCRIPTION}}', p.description)
+  fs.mkdirSync(path.dirname(p.out), { recursive: true });
+  const out = tpl.replace('{{BASE}}', p.base ? `<base href="${p.base}">` : '')
+    .replaceAll('{{OGIMAGE}}', p.image || 'William_Nuveen_Portrait.jpg').replaceAll('{{SLUG}}', p.slug || '')
+    .replaceAll('{{SITE}}', SITE_URL).replaceAll('{{TITLE}}', p.title).replaceAll('{{DESCRIPTION}}', p.description)
     .replaceAll('{{PATH}}', p.path).replaceAll('{{PAGE}}', p.page).replace('{{PRELOAD}}', p.preload)
     .replace('<!--APP-->', p.html);
   fs.writeFileSync(p.out, out);

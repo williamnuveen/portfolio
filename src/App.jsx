@@ -104,35 +104,43 @@ const aboutCategories = {
 
 // ─── DATA ────────────────────────────────────────────────────
 const portfolioItems = [
-    { image:'Multiply_Labs_Cluster_Exterior.jpg', title:'Cell-Therapy Robotic Cluster', company:'Multiply Labs',
+    { slug:'multiply-labs-cell-therapy-cluster', featured:true, career:'multiply-labs', results:["Lead consumables designer for robotic automation of the Rotea cell-therapy instrument", "Led the GMP bag cartridge through its Alpha, Beta and Gamma revisions", "Largest customer pilot to date: 6 batches a day for 12 continuous days at a 100% batch success rate", "Peristaltic pumping cartridge attachment redesigned from $100 to about $2.50 per use (~97% lower)", "Calibration and leveling jigs used to bring up and calibrate 4 robotic clusters"],
+       image:'Multiply_Labs_Cluster_Exterior.jpg', title:'Cell-Therapy Robotic Cluster', company:'Multiply Labs',
       images:['Multiply_Labs_Cluster_Exterior.jpg','Multiply_Labs_Robot_Arm.jpg','Multiply_Labs_Cluster_Floor.jpg','Multiply_Labs_1.jpg'],
       shortDescription:'Consumables, cartridges and hardware for robotic cell-therapy manufacturing',
       longDescription:"At Multiply Labs, I design the consumables, cartridges and hardware interfaces that let robotic clusters like this one manufacture cell therapies end to end. I'm the lead consumables designer for robotic automation of the Rotea cell-therapy instrument and for the pharmaceutical-grade (GMP) bag cartridge across its Alpha, Beta and Gamma revisions. I led the company's largest customer pilot to date (6 batches a day for 12 continuous days at a 100% batch success rate), built the calibration and leveling jigs used to bring up 4 robotic clusters, and redesigned a peristaltic pumping cartridge attachment from $100 to $2.50 per use." },
-    { image:'depal.jpg', title:'Depalletizing Robot', company:'Ocado Technology',
+    { slug:'ocado-depalletizing-robot', featured:true, career:'ocado', results:["Ocado's first AI/ML-driven depalletizing system, deployed at multiple European fulfillment centers", "First deployment launched in London in Q4 2024", "Co-designed an electromechanical end-effector that raised payload capacity to 80 lb", "Load calculations and structural FEA to anchor a 1,250 lb robotic arm and pedestal to concrete", "San Francisco proof-of-concept test cell that led to funding approval for the program"],
+       image:'depal.jpg', title:'Depalletizing Robot', company:'Ocado Technology',
       images:['depal.jpg','depal_2.jpg','depal_3.jpg'],
       shortDescription:'Automated depalletizing robotic system for e-commerce fulfillment',
       longDescription:"At Ocado Technology, I played a key role in developing Ocado's first AI-driven case-handling robotics system. I led the design and implementation of camera hardware, managed the hardware build at our SF lab, and contributed to designing critical components like the robotic end-effector and arm pedestal. My role involves close collaboration with software, QA, and mechatronics teams. Our first deployment launched in London in Q4 2024." },
-    { image:'Camera_PC.png', title:'High-Resolution Camera System', company:'Ocado Technology',
+    { slug:'depth-camera-system', featured:false, career:'ocado', results:["Robotic pick-and-place accuracy raised from 75% to 98%", "System throughput increased by 30%", "Over 300 units per hour for bulky items", "Became camera technology consultant for several Ocado teams"],
+       image:'Camera_PC.png', title:'High-Resolution Camera System', company:'Ocado Technology',
       images:['Camera_PC.png','Camera_PC_2.jpg','Camera_PC_3.jpg','Camera_PC_4.png'],
       shortDescription:'Depth/RGB camera testing for robotic computer vision applications',
       longDescription:"RGB/Depth cameras are crucial for enabling ML models to segment and measure depth of items. I developed a KPI testing process to evaluate and integrate the best depth/RGB camera available. Improved depth accuracy boosted grasping and pick speed, reaching over 300 UPH for bulky items. This led to my role as camera technology consultant for several teams including Ocado's on-grid robotic pick and emerging technology teams." },
-    { image:'Kindred_Sort_Camera.jpg', title:'Sort Camera Mount', company:'Kindred AI',
+    { slug:'kindred-sort-camera-mount', featured:false, career:'ocado', results:["Now integral to the Sort system, which has sorted over 750 million items across retail warehouses"],
+       image:'Kindred_Sort_Camera.jpg', title:'Sort Camera Mount', company:'Kindred AI',
       images:['Kindred_Sort_Camera.jpg','Kindred_Sort_Camera_2.jpg','Kindred_Sort_Camera_3.jpg','Kindred_Sort_Camera_4.jpg'],
       shortDescription:'Sheet metal camera mount for Sort robots — sustaining engineering',
       longDescription:"I designed a robust camera mount for Kindred AI's (now Ocado Technology) Sort robot, engineered to withstand the forces exerted by a robotic arm without compromising the underneath depth camera. Fabricated from durable sheet metal, the mount is securely bolted to the robot's housing. This camera mount is now integral to the Sort system, which has successfully sorted over 750 million items across retail warehouses." },
-    { image:'Nexaro_NR1500.jpg', title:'Nexaro NR1500 Cleaning Robot', company:'Neato Robotics',
+    { slug:'nexaro-nr1500', featured:true, career:'neato', results:["Designed, prototyped and tooled injection-molded parts for Neato's first commercial robotic vacuum", "Took the robot from concept through its first EVT phase", "Now sold globally by Vorwerk as the Nexaro NR1500"],
+       image:'Nexaro_NR1500.jpg', title:'Nexaro NR1500 Cleaning Robot', company:'Neato Robotics',
       images:['Nexaro_NR1500.jpg','Nexaro_2.jpg','Nexaro_3.jpg','Nexaro_4.jpg','Nexaro_7.jpg'],
       shortDescription:"Neato's first autonomous commercial cleaning robot",
       longDescription:"At Neato, I was a key mechanical design engineer on the industrial robotic vacuum from concept through the first EVT phase. I designed, prototyped, and tested 3D printed parts for the robot's dustbin, filter, drivetrains, motors, wire layouts, and LiDAR covers. After Neato dissolved, the project was transferred to Vorwerk and now operates as 'Nexaro'." },
-    { image:'Mopping_Robot.jpg', title:'Advanced Mopping Robot', company:'Neato Robotics',
+    { slug:'neato-mopping-robot', featured:false, career:'neato', results:[],
+       image:'Mopping_Robot.jpg', title:'Advanced Mopping Robot', company:'Neato Robotics',
       images:['Mopping_Robot.jpg','Mopping_Robot_4.jpg','Mopping_Robot_2.jpg'],
       shortDescription:"Neato's first autonomous mopping robot",
       longDescription:"At Neato, I redesigned a self-extraction cleaning center to create a more intuitive, accessible system. My solution introduced a pivoting cover for hands-free filter bag access, along with a spring-damped mechanism and leak-proof seal. I also integrated a touchscreen interface and accessory storage to boost customer satisfaction." },
-    { image:'Neato_Parts.jpg', title:'Custom Injection Molded Parts', company:'Neato Robotics',
+    { slug:'injection-molded-parts', featured:true, career:'neato', results:["Drivetrain redesign: 30% quieter and $2 per unit cheaper to produce", "High-volume plastic accessories (pet brush, fragrance dustbin filter) that added 7 SKUs to the product line"],
+       image:'Neato_Parts.jpg', title:'Custom Injection Molded Parts', company:'Neato Robotics',
       images:['Neato_Parts.jpg','Neato_Filter.jpg','Neato_Drivetrain.jpg'],
       shortDescription:'Custom-designed injection molded parts for Neato robotic vacuums',
       longDescription:"At Neato, I specialized in plastic part design. I used Creo to design prototypes, 3D printing to verify functionality, and GD&T and injection molding fundamentals for manufacturing. I collaborated with our overseas manufacturing team to optimize injection molding tool designs, created GD&T drawings, conducted tolerance analyses, and ensured efficient assembly for robotic applications." },
-    { image:'Kohler_Bath_Spout.png', title:'Kohler Bathroom Fixtures', company:'Kohler',
+    { slug:'kohler-bath-spout-diverter', featured:false, career:'kohler', results:[],
+       image:'Kohler_Bath_Spout.png', title:'Kohler Bathroom Fixtures', company:'Kohler',
       images:['Kohler_Work.jpg','Kohler_Bath_Spout.png','Kohler_Bath_Spout_2.jpg','Kohler_Pres.jpg','Kohler_Pres_2.jpg'],
       shortDescription:"Innovative bath spout diverter technology for Kohler Co.",
       longDescription:"As a product design engineering intern at Kohler, I designed the company's first back-of-the bath spout diverter. I benchmarked existing diverters, created a 3D model in SolidWorks, and iterated through Carbon 3D printing prototypes. My design improved laminar flow aesthetics, reduced leakages with a new o-ring design, and lowered manufacturing costs." },
@@ -382,7 +390,8 @@ const Nav = ({ onBack, onCareer, goTo, homeHref = '#', page = 'home' }) => {
               ))}
             </div></div>
           </div>
-          <button className="nav-link" onClick={() => goTo('portfolio')}>Projects</button>
+          <a className="nav-link" href={page === 'home' ? '#portfolio' : 'projects/'} aria-current={page === 'projects' ? 'page' : undefined}
+             onClick={e => { if (page === 'home') { e.preventDefault(); goTo('portfolio'); } }}>Projects</a>
           <button className="nav-link hide-sm" onClick={() => goTo('about')}>Beyond Work</button>
           <a className="nav-link hide-sm" href="resume.html" aria-current={page === 'resume' ? 'page' : undefined}>Résumé</a>
           <button className="nav-link nav-cta" onClick={() => goTo('contact')}>Contact</button>
@@ -400,7 +409,7 @@ const Nav = ({ onBack, onCareer, goTo, homeHref = '#', page = 'home' }) => {
           {Object.entries(careerPages).map(([key, c]) => (
             <button key={key} className="mm-item mm-sub" onClick={() => { setMenu(false); onCareer(key); }}>{c.company}</button>
           ))}
-          <button className="mm-item" onClick={() => go('portfolio')}>Projects</button>
+          <a className="mm-item" href={page === 'home' ? '#portfolio' : 'projects/'} onClick={e => { if (page === 'home') { e.preventDefault(); go('portfolio'); } }}>Projects</a>
           <button className="mm-item" onClick={() => go('about')}>Beyond Work</button>
           <a className="mm-item" href="resume.html">Résumé</a>
           <button className="mm-item mm-cta" onClick={() => go('contact')}>Contact</button>
@@ -410,48 +419,59 @@ const Nav = ({ onBack, onCareer, goTo, homeHref = '#', page = 'home' }) => {
   );
 };
 
-// ─── PORTFOLIO MODAL ───────────────────────────────────────
-const Modal = ({ item, onClose }) => {
-  const ref = useRef(null);
+// ─── PROJECT CARD AND GALLERY ──────────────────────────────
+const projectHref = p => `projects/${p.slug}/`;
+const ProjectCard = ({ p }) => (
+  <a className="pcard" href={projectHref(p)}>
+    <div className="pcard-img"><SmartImg src={p.image} alt="" /></div>
+    <div className="pcard-body">
+      <div className="card-company">{p.company}</div>
+      <h3 className="card-title">{p.title}</h3>
+      <p className="card-sub">{p.shortDescription}</p>
+      <span className="card-more" aria-hidden="true">View project →</span>
+    </div>
+  </a>
+);
+
+const Gallery = ({ images, title }) => {
   const [i, setI] = useState(0);
   const [zoom, setZoom] = useState(false);
-  const n = item.images.length;
+  const n = images.length;
   const go = d => setI(x => (x + d + n) % n);
-  useOverlay(zoom ? null : onClose, ref);
   useArrowKeys(go, !zoom && n > 1);
   const swipe = useSwipe(go);
   return (
-    <div ref={ref} tabIndex={-1} className="modal-overlay" role="dialog" aria-modal="true" aria-label={item.title}
-         onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="modal-inner">
-        <div className="pm-head">
-          <div className="label on-dark">{item.company}</div>
-          <h2 className="serif" style={{ fontWeight: 400, fontSize: '2rem', color: '#fff', paddingRight: 48 }}>{item.title}</h2>
-          <button className="pm-close" onClick={onClose} aria-label="Close project">×</button>
-        </div>
-        <div className="pm-stage" {...swipe}>
-          <button className="pm-stage-img" onClick={() => setZoom(true)} aria-label={`View photo ${i + 1} of ${n} full screen`}>
-            <SmartImg key={item.images[i]} src={item.images[i]} alt={`${item.title}, photo ${i + 1}`} eager />
-          </button>
-          <GalleryNav i={i} n={n} go={go} />
-        </div>
-        {n > 1 && (
-          <div className="pm-thumbs" role="group" aria-label="Choose a photo">
-            {item.images.map((src, j) => (
-              <button key={src} className={'pm-thumb' + (j === i ? ' on' : '')} aria-label={`Photo ${j + 1}`} aria-current={j === i ? 'true' : undefined} onClick={() => setI(j)}>
-                <SmartImg src={src} alt="" />
-              </button>
-            ))}
-          </div>
-        )}
-        <div className="pm-body">
-          <p className="body">{item.longDescription}</p>
-        </div>
+    <div className="pp-gallery">
+      <div className="pm-stage" {...swipe}>
+        <button className="pm-stage-img" onClick={() => setZoom(true)} aria-label={`View photo ${i + 1} of ${n} full screen`}>
+          <SmartImg key={images[i]} src={images[i]} alt={`${title}, photo ${i + 1}`} eager />
+        </button>
+        <GalleryNav i={i} n={n} go={go} />
       </div>
-      {zoom && <Lightbox images={item.images} start={i} onClose={last => { setZoom(false); setI(last); }} />}
+      {n > 1 && (
+        <div className="pm-thumbs" role="group" aria-label="Choose a photo">
+          {images.map((src, j) => (
+            <button key={src} className={'pm-thumb' + (j === i ? ' on' : '')} aria-label={`Photo ${j + 1}`} aria-current={j === i ? 'true' : undefined} onClick={() => setI(j)}>
+              <SmartImg src={src} alt="" />
+            </button>
+          ))}
+        </div>
+      )}
+      {zoom && <Lightbox images={images} start={i} onClose={last => { setZoom(false); setI(last); }} />}
     </div>
   );
 };
+
+const Footer = () => (
+  <footer>
+    <p>© 2026 William Nuveen. All rights reserved.</p>
+    <div style={{ display: 'flex', gap: 20 }}>
+      {CONTACT_EMAIL && <a href={`mailto:${CONTACT_EMAIL}`}>Email</a>}
+      <a href="https://github.com/williamnuveen" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/williamnuveen/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+  </footer>
+);
 
 // ─── CAREER PAGE ───────────────────────────────────────────
 const CareerPage = ({ pageKey, onClose, goHome }) => {
@@ -770,11 +790,7 @@ const AboutSection = () => {
 
 // ─── APP ───────────────────────────────────────────────────
 const App = () => {
-  const [item, setItem] = useState(null);
   const [career, setCareer] = useState(null);
-  const [filter, setFilter] = useState('All');
-  const companies = ['All', ...Array.from(new Set(portfolioItems.map(p => p.company)))];
-  const shown = filter === 'All' ? portfolioItems : portfolioItems.filter(p => p.company === filter);
   const goTo = id => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -819,55 +835,15 @@ const App = () => {
 
       <section id="portfolio" className="section">
         <div className="wrap">
-          <FadeUp><div style={{ marginBottom: 52 }}>
-            <div className="label">Mechanical design</div>
-            <h2 className="h2" style={{ fontSize: 'clamp(2.5rem,5vw,3.8rem)' }}>Projects</h2>
-            <p style={{ color: 'var(--text-light)', marginTop: 12, fontSize: '.88rem' }}>Select a project for details and photos</p>
+          <FadeUp><div className="proj-head">
+            <div>
+              <div className="label">Mechanical design</div>
+              <h2 className="h2" style={{ fontSize: 'clamp(2.5rem,5vw,3.8rem)' }}>Selected projects</h2>
+            </div>
+            <a className="proj-all" href="projects/">All {portfolioItems.length} projects →</a>
           </div></FadeUp>
-          <div className="filters" role="group" aria-label="Filter projects by company">
-            {companies.map(c => <button key={c} className="chip" aria-pressed={filter === c} onClick={() => setFilter(c)}>{c}</button>)}
-          </div>
-          <div className="cards">
-            {shown.map((p, i) => (
-              <FadeUp key={p.title} delay={i * 50}>
-                <button className="pcard" onClick={() => setItem(p)}>
-                  <div className="pcard-img"><SmartImg src={p.image} alt="" /></div>
-                  <div className="pcard-body">
-                    <div className="card-company">{p.company}</div>
-                    <h3 className="card-title">{p.title}</h3>
-                    <p className="card-sub">{p.shortDescription}</p>
-                    <span className="card-more" aria-hidden="true">View project →</span>
-                  </div>
-                </button>
-              </FadeUp>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="experience" className="section" style={{ background: 'var(--warm-gray)' }}>
-        <div className="wrap two-col exp">
-          <FadeUp><div className="sticky-col" style={{ position: 'sticky', top: 90 }}>
-            <div className="label">Work history</div>
-            <h2 className="h2" style={{ marginBottom: 20 }}>Experience</h2>
-            <p className="body">From consumer robotics to biotech automation, I've built systems that ship and scale.</p>
-          </div></FadeUp>
-          <div>
-            {experiences.map((job, i) => (
-              <FadeUp key={job.company} delay={i * 60}>
-                <div className={'timeline-item' + (i === experiences.length - 1 ? ' last' : '')}>
-                  <div className={'timeline-dot' + (job.isNew ? ' now' : '')}></div>
-                  <div className="label" style={{ fontSize: '.85rem', letterSpacing: '.14em', marginBottom: 8 }}>{job.company}</div>
-                  <h3 className="serif" style={{ fontWeight: 400, fontSize: 'clamp(1.4rem,2.3vw,1.75rem)', color: 'var(--navy)', marginBottom: 8, lineHeight: 1.2 }}>{job.title}</h3>
-                  <div style={{ fontSize: '.95rem', color: 'var(--text-light)', marginBottom: 16 }}>{job.location} · {job.dates}</div>
-                  <p className="body" style={{ maxWidth: 560 }}>{job.description}</p>
-                  <div style={{ marginTop: 20, display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-                    {job.isNew && <span style={{ background: 'rgba(200,169,110,.18)', color: '#6e5718', border: '1px solid rgba(168,137,62,.4)', padding: '3px 10px', borderRadius: 4, fontSize: '.7rem', letterSpacing: '.1em', textTransform: 'uppercase', fontWeight: 600 }}>Current</span>}
-                    <button className="btn btn-sm" style={{ border: '1px solid rgba(0,0,0,.25)', color: 'var(--navy)', background: 'none', padding: '4px 14px' }} onClick={() => setCareer(job.pageKey)}>Read more ↗</button>
-                  </div>
-                </div>
-              </FadeUp>
-            ))}
+          <div className="cards cards-featured">
+            {portfolioItems.filter(p => p.featured).map((p, i) => <FadeUp key={p.slug} delay={i * 50}><ProjectCard p={p} /></FadeUp>)}
           </div>
         </div>
       </section>
@@ -935,20 +911,12 @@ const App = () => {
 
       </main>
 
-      <footer>
-        <p>© 2026 William Nuveen. All rights reserved.</p>
-        <div style={{ display: 'flex', gap: 20 }}>
-          {CONTACT_EMAIL && <a href={`mailto:${CONTACT_EMAIL}`}>Email</a>}
-          <a href="https://github.com/williamnuveen" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://www.linkedin.com/in/williamnuveen/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        </div>
-      </footer>
+      <Footer />
 
-      {item && <Modal item={item} onClose={() => setItem(null)} />}
       {career && <CareerPage pageKey={career} onClose={() => setCareer(null)} goHome={goFromCareer} />}
     </div>
   );
 };
 
 export default App;
-export { CONTACT_EMAIL, Nav, careerPages, experiences, SKILL_GROUPS, RESUME };
+export { CONTACT_EMAIL, Nav, careerPages, experiences, SKILL_GROUPS, RESUME, portfolioItems, ProjectCard, Gallery, Footer, FadeUp, projectHref };
