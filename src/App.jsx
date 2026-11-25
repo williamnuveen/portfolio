@@ -6,7 +6,7 @@ const careerPages = {
   'multiply-labs': {
     resumeCompany: 'Multiply Labs Inc.',
     company: 'Multiply Labs',
-    role: 'Senior Robotics HW Engineer – Consumables R&D',
+    role: 'Senior Robotics Hardware Engineer – Consumables R&D',
     dates: 'Dec. 2024 – Present',
     location: 'San Francisco, CA',
     tagline: 'Automating the future of cell therapy manufacturing.',
@@ -147,7 +147,7 @@ const portfolioItems = [
 ];
 
 const experiences = [
-    { company:'Multiply Labs', title:'Senior Robotics HW Engineer – Consumables R&D', location:'San Francisco, CA', dates:'Dec. 2024 – Present', isNew:true, pageKey:'multiply-labs',
+    { company:'Multiply Labs', title:'Senior Robotics Hardware Engineer – Consumables R&D', location:'San Francisco, CA', dates:'Dec. 2024 – Present', isNew:true, pageKey:'multiply-labs',
       description:"Lead consumables designer for robotic automation of the Rotea cell-therapy instrument and Multiply Labs' GMP bag cartridge. Led the company's largest customer pilot to date (100% batch success over 12 continuous days) and cut a pumping cartridge attachment from $100 to $2.50 per use. Partnered with ThermoFisher, Nvidia, AstraZeneca, and Legend Biotech." },
     { company:'Ocado Technology', title:'Mechanical Engineer II – Robotics Product Development', location:'San Francisco, CA', dates:'Sept. 2022 – Dec. 2024', pageKey:'ocado',
       description:"Core contributor to Ocado's first AI/ML-driven robotic depalletizing system, deployed at multiple European fulfillment centers. Raised pick-and-place accuracy from 75% to 98% through camera selection and integration, boosting throughput 30%, and co-designed an 80 lb-payload end-effector." },
@@ -174,25 +174,26 @@ const STATS = [
   ['6+ years','designing consumables and hardware for robotic systems'],
 ];
 // Career timeline (home page, under the headline stats). Add a new year by adding an entry.
+// Each entry: what happened (bold), where and when, and a tag for the kind of event.
 const TIMELINE = [
   { year: '2016', items: [
-    { title: 'Started a B.S. in Mechanical Engineering', sub: 'Miami University · Oxford, OH' } ] },
+    { kind: 'Education', title: 'Started B.S. in Mechanical Engineering', sub: 'Miami University · Oxford, OH' } ] },
   { year: '2019', items: [
-    { title: 'Mechanical Engineering Intern, Kohler', sub: 'Kohler, WI', page: 'kohler',
+    { kind: 'Internship', title: 'Mechanical Engineering Intern', sub: 'Kohler · Summer 2019', page: 'kohler',
       points: ["Designed Kohler's first back-of-bath spout diverter", 'Prototyped with Carbon 3D printing'] } ] },
   { year: '2020', items: [
-    { title: 'Graduated, B.S. Mechanical Engineering', sub: 'Miami University' },
-    { title: 'Joined Neato Robotics', sub: 'Jr. Mechanical Engineer, Product Design', page: 'neato',
+    { kind: 'Education', title: 'Graduated, B.S. Mechanical Engineering', sub: 'Miami University' },
+    { kind: 'New role', title: 'Jr. Mechanical Engineer', sub: 'Neato Robotics · Aug. 2020', page: 'neato',
       points: ['Mopping robot, D8–D10 and Vorwerk VR7 design work', 'Drivetrain redesign: 30% quieter, $2/unit cheaper', 'Led the emerging technologies R&D program'] } ] },
   { year: '2022', items: [
-    { title: 'Joined Ocado Technology', sub: 'Mechanical Engineer II, Robotics Product Development', page: 'ocado',
+    { kind: 'New role', title: 'Mechanical Engineer II', sub: 'Ocado Technology · Sept. 2022', page: 'ocado',
       points: ["Ocado's first AI/ML depalletizing & palletizing robot", 'Pick-and-place accuracy 75% → 98%', '80 lb-payload end-effector'] } ] },
   { year: '2024', items: [
-    { title: 'First depalletizer deployment', sub: 'London · Q4 2024' },
-    { title: 'Joined Multiply Labs', sub: 'Advanced Robotics HW Engineer, Consumables R&D', page: 'multiply-labs',
+    { kind: 'Milestone', title: 'First depalletizer deployed', sub: 'Ocado Technology · London, Q4 2024' },
+    { kind: 'New role', title: 'Advanced Robotics Hardware Engineer', sub: 'Multiply Labs · Dec. 2024', page: 'multiply-labs',
       points: ['Largest customer pilot: 100% batch success', 'Calibration jigs for 4 robotic clusters', 'First customer system, for Legend Biotech'] } ] },
   { year: '2026', now: true, items: [
-    { title: 'Promoted to Senior Robotics HW Engineer', sub: 'Multiply Labs · May 2026', page: 'multiply-labs',
+    { kind: 'Promotion', title: 'Senior Robotics Hardware Engineer', sub: 'Multiply Labs · May 2026', page: 'multiply-labs',
       points: ['Lead designer, Rotea cartridge', 'GMP bag cartridge: Alpha → Gamma', 'Pumping attachment: $100 → $2.50 per use'] } ] },
 ];
 
@@ -584,7 +585,7 @@ const Timeline = ({ onCareer }) => {
             <div className="label">Career timeline</div>
             <h2 id="tl-title" className="h2">From intern to senior engineer</h2>
           </div>
-          <div className="tl-arrows">
+          <div className="tl-arrows" hidden={edge.start && edge.end}>
             <button className="tl-arrow" aria-label="Scroll timeline back" disabled={edge.start} onClick={() => nudge(-1)}>←</button>
             <button className="tl-arrow" aria-label="Scroll timeline forward" disabled={edge.end} onClick={() => nudge(1)}>→</button>
           </div>
@@ -597,7 +598,8 @@ const Timeline = ({ onCareer }) => {
                 <div className="tl-year">{year}{now && <span className="tl-now">Now</span>}</div>
                 <ul className="tl-items">
                   {items.map(it => (
-                    <li key={it.title} className="tl-item">
+                    <li key={it.title} className={'tl-item k-' + it.kind.toLowerCase().replace(' ', '-')}>
+                      <span className="tl-kind">{it.kind}</span>
                       <b>{it.title}</b>
                       {it.sub && <span className="tl-sub">{it.sub}</span>}
                       {it.points && <ul>{it.points.map(p => <li key={p}>{p}</li>)}</ul>}

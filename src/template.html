@@ -270,6 +270,7 @@ button{font-family:var(--sans)}
 .tl-section{background:var(--cream);padding:72px 0 64px;border-bottom:1px solid rgba(26,35,50,.08)}
 .tl-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:36px;flex-wrap:wrap}
 .tl-arrows{display:flex;gap:8px}
+.tl-arrows[hidden]{display:none}
 .tl-arrow{width:42px;height:42px;border-radius:50%;border:1px solid rgba(26,35,50,.2);background:#fff;color:var(--navy);font-size:1.05rem;cursor:pointer;transition:background .2s,color .2s,opacity .2s}
 .tl-arrow:hover:not(:disabled){background:var(--navy);color:#fff}
 .tl-arrow:disabled{opacity:.35;cursor:default}
@@ -293,6 +294,15 @@ button{font-family:var(--sans)}
 .tl-link{background:none;border:none;padding:0;margin-top:10px;font-size:.78rem;font-weight:600;letter-spacing:.04em;color:var(--accent-dark);cursor:pointer;text-decoration:none;display:inline-block}
 .tl-link:hover{color:var(--navy)}
 
+.tl-kind{display:inline-block;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:3px 8px;border-radius:4px;margin-bottom:8px;background:rgba(26,35,50,.07);color:var(--text-mid)}
+.k-new-role .tl-kind{background:rgba(26,35,50,.9);color:#fff}
+.k-promotion .tl-kind{background:var(--accent);color:var(--navy)}
+.k-milestone .tl-kind{background:rgba(200,169,110,.2);color:#6e5718}
+.k-internship .tl-kind{background:rgba(26,35,50,.12);color:var(--navy)}
+.tl-item b{font-family:var(--serif);font-weight:400;font-size:1.12rem;line-height:1.25}
+.k-education b,.k-milestone b{font-family:var(--sans);font-weight:600;font-size:.92rem}
+.tl-items{gap:22px}
+@media (min-width:1101px){.tl{min-width:0}.tl-col{flex:1 1 0;width:auto;min-width:0;padding-right:22px}.tl-col:last-child::before{width:100%}}
 /* RÉSUMÉ PAGE */
 .rs-hero{background:var(--navy);padding:128px 0 64px;position:relative;overflow:hidden}
 .rs-hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at 80% 30%,#000 5%,transparent 65%);mask-image:radial-gradient(ellipse at 80% 30%,#000 5%,transparent 65%);pointer-events:none}
