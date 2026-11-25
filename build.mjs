@@ -66,6 +66,14 @@ for (const p of pages) {
 }
 console.log(`Built assets/app.js (${(fs.statSync('assets/app.js').size / 1024).toFixed(0)} KB)`);
 
+// Old project addresses that moved: a small page that forwards to the new one.
+const MOVED = { 'injection-molded-parts': 'neato-vorwerk-robot-vacuums' };
+for (const [from, to] of Object.entries(MOVED)) {
+  const url = `${SITE_URL}projects/${to}/`;
+  fs.mkdirSync(`projects/${from}`, { recursive: true });
+  fs.writeFileSync(`projects/${from}/index.html`, `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Moved</title><link rel="canonical" href="${url}"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=../${to}/"></head><body><p>This page moved to <a href="../${to}/">${url}</a>.</p></body></html>\n`);
+}
+
 // 4. Search-engine files, built for whatever SITE_URL is.
 const today = new Date().toISOString().slice(0, 10);
 fs.writeFileSync('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
