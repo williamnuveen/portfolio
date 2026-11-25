@@ -64,7 +64,7 @@ const careerPages = {
     location: 'San Jose, CA',
     tagline: 'Designing consumer robotics products from concept through injection molded production.',
     heroImage: 'Nexaro_NR1500.jpg',
-    highlights: [{"heading": "Highlights", "items": ["Designed, prototyped, and tested parts for Neato's first commercial robotic vacuum, the Nexaro NR1500, later brought to production by Vorwerk.", "Redesigned a robotic vacuum drivetrain, improving motor efficiency, reducing noise by 30%, and cutting production cost by $2 per unit.", "Streamlined Neato's additive manufacturing operations, cutting design iteration time by 75% and saving $20,000 a year in vendor costs.", "Developed and scaled high-volume plastic accessories (pet brush, fragrance dustbin filter), adding 7 SKUs to the product line.", "Started and led Neato's emerging-technologies R&D program, developing dust-sensing technology that used accelerometer and gyroscope data to adjust suction automatically."]}],
+    highlights: [{"heading": "Highlights", "items": ["Designed Neato's first dual vacuum/mopping robotic system and its charging base station.", "Designed, prototyped, and tested the drivetrain, counterbalance, chassis, and dustbin for Neato's first commercial robotic vacuum, the Nexaro NR1500, later brought to production by Vorwerk.", "Redesigned a robotic vacuum drivetrain, improving motor efficiency and reducing noise by 30%.", "Managed Neato's additive manufacturing operations, cutting design iteration time by 75% and saving $20,000 a year in vendor costs.", "Designed new brush and filter technologies (pet brush, fragrance dustbin filter), adding 7 SKUs to the product line.", "Started and led Neato's emerging-technologies R&D program, developing dust sensing that used accelerometer and gyroscope data to adjust suction automatically."]}],
     sections: [
       {
         heading: 'Commercial Cleaning Robot',
@@ -134,7 +134,7 @@ const portfolioItems = [
       images:['Mopping_Robot.jpg','Mopping_Robot_4.jpg','Mopping_Robot_2.jpg'],
       shortDescription:"Neato's first autonomous mopping robot",
       longDescription:"At Neato, I redesigned a self-extraction cleaning center to create a more intuitive, accessible system. My solution introduced a pivoting cover for hands-free filter bag access, along with a spring-damped mechanism and leak-proof seal. I also integrated a touchscreen interface and accessory storage to boost customer satisfaction." },
-    { slug:'neato-vorwerk-robot-vacuums', featured:true, career:'neato', results:["Design improvements to Neato's flagship D8, D9 and D10 robot vacuums", "Design work on Vorwerk's VR7 robot vacuum", "Drivetrain redesign: 30% quieter and $2 per unit cheaper to produce", "New brush technologies and filter accessories, including a pet brush and fragrance dustbin filter, adding 7 SKUs to the product line"],
+    { slug:'neato-vorwerk-robot-vacuums', featured:true, career:'neato', results:["Design improvements to Neato's flagship D8, D9 and D10 robot vacuums", "Design work on Vorwerk's VR7 robot vacuum", "Drivetrain redesign: 30% quieter, with higher motor efficiency (lower current at the same wheel speed and load)", "New brush technologies and filter accessories, including a pet brush and fragrance dustbin filter, adding 7 SKUs to the product line"],
        image:'Neato_Parts.jpg', title:'Neato & Vorwerk Robot Vacuums', company:'Neato Robotics',
       images:['Neato_Parts.jpg','Neato_Filter.jpg','Neato_Drivetrain.jpg'],
       shortDescription:'Design improvements to Neato\'s flagship D8–D10 robots and Vorwerk\'s VR7, plus new brushes, filters and a redesigned drivetrain',
@@ -152,7 +152,7 @@ const experiences = [
     { company:'Ocado Technology', title:'Mechanical Engineer II – Robotics Product Development', location:'San Francisco, CA', dates:'Sept. 2022 – Dec. 2024', pageKey:'ocado',
       description:"Core contributor to Ocado's first AI/ML-driven robotic depalletizing system, deployed at multiple European fulfillment centers. Raised pick-and-place accuracy from 75% to 98% through camera selection and integration, boosting throughput 30%, and co-designed an 80 lb-payload end-effector." },
     { company:'Neato Robotics', title:'Jr. Mechanical Engineer – Product Design', location:'San Jose, CA', dates:'Aug. 2020 – Sept. 2022', pageKey:'neato',
-      description:"Designed a mopping robotic system and made design improvements to Neato's flagship D8–D10 robots and Vorwerk's VR7. Developed new brush and filter accessories, redesigned a drivetrain to cut noise 30% and cost $2 per unit, and led the emerging technologies R&D program." },
+      description:"Designed Neato's first dual vacuum/mopping system and its charging base, and made design improvements to Neato's flagship D8–D10 robots and Vorwerk's VR7. Developed new brush and filter accessories, redesigned a drivetrain to cut noise 30% and improve motor efficiency, and led the emerging technologies R&D program." },
     { company:'Kohler Company', title:'Mechanical Engineering Intern', location:'Kohler, WI', dates:'Summer 2019', pageKey:'kohler',
       description:"Designed Kohler's first back-of-the-bath spout diverter. Reduced water leakage, improved laminar flow aesthetics, and lowered manufacturing costs through innovative prototyping with Carbon 3D printing." },
 ];
@@ -184,7 +184,7 @@ const TIMELINE = [
   { year: '2020', items: [
     { kind: 'Education', title: 'Graduated, B.S. Mechanical Engineering', sub: 'Miami University' },
     { kind: 'New role', title: 'Jr. Mechanical Engineer', sub: 'Neato Robotics · Aug. 2020', page: 'neato',
-      points: ['Mopping robot, D8–D10 and Vorwerk VR7 design work', 'Drivetrain redesign: 30% quieter, $2/unit cheaper', 'Led the emerging technologies R&D program'] } ] },
+      points: ['Mopping robot, D8–D10 and Vorwerk VR7 design work', 'Drivetrain redesign: 30% quieter, more efficient', 'Led the emerging technologies R&D program'] } ] },
   { year: '2022', items: [
     { kind: 'New role', title: 'Mechanical Engineer II', sub: 'Ocado Technology · Sept. 2022', page: 'ocado',
       points: ["Ocado's first AI/ML depalletizing & palletizing robot", 'Pick-and-place accuracy 75% → 98%', '80 lb-payload end-effector'] } ] },
