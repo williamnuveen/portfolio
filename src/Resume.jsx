@@ -3,7 +3,7 @@ import { CONTACT_EMAIL, Nav, careerPages, experiences, SKILL_GROUPS, RESUME } fr
 
 // Résumé page (resume.html). Experience bullets come from careerPages in App.jsx,
 // so the résumé and the career pages stay in sync.
-const SUMMARY = 'Mechanical engineer with 6+ years of experience designing hardware for robotic systems in cell-therapy manufacturing, warehouse automation, and consumer robotics. I specialize in injection-molded and machined consumables and robot-facing interfaces built for mass manufacturability and reliable human and robotic operation.';
+const SUMMARY = "Mechanical engineer with 6+ years of experience designing hardware for robotic systems in pharmaceutical manufacturing, warehouse automation, and consumer robotics. Specialize in injection-molded and machined consumables and robot-facing interfaces built for mass manufacturability and reliable human and robotic operation.";
 
 const EDUCATION = [
   { title: 'B.S. in Engineering, Major in Mechanical Engineering', detail: 'Miami University · Oxford, OH', date: '2016 – 2020' },
